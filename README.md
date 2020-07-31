@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Basic breakdown of how to edit this:
+
+index.tsx to change theme
+
+App.tsx to add pages or change page routing in react Router
+
+Menu.tsx to change/add menu links/icons
 
 ## Available Scripts
 
