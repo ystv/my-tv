@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 
@@ -21,7 +20,7 @@ export default function App() {
         <Redirect to="http://comp.ystv.co.uk/" />
       ) : (
         <MiniDrawer>
-          <div>
+          <>
             <Switch>
               <Route path="/about">
                 <About />
@@ -36,7 +35,7 @@ export default function App() {
                 <FourOFour />
               </Route>
             </Switch>
-          </div>
+          </>
         </MiniDrawer>
       )}
     </Router>

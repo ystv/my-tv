@@ -38,7 +38,6 @@ import {
   Menu,
   ChevronLeft,
   ChevronRight,
-  Inbox,
   Mail,
   Settings,
   AllInbox,
@@ -234,6 +233,7 @@ export default function MiniDrawer(props: Props) {
               filter: "opacity(0.6)",
               translate: "24",
             }}
+            alt="YSTV logo"
           ></img>
         </Box>
 
@@ -408,7 +408,7 @@ export default function MiniDrawer(props: Props) {
         React.forwardRef<any, Omit<RouterLinkProps, "to">>((itemProps, ref) => (
           <RouterLink to={"/"} ref={ref} {...itemProps} />
         )),
-      ["/"]
+      []
     );
 
     return (

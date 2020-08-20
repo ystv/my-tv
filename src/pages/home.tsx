@@ -7,8 +7,11 @@ export default function Home() {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/full").then((e) =>
-      setData(e)
+    apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/full").then(
+      (e) => {
+        setData(e);
+        console.log("final data = ", e);
+      }
     );
   }, []);
 
