@@ -8,23 +8,28 @@ import {
   useTheme,
   Theme,
 } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Link from "@material-ui/core/Link";
-import Hidden from "@material-ui/core/Hidden";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
-import Box from "@material-ui/core/Box";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+
+import {
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  Link,
+  Hidden,
+  CssBaseline,
+  Typography,
+  Tooltip,
+  Divider,
+  IconButton,
+  Collapse,
+  Avatar,
+  Box,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Zoom,
+} from "@material-ui/core";
+
 import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
@@ -422,6 +427,8 @@ export default function MiniDrawer(props: Props) {
     );
   }
 
+  const [profileImageLoaded, setProfileImageLoaded] = React.useState(false);
+
   /// Menu and Drawer Component Master Return
 
   return (
@@ -454,7 +461,14 @@ export default function MiniDrawer(props: Props) {
             <Settings />
           </IconButton>
           <IconButton color="inherit" onClick={handleLogoutClick} edge="start">
-            <Avatar src={props.profilePhoto}>{props.initials}</Avatar>
+            <Zoom in={profileImageLoaded}>
+              <Avatar
+                src={props.profilePhoto}
+                imgProps={{ onLoad: () => setProfileImageLoaded(true) }}
+              >
+                {props.initials}
+              </Avatar>
+            </Zoom>
           </IconButton>
         </Toolbar>
       </AppBar>

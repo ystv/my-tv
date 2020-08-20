@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./Menu";
 
 import Home from "../pages/home";
+import Calendar from "../pages/calendar";
 import MiniDrawer from "./Menu";
 import apiAuthReq from "../assets/apiAuthReq";
 
 type userType = {
   avatar?: string;
   firstName: String;
-  //id?: Number;
   lastName: String;
   nickname: String;
   permissions: [];
@@ -48,6 +48,9 @@ export default function App() {
         <Switch>
           <Route path="/about">
             <About />
+          </Route>
+          <Route path="/calendar">
+            <Calendar />
           </Route>
           <Route path="/users">
             <Users />
