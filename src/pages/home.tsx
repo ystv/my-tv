@@ -10,7 +10,6 @@ export default function Home() {
     apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/full").then(
       (e) => {
         setData(e);
-        console.log("final data = ", e);
       }
     );
   }, []);

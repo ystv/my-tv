@@ -179,6 +179,8 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   window?: () => Window;
   children?: React.ReactNode;
+  initials: String;
+  profilePhoto?: string | "";
 }
 
 export default function MiniDrawer(props: Props) {
@@ -452,7 +454,7 @@ export default function MiniDrawer(props: Props) {
             <Settings />
           </IconButton>
           <IconButton color="inherit" onClick={handleLogoutClick} edge="start">
-            <Avatar>BA</Avatar>
+            <Avatar src={props.profilePhoto}>{props.initials}</Avatar>
           </IconButton>
         </Toolbar>
       </AppBar>
