@@ -121,7 +121,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+      overflowWrap: "break-word",
+      width: drawerWidth,
     },
     grow: {
       flexGrow: 1,
@@ -256,9 +259,13 @@ export default function MiniDrawer(props: Props) {
           primary="Webcams"
           icon={<VideocamRounded />}
         />
-        <ListItemLink to="http://ystv.co.uk" primary="Email" icon={<Mail />} />
         <ListItemLink
-          to="http://ystv.co.uk"
+          to="http://webmail.ystv.co.uk"
+          primary="Email"
+          icon={<Mail />}
+        />
+        <ListItemLink
+          to="http://ystv.co.uk/hires"
           primary="Equipment Booking"
           icon={<BookmarksRounded />}
         />
@@ -289,12 +296,12 @@ export default function MiniDrawer(props: Props) {
           icon={<DescriptionRounded />}
         />
         <ListItemLink
-          to="http://ystv.co.uk"
+          to="https://medium.com/ystv"
           primary="Tech Blog"
           icon={<AssignmentRounded />}
         />
         <ListItemLink
-          to="http://ystv.co.uk"
+          to="https://docs.ystv.co.uk/wiki/YSTV_Constitution"
           primary="Constitution & Policy"
           icon={<GavelRounded />}
         />
