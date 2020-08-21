@@ -12,11 +12,11 @@ export default function Calendar() {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/full").then(
-      (e) => {
-        setData(e);
-      }
-    );
+    apiAuthReq(
+      "http://api.ystv.co.uk/v1/internal/clapper/calendar/2020/3"
+    ).then((e) => {
+      setData(e);
+    });
   }, []);
 
   return (
