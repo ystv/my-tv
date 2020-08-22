@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // MUI components
-import { Button } from "@material-ui/core";
 
 // Custom Components
 import "../components/calendar.css";
 
 // Other imports
 import apiAuthReq from "../assets/apiAuthReq";
-import FullCalendar, {
-  eventTupleToStore,
-  AllowFunc,
-  EventApi,
-} from "@fullcalendar/react";
+import FullCalendar, { EventApi } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
@@ -59,9 +54,6 @@ export default function Calendar() {
   return (
     <>
       <h1>Calendar</h1>
-      <Button variant="contained" color="primary">
-        Primary
-      </Button>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin]}
         initialView="dayGridMonth"
