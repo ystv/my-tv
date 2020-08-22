@@ -5,6 +5,7 @@ import "./Menu";
 
 import Home from "../pages/home";
 import Calendar from "../pages/calendar";
+import Event from "../pages/event";
 import MiniDrawer from "./Menu";
 import apiAuthReq from "../assets/apiAuthReq";
 
@@ -29,7 +30,7 @@ export default function App() {
     apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/").then((e) => {
       let login = e !== undefined;
       console.log("Logged in", login);
-      if (login == false) {
+      if (login === false) {
         console.log("ahhhhhhhh");
         //Insert redirect here
       } else {
@@ -51,6 +52,9 @@ export default function App() {
           </Route>
           <Route path="/calendar">
             <Calendar />
+          </Route>
+          <Route path="/event">
+            <Event />
           </Route>
           <Route path="/users">
             <Users />
