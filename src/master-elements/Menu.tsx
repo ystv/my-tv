@@ -129,6 +129,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingRight: theme.spacing(3),
       overflowWrap: "break-word",
       width: drawerWidth,
+      minHeight: "100vh",
     },
     grow: {
       flexGrow: 1,
@@ -193,8 +194,7 @@ export default function MiniDrawer(props: Props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const container =
     window !== undefined ? () => window().document.body : undefined;
   const [collapseOpen, setCollapseOpen] = React.useState(false);
@@ -207,16 +207,14 @@ export default function MiniDrawer(props: Props) {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    setMobileOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    setMobileOpen(false);
   };
 
   const handleDrawerCloseOnLink = () => {
-    setMobileOpen(false);
+    setOpen(false);
   };
 
   const handleSettingsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -502,7 +500,7 @@ export default function MiniDrawer(props: Props) {
             container={container}
             variant="temporary"
             anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
+            open={open}
             onClose={handleDrawerClose}
             classes={{
               paper: classes.drawerPaper,

@@ -79,7 +79,7 @@ export default function Event() {
               <Typography variant="body1">{event.description}</Typography>
               <Grid container justify="center" spacing={3}>
                 {event.signups.map((x, n) => (
-                  <Grid key={n} item xs={4}>
+                  <Grid key={n} item xs={12} md={4}>
                     <TableContainer component={Paper}>
                       <h2 style={{ marginLeft: "1rem" }}>{x.title}</h2>
                       <Table>

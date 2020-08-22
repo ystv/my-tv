@@ -65,6 +65,7 @@ export default function Calendar() {
         datesSet={(n) => handleGetDate(n.start)}
         firstDay={1}
         eventClick={(e) => handleEventClick(e.event)}
+        height="75vh"
       />
     </>
   );
