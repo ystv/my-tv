@@ -1,4 +1,3 @@
-///// THIS WILL ALL NEED REDOING
 pipeline {
     agent any
 
@@ -23,7 +22,7 @@ pipeline {
                 }
             steps {
                 echo "Building"
-                sh "docker build --build-arg BUILD_ID=${env.BUILD_ID} --env-file /YSTV-ENVVARS/my-tv.env -t localhost:5000/ystv/my-tv:$BUILD_ID ."
+                sh "docker build --build-arg BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_ENDPOINT_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk -t localhost:5000/ystv/my-tv:$BUILD_ID ."
             }
         }
         stage('Cleanup') {
@@ -58,7 +57,7 @@ pipeline {
                         echo err.getMessage()
                     }
                 }
-                sh "docker run -d --rm -p 1335:80 --name ystv-dev-my-tv localhost:5000/ystv/my-tv:$BUILD_ID" // Deploying site
+                sh "docker run -d --rm -p 8002:80 --name ystv-dev-my-tv localhost:5000/ystv/my-tv:$BUILD_ID" // Deploying site
                 sh 'docker image prune -a -f --filter "label=site=my-tv"' // remove old image
             }
         }
