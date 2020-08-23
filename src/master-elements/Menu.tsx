@@ -455,6 +455,11 @@ export default function NavbarWithDrawer(props: Props) {
           </IconButton>
           <TitleReactLink />
           <div className={classes.grow} />
+          {process.env.BUILD_ID !== undefined ? (
+            <Typography variant="subtitle2">process.env.BUILD_ID</Typography>
+          ) : (
+            <Typography variant="subtitle2">53</Typography>
+          )}
           <IconButton
             color="inherit"
             onClick={handleSettingsMenuOpen}

@@ -10,11 +10,7 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 import { toTitleCase } from "../components/functions/otherUsefulFunctions";
 
 // Type imports
-import {
-  eventInterface,
-  crewInterface,
-  attendeeInterface,
-} from "../components/types/clapper";
+import { eventInterface } from "../components/types/clapper";
 import TextTable from "../components/textTable";
 
 // Other imports
