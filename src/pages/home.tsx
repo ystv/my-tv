@@ -1,17 +1,25 @@
+// React Imports
 import React, { useState, useEffect } from "react";
 
+// MUI components
 import Button from "@material-ui/core/Button";
-import apiAuthReq from "../assets/apiAuthReq";
+
+// Custom Components
+import apiAuthReq from "../components/functions/apiAuthReq";
+
+// Type imports
+
+// Other imports
+
+// Begin Code
 
 export default function Home() {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/full").then(
-      (e) => {
-        setData(e);
-      }
-    );
+    apiAuthReq("/v1/internal/people/user/full").then((e) => {
+      setData(e);
+    });
   }, []);
 
   return (

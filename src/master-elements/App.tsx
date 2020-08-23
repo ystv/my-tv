@@ -1,82 +1,64 @@
+// React Imports
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import "./Menu";
+// MUI components
+import { CircularProgress, Backdrop } from "@material-ui/core";
+
+// Custom Components
+import apiAuthReq from "../components/functions/apiAuthReq";
+import NavbarWithDrawer from "./Menu";
 
 import Home from "../pages/home";
 import Calendar from "../pages/calendar";
 import Event from "../pages/event";
-import MiniDrawer from "./Menu";
-import apiAuthReq from "../assets/apiAuthReq";
 
-type userType = {
-  avatar?: string;
-  firstName: String;
-  lastName: String;
-  nickname: String;
-  permissions: [];
-  [key: string]: any;
-};
+// Type imports
+import { userInterface } from "../components/types/people";
+
+// Other imports
+
+// Begin Code
 
 export default function App() {
-  const [user, setUser] = React.useState({
-    nickname: "",
-    firstName: "",
-    lastName: "",
-    permissions: [],
-  } as userType);
+  const [user, setUser] = React.useState<userInterface>();
 
   React.useEffect(() => {
-    apiAuthReq("http://api.ystv.co.uk/v1/internal/people/user/").then((e) => {
-      let login = e !== undefined;
-      console.log("Logged in", login);
-      if (login === false) {
-        console.log("ahhhhhhhh");
-        //Insert redirect here
-      } else {
-        console.log(e);
-        setUser(e);
-      }
+    apiAuthReq("/v1/internal/people/user/").then((e) => {
+      console.log(e);
+      setUser(e);
     });
   }, []);
 
   return (
     <Router>
-      <MiniDrawer
-        initials={user.firstName.charAt(0).concat(user.lastName.charAt(0))}
-        profilePhoto={user.avatar}
-      >
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/calendar">
-            <Calendar />
-          </Route>
-          <Route path="/event">
-            <Event />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/">
-            <FourOFour />
-          </Route>
-        </Switch>
-      </MiniDrawer>
+      {user !== undefined ? (
+        <NavbarWithDrawer
+          initials={user.firstName.charAt(0).concat(user.lastName.charAt(0))}
+          profilePhoto={user.avatar}
+        >
+          <Switch>
+            <Route path="/calendar">
+              <Calendar />
+            </Route>
+            <Route path="/event">
+              <Event />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/">
+              <FourOFour />
+            </Route>
+          </Switch>
+        </NavbarWithDrawer>
+      ) : (
+        <Backdrop open={true}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
     </Router>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 function FourOFour() {

@@ -1,7 +1,11 @@
-/// Import Components
-
+// React Imports
 import React from "react";
-import clsx from "clsx";
+import {
+  Link as RouterLink,
+  LinkProps as RouterLinkProps,
+} from "react-router-dom";
+
+// MUI components
 import {
   createStyles,
   makeStyles,
@@ -31,13 +35,6 @@ import {
 } from "@material-ui/core";
 
 import {
-  Link as RouterLink,
-  LinkProps as RouterLinkProps,
-} from "react-router-dom";
-
-/// Import Icons
-
-import {
   ExpandLess,
   ExpandMore,
   Menu,
@@ -63,7 +60,14 @@ import {
   GavelRounded,
 } from "@material-ui/icons";
 
-import ystv from "../assets/ystv.png";
+// Custom Components
+
+// Type imports
+
+// Other imports
+import clsx from "clsx";
+
+// Begin Code
 
 /// Navbar/Drawer Styling
 
@@ -189,7 +193,7 @@ interface Props {
   profilePhoto?: string | "";
 }
 
-export default function MiniDrawer(props: Props) {
+export default function NavbarWithDrawer(props: Props) {
   /// Declarations
   const { window } = props;
   const classes = useStyles();
@@ -221,7 +225,7 @@ export default function MiniDrawer(props: Props) {
     return 0;
   };
 
-  const handleLogoutClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     return 0;
   };
 
@@ -232,7 +236,7 @@ export default function MiniDrawer(props: Props) {
       <div className={classes.toolbar}>
         <Box className={classes.logoBox}>
           <img
-            src={ystv}
+            src="/ystv.png"
             style={{
               height: "inherit",
               filter: "opacity(0.6)",
@@ -458,7 +462,7 @@ export default function MiniDrawer(props: Props) {
           >
             <Settings />
           </IconButton>
-          <IconButton color="inherit" onClick={handleLogoutClick} edge="start">
+          <IconButton color="inherit" onClick={handleAvatarClick} edge="start">
             <Zoom in={profileImageLoaded}>
               <Avatar
                 src={props.profilePhoto}

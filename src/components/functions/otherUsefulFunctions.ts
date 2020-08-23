@@ -1,3 +1,4 @@
+// Capitalise the first letter of each word
 export function toTitleCase(phrase: string) {
   return phrase
     .toLowerCase()

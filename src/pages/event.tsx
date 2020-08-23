@@ -1,55 +1,25 @@
+// React Imports
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import apiAuthReq from "../assets/apiAuthReq";
-import { toTitleCase } from "../assets/otherUsefulFunctions";
 
+// MUI components
+import { Grid, Typography } from "@material-ui/core";
+
+// Custom Components
+import apiAuthReq from "../components/functions/apiAuthReq";
+import { toTitleCase } from "../components/functions/otherUsefulFunctions";
+
+// Type imports
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Grid,
-  Tooltip,
-  Button,
-  Typography,
-} from "@material-ui/core";
+  eventInterface,
+  crewInterface,
+  attendeeInterface,
+} from "../components/types/clapper";
+import TextTable from "../components/textTable";
 
-interface eventInterface {
-  eventID: number;
-  eventType: string;
-  name: string;
-  description?: string;
-  signups: [{ crew: [crewInterface]; [key: string]: any }];
-  [key: string]: any;
-}
+// Other imports
 
-interface crewInterface {
-  crewID: number;
-  user: {
-    userID: number;
-    nickname: string;
-    firstName: string;
-    lastName: string;
-  };
-  locked: boolean;
-  credited: boolean;
-  positionID: number;
-  name: string;
-  description: string;
-  admin: boolean;
-  permissionID: any;
-}
-
-interface attendeeInterface {
-  userID: number;
-  nickname: string;
-  firstName: string;
-  lastName: string;
-  attendStatus: string;
-}
+// Begin Code
 
 export default function Event() {
   const [event, setEvent] = useState<eventInterface>();
@@ -61,97 +31,51 @@ export default function Event() {
 
   function updateEventUI() {
     apiAuthReq(
-      `http://api.ystv.co.uk/v1/internal/clapper/event/${
-        location.pathname.split("/")[2]
-      }`
+      `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
     ).then((e) => setEvent(e));
   }
 
   return (
     <>
-      {event !== undefined ? (
+      {event !== undefined && event !== null ? (
         <>
           <h4>{toTitleCase(event.eventType)}</h4>
           <h1>{event.name}</h1>
           <small>{event.eventID.toString()}</small>
+          <Typography variant="body1">{event.description}</Typography>
           {event.eventType == "show" ? (
-            <>
-              <Typography variant="body1">{event.description}</Typography>
-              <Grid container justify="center" spacing={3}>
-                {event.signups.map((x, n) => (
-                  <Grid key={n} item xs={12} md={4}>
-                    <TableContainer component={Paper}>
-                      <h2 style={{ marginLeft: "1rem" }}>{x.title}</h2>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Role</TableCell>
-                            <TableCell>Name</TableCell>
-                          </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                          {x.crew.map((e: crewInterface) => (
-                            <TableRow key={e.crewID}>
-                              <TableCell component="th" scope="row">
-                                {e.description !== null ? (
-                                  <Tooltip title={e.description}>
-                                    <Button>{e.name}</Button>
-                                  </Tooltip>
-                                ) : (
-                                  <Button>{e.name}</Button>
-                                )}
-                              </TableCell>
-                              <TableCell>
-                                {e.user.nickname + " " + e.user.lastName}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-                ))}
-              </Grid>
-            </>
+            <Grid container justify="center" spacing={3}>
+              {event.signups!.map((x, n) => (
+                <Grid key={n} item xs={12} md={4}>
+                  <TextTable
+                    tableTitle={x.title}
+                    columnTitles={["Role", "Name"]}
+                    dataKeys={["roleName", "nickname"]}
+                    data={x.crew.map((e) => ({
+                      roleName: e.name,
+                      nickname: `${e.user.nickname} ${e.user.lastName}`,
+                    }))}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           ) : (
-            <>
-              {" "}
-              {event.eventType == "social" ? (
-                <>
-                  <Typography variant="body1">{event.description}</Typography>
-                  <TableContainer component={Paper}>
-                    <h2 style={{ marginLeft: "1rem" }}>Status</h2>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Name</TableCell>
-                          <TableCell>Status</TableCell>
-                        </TableRow>
-                      </TableHead>
-
-                      <TableBody>
-                        {event.attendees.map((e: attendeeInterface) => (
-                          <TableRow key={e.userID}>
-                            <TableCell component="th" scope="row">
-                              {e.nickname + " " + e.lastName}
-                            </TableCell>
-                            <TableCell>{e.attendStatus}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </>
-              ) : (
-                <> </>
-              )}
-            </>
+            <Grid item xs={12} md={4}>
+              <TextTable
+                tableTitle={event.name}
+                columnTitles={["Name", "Status"]}
+                dataKeys={["status", "name"]}
+                data={event.attendees!.map((e) => ({
+                  status: e.attendStatus,
+                  name: `${e.nickname} ${e.lastName}`,
+                }))}
+              />
+            </Grid>
           )}
           <h5>{JSON.stringify(event)}</h5>
         </>
       ) : (
-        <></>
+        <h1>No Event Found!</h1>
       )}
     </>
   );

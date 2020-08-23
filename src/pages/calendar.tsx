@@ -1,54 +1,40 @@
+// React Imports
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 
 // MUI components
 
 // Custom Components
 import "../components/calendar.css";
+import apiAuthReq from "../components/functions/apiAuthReq";
+
+// Type imports
+import { calendarInterface } from "../components/types/clapper";
 
 // Other imports
-import apiAuthReq from "../assets/apiAuthReq";
-import FullCalendar, { EventApi } from "@fullcalendar/react";
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
-interface apiEvent {
-  eventID: number;
-  eventType: string;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  description: string;
-  location: string;
-  isPrivate: boolean;
-  isCancelled: boolean;
-  isTentative: boolean;
-}
+// Begin Code
 
 export default function Calendar() {
-  const [data, setData] = useState([]);
-  let history = useHistory();
+  const [data, setData] = useState<Array<object>>([]);
 
   function handleGetDate(urlDate: Date) {
     apiAuthReq(
-      `http://api.ystv.co.uk/v1/internal/clapper/calendar/${urlDate.getFullYear()}/${
+      `/v1/internal/clapper/calendar/${urlDate.getFullYear()}/${
         urlDate.getMonth() + 1
       }`
-    ).then((e) => {
-      let eventArray = e.map((event: apiEvent) => {
-        return {
-          id: event.eventID,
-          start: event.startDate,
-          end: event.endDate,
-          title: event.name,
-        };
-      });
+    ).then((e: calendarInterface[]) => {
+      let eventArray = e.map((event: calendarInterface) => ({
+        id: event.eventID,
+        start: event.startDate,
+        end: event.endDate,
+        title: event.name,
+        url: `/event/${event.eventID}`,
+      }));
       setData(eventArray);
     });
-  }
-
-  function handleEventClick(event: EventApi) {
-    history.push(`/event/${event.id}`);
   }
 
   return (
@@ -64,7 +50,6 @@ export default function Calendar() {
         showNonCurrentDates={false}
         datesSet={(n) => handleGetDate(n.start)}
         firstDay={1}
-        eventClick={(e) => handleEventClick(e.event)}
         height="75vh"
       />
     </>
