@@ -455,10 +455,12 @@ export default function NavbarWithDrawer(props: Props) {
           </IconButton>
           <TitleReactLink />
           <div className={classes.grow} />
-          {process.env.BUILD_ID !== undefined ? (
-            <Typography variant="subtitle2">process.env.BUILD_ID</Typography>
+          {process.env.REACT_APP_BUILD_ID !== undefined ? (
+            <Typography variant="subtitle2">
+              {process.env.REACT_APP_BUILD_ID}
+            </Typography>
           ) : (
-            <Typography variant="subtitle2">53</Typography>
+            <Typography variant="subtitle2">0</Typography>
           )}
           <IconButton
             color="inherit"

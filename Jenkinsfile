@@ -22,7 +22,7 @@ pipeline {
                 }
             steps {
                 echo "Building"
-                sh "docker build --build-arg BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_ENDPOINT_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk -t localhost:5000/ystv/my-tv:$BUILD_ID ."
+                sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_ENDPOINT_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk -t localhost:5000/ystv/my-tv:$BUILD_ID ."
             }
         }
         stage('Cleanup') {
