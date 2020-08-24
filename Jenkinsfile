@@ -35,7 +35,15 @@ pipeline {
                 echo "Uploading To Registry"
                 sh "docker push localhost:5000/ystv/my-tv:$BUILD_ID" // Uploaded to registry
                 echo "Performing Cleanup"
-                sh "docker image prune -f --filter label=site=my-tv --filter label=stage=builder" // Removing the local builder image
+                script {
+                    try {
+                        sh "docker image prune -f --filter label=site=my-tv --filter label=stage=builder --filter label=build=${env.BUILD_ID-1}" // Removing the local builder image
+                    }
+                    catch (err) {
+                        echo "Couldn't find old build to delete"
+                        echo err.getMessage()
+                    }
+                }
                 sh "docker image rm localhost:5000/ystv/my-tv:$BUILD_ID" // Removing the local builder image
             }
         }
@@ -57,8 +65,8 @@ pipeline {
                         echo err.getMessage()
                     }
                 }
-                sh "docker run -d --rm -p 8002:80 --name ystv-dev-my-tv localhost:5000/ystv/my-tv:$BUILD_ID" // Deploying site
-                sh 'docker image prune -a -f --filter "label=site=my-tv"' // remove old image
+                sh "docker run -d --rm -p 8002:80 --name my-tv localhost:5000/ystv/my-tv:$BUILD_ID" // Deploying site
+                sh 'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
             }
         }
     }
