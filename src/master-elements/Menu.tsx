@@ -269,17 +269,17 @@ export default function NavbarWithDrawer(props: Props) {
           icon={<VideocamRounded />}
         />
         <ListItemLink
-          to="http://webmail.ystv.co.uk"
+          to="https://webmail.ystv.co.uk"
           primary="Email"
           icon={<Mail />}
         />
         <ListItemLink
-          to="http://ystv.co.uk/hires"
+          to="https://ystv.co.uk/hires"
           primary="Equipment Booking"
           icon={<BookmarksRounded />}
         />
-        <ListItemRRLink
-          to="http://vault.ystv.co.uk"
+        <ListItemLink
+          to="https://vault.ystv.co.uk"
           primary="Vault"
           icon={<SecurityRounded />}
         />

@@ -37,7 +37,7 @@ pipeline {
                 echo "Performing Cleanup"
                 script {
                     try {
-                        sh "docker image prune -f --filter label=site=my-tv --filter label=stage=builder --filter label=build=\$((${env.BUILD_NUMBER} - 1))" // Removing the local builder image
+                        sh "docker image prune -f --filter label=site=my-tv --filter label=stage=builder --filter label=build=\$((${env.BUILD_NUMBER} - 1))" // Removing the pervious local builder image (keeps latest one for potential yarn install caching goodness)
                     }
                     catch (err) {
                         echo "Couldn't find old build to delete"
