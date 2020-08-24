@@ -28,7 +28,7 @@ export default function Home() {
       <Button variant="contained" color="primary">
         Primary
       </Button>
-      <h3>Have graphs and shit</h3>
+      <h3>Have graphs and stuff</h3>
       <h4>{JSON.stringify(data)}</h4>
     </div>
   );
