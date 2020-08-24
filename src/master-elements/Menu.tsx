@@ -279,7 +279,7 @@ export default function NavbarWithDrawer(props: Props) {
           icon={<BookmarksRounded />}
         />
         <ListItemRRLink
-          to="/vault"
+          to="http://vault.ystv.co.uk"
           primary="Vault"
           icon={<SecurityRounded />}
         />
