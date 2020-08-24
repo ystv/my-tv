@@ -25,11 +25,13 @@ export default function Home() {
   return (
     <div>
       <h2>Welcome Home!!</h2>
-      <Button variant="contained" color="primary">
-        Primary
-      </Button>
-      <h3>Have graphs and be happy about it</h3>
-      <h4>{JSON.stringify(data)}</h4>
+      <h3>
+        You've found a site under construction, keep checking as we add new
+        features!
+      </h3>
+      <h3>
+        If you find something wrong, please let the computing team know :)
+      </h3>
     </div>
   );
 }
