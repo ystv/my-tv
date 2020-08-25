@@ -274,7 +274,7 @@ export default function NavbarWithDrawer(props: Props) {
           icon={<Mail />}
         />
         <ListItemLink
-          to="https://ystv.co.uk/hires"
+          to="https://dash.adam-rms.com/"
           primary="Equipment Booking"
           icon={<BookmarksRounded />}
         />
