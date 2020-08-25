@@ -60,22 +60,22 @@ export default function Event() {
             </Typography>
           );
         }
-      case "meeting":
-        return <div></div>;
       default:
-        return (
-          <Grid item xs={12} md={4}>
-            <TextTable
-              tableTitle={event.name}
-              columnTitles={["Name", "Status"]}
-              dataKeys={["name", "status"]}
-              data={event.attendees!.map((e) => ({
-                status: e.attendStatus,
-                name: `${e.nickname} ${e.lastName}`,
-              }))}
-            />
-          </Grid>
-        );
+        try {
+          return (
+            <Grid item xs={12} md={4}>
+              <TextTable
+                tableTitle={event.name}
+                columnTitles={["Name", "Status"]}
+                dataKeys={["name", "status"]}
+                data={event.attendees!.map((e) => ({
+                  status: e.attendStatus,
+                  name: `${e.nickname} ${e.lastName}`,
+                }))}
+              />
+            </Grid>
+          );
+        } catch {}
     }
   }
 
