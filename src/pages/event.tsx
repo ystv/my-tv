@@ -34,23 +34,32 @@ export default function Event() {
   function getEventTypeContents(event: eventInterface) {
     switch (event.eventType) {
       case "show":
-        return (
-          <Grid container justify="center" spacing={3}>
-            {event.signups!.map((x, n) => (
-              <Grid key={n} item xs={12} md={4}>
-                <TextTable
-                  tableTitle={x.title}
-                  columnTitles={["Role", "Name"]}
-                  dataKeys={["roleName", "nickname"]}
-                  data={x.crew.map((e) => ({
-                    roleName: e.name,
-                    nickname: `${e.user.nickname} ${e.user.lastName}`,
-                  }))}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        );
+        try {
+          return (
+            <Grid container justify="center" spacing={3}>
+              {event.signups!.map((x, n) => (
+                <Grid key={n} item xs={12} md={4}>
+                  <TextTable
+                    tableTitle={x.title}
+                    columnTitles={["Role", "Name"]}
+                    dataKeys={["roleName", "nickname"]}
+                    data={x.crew.map((e) => ({
+                      roleName: e.name,
+                      nickname: `${e.user.nickname} ${e.user.lastName}`,
+                    }))}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          );
+        } catch {
+          return (
+            <Typography variant="h6">
+              Looks like a crew list hasn't been added yet! Check back later for
+              more information.
+            </Typography>
+          );
+        }
       case "meeting":
         return <div></div>;
       default:
@@ -74,15 +83,17 @@ export default function Event() {
     <>
       {event !== undefined && event !== null ? (
         <>
-          <h4>{toTitleCase(event.eventType)}</h4>
-          <h1>{event.name}</h1>
-          <small>{event.eventID.toString()}</small>
+          <Typography variant="subtitle2">
+            {toTitleCase(event.eventType)}
+          </Typography>
+          <Typography variant="h4">{event.name}</Typography>
+          <Typography variant="caption">{event.eventID.toString()}</Typography>
           <Typography variant="body1">{event.description}</Typography>
           {getEventTypeContents(event)}
-          <h5>{JSON.stringify(event)}</h5>
+          <Typography variant="body2">{JSON.stringify(event)}</Typography>
         </>
       ) : (
-        <h1>No Event Found!</h1>
+        <Typography variant="h6">No Event Found!</Typography>
       )}
     </>
   );

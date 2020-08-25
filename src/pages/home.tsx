@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // MUI components
-import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
@@ -16,14 +16,15 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 export default function Home() {
   return (
     <div>
-      <h2>Welcome Home!!</h2>
-      <h3>
+      <Typography variant="h4">Welcome Home!!</Typography>
+      <br />
+      <Typography variant="h6">
         You've found a site under construction, keep checking as we add new
         features!
-      </h3>
-      <h3>
+      </Typography>
+      <Typography variant="h6">
         If you find something wrong, please let the computing team know :)
-      </h3>
+      </Typography>
     </div>
   );
 }

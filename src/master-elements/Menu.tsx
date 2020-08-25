@@ -527,6 +527,7 @@ export default function NavbarWithDrawer(props: Props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <br />
         {
           /// THIS IS WHERE THE PAGE CONTENT GOES
           props.children

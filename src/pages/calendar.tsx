@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 // MUI components
+import { Typography } from "@material-ui/core";
 
 // Custom Components
 import "../components/calendar.css";
@@ -26,20 +27,27 @@ export default function Calendar() {
         urlDate.getMonth() + 1
       }`
     ).then((e: calendarInterface[]) => {
-      let eventArray = e.map((event: calendarInterface) => ({
-        id: event.eventID,
-        start: event.startDate,
-        end: event.endDate,
-        title: event.name,
-        url: `/event/${event.eventID}`,
-      }));
+      let eventArray = e.map((event: calendarInterface) => {
+        let eventObject: { [key: string]: any } = {
+          id: event.eventID,
+          start: event.startDate,
+          end: event.endDate,
+          title: event.name,
+          url: `/event/${event.eventID}`,
+        };
+        if (event.isCancelled === true) {
+          eventObject.url = "";
+          eventObject.color = "#B00020";
+        }
+        return eventObject;
+      });
       setData(eventArray);
     });
   }
 
   return (
     <>
-      <h1>Calendar</h1>
+      <Typography variant="h4">Calendar</Typography>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin]}
         initialView="dayGridMonth"
