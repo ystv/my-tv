@@ -39,35 +39,44 @@ export default function Event() {
           <h1>{event.name}</h1>
           <small>{event.eventID.toString()}</small>
           <Typography variant="body1">{event.description}</Typography>
-          {event.eventType == "show" ? (
-            <Grid container justify="center" spacing={3}>
-              {event.signups!.map((x, n) => (
-                <Grid key={n} item xs={12} md={4}>
-                  <TextTable
-                    tableTitle={x.title}
-                    columnTitles={["Role", "Name"]}
-                    dataKeys={["roleName", "nickname"]}
-                    data={x.crew.map((e) => ({
-                      roleName: e.name,
-                      nickname: `${e.user.nickname} ${e.user.lastName}`,
-                    }))}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Grid item xs={12} md={4}>
-              <TextTable
-                tableTitle={event.name}
-                columnTitles={["Name", "Status"]}
-                dataKeys={["status", "name"]}
-                data={event.attendees!.map((e) => ({
-                  status: e.attendStatus,
-                  name: `${e.nickname} ${e.lastName}`,
-                }))}
-              />
-            </Grid>
-          )}
+          {() => {
+            switch (event.eventType) {
+              case "show":
+                return (
+                  <Grid container justify="center" spacing={3}>
+                    {event.signups!.map((x, n) => (
+                      <Grid key={n} item xs={12} md={4}>
+                        <TextTable
+                          tableTitle={x.title}
+                          columnTitles={["Role", "Name"]}
+                          dataKeys={["roleName", "nickname"]}
+                          data={x.crew.map((e) => ({
+                            roleName: e.name,
+                            nickname: `${e.user.nickname} ${e.user.lastName}`,
+                          }))}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                );
+              case "meeting":
+                return <div>HI</div>;
+              default:
+                return (
+                  <Grid item xs={12} md={4}>
+                    <TextTable
+                      tableTitle={event.name}
+                      columnTitles={["Name", "Status"]}
+                      dataKeys={["status", "name"]}
+                      data={event.attendees!.map((e) => ({
+                        status: e.attendStatus,
+                        name: `${e.nickname} ${e.lastName}`,
+                      }))}
+                    />
+                  </Grid>
+                );
+            }
+          }}
           <h5>{JSON.stringify(event)}</h5>
         </>
       ) : (
