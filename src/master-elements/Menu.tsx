@@ -287,7 +287,7 @@ export default function NavbarWithDrawer(props: Props) {
       <Divider />
       <List>
         <ListItemLink
-          to="http://ystv.co.uk"
+          to="http://creator.ystv.co.uk"
           primary="CStudio"
           icon={<VideoLibraryRounded />}
         />

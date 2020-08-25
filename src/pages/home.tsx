@@ -14,14 +14,6 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 // Begin Code
 
 export default function Home() {
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    apiAuthReq("/v1/internal/people/user/full").then((e) => {
-      setData(e);
-    });
-  }, []);
-
   return (
     <div>
       <h2>Welcome Home!!</h2>

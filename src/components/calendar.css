@@ -2,3 +2,11 @@
   background-color: rgb(40 147 255 / 15%) !important;
   background-color: rgb(40 147 255 / 15%) !important;
 }
+
+.fc-toolbar-chunk {
+  text-align: right;
+}
+
+.fc-toolbar-chunk h2 {
+  text-align: left;
+}
