@@ -12,11 +12,14 @@ import NavbarWithDrawer from "./Menu";
 import Home from "../pages/home";
 import Calendar from "../pages/calendar";
 import Event from "../pages/event";
+import EventEdit from "../pages/eventEdit";
 
 // Type imports
 import { userInterface } from "../components/types/people";
+import { userRoles } from "../components/types/permissions";
 
 // Other imports
+import userContextPermissions from "../components/functions/userContextPermissions";
 
 // Begin Code
 
@@ -46,6 +49,9 @@ export default function App() {
             </Route>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route>
+              <EventEdit />
             </Route>
             <Route path="/">
               <FourOFour />
