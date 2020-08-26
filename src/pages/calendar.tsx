@@ -15,6 +15,7 @@ import { calendarInterface } from "../components/types/clapper";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
 
 // Begin Code
 
@@ -49,11 +50,11 @@ export default function Calendar() {
     <>
       <Typography variant="h4">Calendar</Typography>
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
         initialView="dayGridMonth"
         events={data}
         headerToolbar={{
-          right: "today prev,next dayGridMonth,timeGridDay",
+          right: "today prev,next dayGridMonth,listMonth,timeGridDay",
         }}
         showNonCurrentDates={false}
         datesSet={(n) => handleGetDate(n.start)}
