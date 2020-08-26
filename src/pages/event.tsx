@@ -38,7 +38,7 @@ export default function Event() {
           return (
             <Grid container justify="center" spacing={3}>
               {event.signups!.map((x, n) => (
-                <Grid key={n} item xs={12} md={4}>
+                <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
                   <TextTable
                     tableTitle={x.title}
                     columnTitles={["Role", "Name"]}
@@ -63,7 +63,7 @@ export default function Event() {
       default:
         try {
           return (
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4} xl={3}>
               <TextTable
                 tableTitle={event.name}
                 columnTitles={["Name", "Status"]}
