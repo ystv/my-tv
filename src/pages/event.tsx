@@ -86,10 +86,12 @@ export default function Event() {
           <Typography variant="subtitle2">
             {toTitleCase(event.eventType)}
           </Typography>
-          <Typography variant="h4">{event.name}</Typography>
           <Typography variant="caption">{event.eventID.toString()}</Typography>
+          <Typography variant="h4">{event.name}</Typography>
           <Typography variant="body1">{event.description}</Typography>
+          <br />
           {getEventTypeContents(event)}
+          <br />
           <Typography variant="body2">{JSON.stringify(event)}</Typography>
         </>
       ) : (
