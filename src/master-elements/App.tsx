@@ -8,6 +8,7 @@ import { CircularProgress, Backdrop } from "@material-ui/core";
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
 import NavbarWithDrawer from "./Menu";
+import RouteWithPerms from "../components/RouteWithPerms";
 
 import Home from "../pages/home";
 import Calendar from "../pages/calendar";
@@ -19,7 +20,6 @@ import { userInterface } from "../components/types/people";
 import { userRoles } from "../components/types/permissions";
 
 // Other imports
-import userContextPermissions from "../components/functions/userContextPermissions";
 
 // Begin Code
 
@@ -44,15 +44,19 @@ export default function App() {
             <Route path="/calendar">
               <Calendar />
             </Route>
+
+            <RouteWithPerms path="/event/edit" user={user}>
+              <EventEdit user={user} />
+            </RouteWithPerms>
+
             <Route path="/event">
-              <Event />
+              <Event user={user} />
             </Route>
+
             <Route exact path="/">
               <Home />
             </Route>
-            <Route>
-              <EventEdit />
-            </Route>
+
             <Route path="/">
               <FourOFour />
             </Route>

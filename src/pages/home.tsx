@@ -1,11 +1,10 @@
 // React Imports
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // MUI components
 import { Typography } from "@material-ui/core";
 
 // Custom Components
-import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
 

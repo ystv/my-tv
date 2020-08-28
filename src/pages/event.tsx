@@ -12,12 +12,17 @@ import { toTitleCase } from "../components/functions/otherUsefulFunctions";
 // Type imports
 import { eventInterface } from "../components/types/clapper";
 import TextTable from "../components/textTable";
+import { userInterface } from "../components/types/people";
 
 // Other imports
 
 // Begin Code
 
-export default function Event() {
+interface EventProps {
+  user: userInterface;
+}
+
+export default function Event(props: EventProps) {
   const [event, setEvent] = useState<eventInterface>();
   let location = useLocation();
 
@@ -83,16 +88,37 @@ export default function Event() {
     <>
       {event !== undefined && event !== null ? (
         <>
-          <Typography variant="subtitle2">
+          <Typography variant="caption">
             {toTitleCase(event.eventType)}
           </Typography>
-          <Typography variant="caption">{event.eventID.toString()}</Typography>
+
+          <Typography variant="subtitle2">
+            {new Date(event.startDate).toLocaleDateString()}
+            {new Date(event.startDate).toLocaleDateString() ===
+            new Date(event.endDate).toLocaleDateString()
+              ? null
+              : ` - ${new Date(event.endDate).toLocaleDateString()}`}
+          </Typography>
+
           <Typography variant="h4">{event.name}</Typography>
+
+          <Typography variant="h6">
+            {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })} - ${new Date(event.endDate).toLocaleTimeString("en-GB", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}`}
+          </Typography>
+
+          <br />
+
           <Typography variant="body1">{event.description}</Typography>
+
           <br />
+
           {getEventTypeContents(event)}
-          <br />
-          <Typography variant="body2">{JSON.stringify(event)}</Typography>
         </>
       ) : (
         <Typography variant="h6">No Event Found!</Typography>

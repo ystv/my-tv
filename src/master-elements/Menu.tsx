@@ -17,48 +17,17 @@ import {
   Drawer,
   AppBar,
   Toolbar,
-  List,
-  Link,
   Hidden,
   CssBaseline,
   Typography,
-  Tooltip,
   Divider,
   IconButton,
-  Collapse,
   Avatar,
   Box,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Zoom,
 } from "@material-ui/core";
 
-import {
-  ExpandLess,
-  ExpandMore,
-  Menu,
-  ChevronLeft,
-  ChevronRight,
-  Mail,
-  Settings,
-  AllInbox,
-  SupervisorAccountRounded,
-  MonetizationOn,
-  People,
-  Storefront,
-  AccountBox,
-  Today,
-  FormatQuoteRounded,
-  VideocamRounded,
-  SecurityRounded,
-  BookmarksRounded,
-  AssignmentRounded,
-  VideoLibraryRounded,
-  History,
-  DescriptionRounded,
-  GavelRounded,
-} from "@material-ui/icons";
+import { Menu, ChevronLeft, ChevronRight, Settings } from "@material-ui/icons";
 
 // Custom Components
 
@@ -66,6 +35,7 @@ import {
 
 // Other imports
 import clsx from "clsx";
+import { DrawerContents } from "./DrawerContents";
 
 // Begin Code
 
@@ -239,7 +209,7 @@ export default function NavbarWithDrawer(props: Props) {
             src="/ystv.png"
             style={{
               height: "inherit",
-              filter: "opacity(0.6)",
+              filter: "opacity(0.65)",
               translate: "24",
             }}
             alt="YSTV logo"
@@ -254,160 +224,7 @@ export default function NavbarWithDrawer(props: Props) {
     </>
   );
 
-  const drawerContents = (
-    <>
-      <List>
-        <ListItemRRLink to="/calendar" primary="Calendar" icon={<Today />} />
-        <ListItemRRLink
-          to="/quotes"
-          primary="Quotes"
-          icon={<FormatQuoteRounded />}
-        />
-        <ListItemRRLink
-          to="/webcams"
-          primary="Webcams"
-          icon={<VideocamRounded />}
-        />
-        <ListItemLink
-          to="https://webmail.ystv.co.uk"
-          primary="Email"
-          icon={<Mail />}
-        />
-        <ListItemLink
-          to="https://dash.adam-rms.com/"
-          primary="Equipment Booking"
-          icon={<BookmarksRounded />}
-        />
-        <ListItemLink
-          to="https://vault.ystv.co.uk"
-          primary="Vault"
-          icon={<SecurityRounded />}
-        />
-      </List>
-      <Divider />
-      <List>
-        <ListItemLink
-          to="http://creator.ystv.co.uk"
-          primary="CStudio"
-          icon={<VideoLibraryRounded />}
-        />
-      </List>
-      <Divider />
-      <List>
-        <ListItemLink
-          to="http://wiki.ystv.co.uk"
-          primary="History Wiki"
-          icon={<History />}
-        />
-        <ListItemLink
-          to="http://docs.ystv.co.uk"
-          primary="Docs Wiki"
-          icon={<DescriptionRounded />}
-        />
-        <ListItemLink
-          to="https://medium.com/ystv"
-          primary="Tech Blog"
-          icon={<AssignmentRounded />}
-        />
-        <ListItemLink
-          to="https://docs.ystv.co.uk/wiki/YSTV_Constitution"
-          primary="Constitution & Policy"
-          icon={<GavelRounded />}
-        />
-      </List>
-      <Divider />
-      <List>
-        <ListItemRRLink to="/merch" primary="Merch" icon={<Storefront />} />
-        <ListItemRRLink
-          to="/accounts"
-          primary="Social Accounts"
-          icon={<AccountBox />}
-        />
-      </List>
-      <Divider />
-      <ListItem button onClick={handleCollapseClick}>
-        <ListItemIcon>
-          <SupervisorAccountRounded />
-        </ListItemIcon>
-        <ListItemText primary="Society Admin" />
-        {collapseOpen ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
-        <List>
-          <ListItemRRLink
-            to="/members"
-            primary="Members"
-            icon={<People />}
-            className={classes.nested}
-          />
-          <ListItemRRLink
-            to="/mailing-lists"
-            primary="Mailing Lists"
-            icon={<AllInbox />}
-            className={classes.nested}
-          />
-          <ListItemRRLink
-            to="/hire-prices"
-            primary="Hire Prices"
-            icon={<MonetizationOn />}
-            className={classes.nested}
-          />
-        </List>
-      </Collapse>
-    </>
-  );
-
   /// Special React Router and Standard Buttons with links Prop
-
-  interface ListItemLinkProps {
-    icon?: React.ReactElement;
-    primary: string;
-    to: string;
-    className?: string;
-  }
-
-  function ListItemRRLink(props: ListItemLinkProps) {
-    const { icon, primary, to, className } = props;
-
-    const renderLink = React.useMemo(
-      () =>
-        React.forwardRef<any, Omit<RouterLinkProps, "to">>((itemProps, ref) => (
-          <RouterLink to={to} ref={ref} {...itemProps} />
-        )),
-      [to]
-    );
-
-    return (
-      <li>
-        <Tooltip title={primary} placement="right">
-          <ListItem
-            button
-            component={renderLink}
-            onClick={handleDrawerCloseOnLink}
-            className={className ? className : ""}
-          >
-            {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-            <ListItemText primary={primary} />
-          </ListItem>
-        </Tooltip>
-      </li>
-    );
-  }
-
-  function ListItemLink(props: ListItemLinkProps) {
-    const { icon, primary, to } = props;
-
-    return (
-      <Link href={to} color="inherit" style={{ textDecoration: "inherit" }}>
-        <Tooltip title={primary} placement="right">
-          <ListItem button>
-            {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-            <ListItemText primary={primary} />
-          </ListItem>
-        </Tooltip>
-      </Link>
-    );
-  }
 
   /// Special YSTV Logo Component
 
@@ -500,7 +317,10 @@ export default function NavbarWithDrawer(props: Props) {
             }}
           >
             {drawerArrow}
-            {drawerContents}
+            <DrawerContents
+              handleCollapseClick={handleCollapseClick}
+              collapseOpen={collapseOpen}
+            />
           </Drawer>
         </Hidden>
         <Hidden smUp>
@@ -521,7 +341,10 @@ export default function NavbarWithDrawer(props: Props) {
             }}
           >
             {drawerArrow}
-            {drawerContents}
+            <DrawerContents
+              handleCollapseClick={handleCollapseClick}
+              collapseOpen={collapseOpen}
+            />
           </Drawer>
         </Hidden>
       </nav>

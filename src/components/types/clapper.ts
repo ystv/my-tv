@@ -32,10 +32,10 @@ export interface crewInterface extends positionInterface {
   locked: boolean;
   credited: boolean;
   ordering: number;
-  user: userInterface;
+  user: calUserInterface;
 }
 
-export interface attendeeInterface extends userInterface {
+export interface attendeeInterface extends calUserInterface {
   attendStatus: string;
 }
 
@@ -49,7 +49,7 @@ export interface signupInterface {
   crew: crewInterface[];
 }
 
-export interface userInterface {
+export interface calUserInterface {
   userID: number;
   nickname: string;
   firstName: string;

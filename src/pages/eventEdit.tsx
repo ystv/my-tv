@@ -10,12 +10,17 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
 import { eventInterface } from "../components/types/clapper";
+import { userInterface } from "../components/types/people";
 
 // Other imports
 
 // Begin Code
 
-export default function EventEdit() {
+interface EventEditProps {
+  user: userInterface;
+}
+
+export default function EventEdit(props: EventEditProps) {
   const [event, setEvent] = useState<eventInterface>();
   let location = useLocation();
 
@@ -24,9 +29,12 @@ export default function EventEdit() {
   }, []);
 
   function updateEventUI() {
-    apiAuthReq(
-      `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
-    ).then((e) => setEvent(e));
+    const eventNumber = location.pathname.split("/")[3];
+    if (eventNumber !== undefined) {
+      apiAuthReq(`/v1/internal/clapper/event/${eventNumber}`).then((e) =>
+        setEvent(e)
+      );
+    }
   }
   return (
     <div>
