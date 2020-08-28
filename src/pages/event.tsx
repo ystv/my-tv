@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // MUI components
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Button, Box } from "@material-ui/core";
+import { Edit } from "@material-ui/icons";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
 import { toTitleCase } from "../components/functions/otherUsefulFunctions";
+import userContectPermissions from "../components/functions/userContextPermissions";
 
 // Type imports
 import { eventInterface } from "../components/types/clapper";
@@ -88,9 +90,24 @@ export default function Event(props: EventProps) {
     <>
       {event !== undefined && event !== null ? (
         <>
-          <Typography variant="caption">
-            {toTitleCase(event.eventType)}
-          </Typography>
+          <Grid container alignContent="space-between">
+            <Typography variant="caption" style={{ flex: 1 }}>
+              {toTitleCase(event.eventType)}
+            </Typography>
+
+            {userContectPermissions(props.user) ? (
+              <Box component="span">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Edit />}
+                  href={`/event/edit/${event.eventID}`}
+                >
+                  Edit Event
+                </Button>
+              </Box>
+            ) : null}
+          </Grid>
 
           <Typography variant="subtitle2">
             {new Date(event.startDate).toLocaleDateString()}

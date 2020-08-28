@@ -45,7 +45,7 @@ export default function App() {
               <Calendar />
             </Route>
 
-            <RouteWithPerms path="/event/edit" user={user}>
+            <RouteWithPerms path="/event/edit/:eventID?" user={user}>
               <EventEdit user={user} />
             </RouteWithPerms>
 
