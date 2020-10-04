@@ -64,13 +64,11 @@ export function DrawerContents({
           to="/quotes"
           primary="Quotes"
           icon={<FormatQuoteRounded />}
-          disabled
         />
         <ListItemRRLink
           to="/webcams"
           primary="Webcams"
           icon={<VideocamRounded />}
-          disabled
         />
         <ListItemLink
           to="https://webmail.ystv.co.uk"

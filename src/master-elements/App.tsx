@@ -14,6 +14,8 @@ import Home from "../pages/home";
 import Calendar from "../pages/calendar";
 import Event from "../pages/event";
 import EventEdit from "../pages/eventEdit";
+import Webcams from "../pages/webcams";
+import Quotes from "../pages/quotes";
 
 // Type imports
 import { userInterface } from "../components/types/people";
@@ -28,7 +30,7 @@ export default function App() {
 
   React.useEffect(() => {
     apiAuthReq("/v1/internal/people/user/").then((e) => {
-      console.log(e);
+      console.log("user: ", e);
       setUser(e);
     });
   }, []);
@@ -41,6 +43,14 @@ export default function App() {
           profilePhoto={user.avatar}
         >
           <Switch>
+            <Route path="/webcams">
+              <Webcams />
+            </Route>
+
+            <Route path="/quotes">
+              <Quotes />
+            </Route>
+
             <Route path="/calendar">
               <Calendar />
             </Route>

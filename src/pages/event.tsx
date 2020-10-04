@@ -10,10 +10,10 @@ import { Edit } from "@material-ui/icons";
 import apiAuthReq from "../components/functions/apiAuthReq";
 import { toTitleCase } from "../components/functions/otherUsefulFunctions";
 import userContectPermissions from "../components/functions/userContextPermissions";
+import TextTable from "../components/textTable";
 
 // Type imports
 import { eventInterface } from "../components/types/clapper";
-import TextTable from "../components/textTable";
 import { userInterface } from "../components/types/people";
 
 // Other imports
