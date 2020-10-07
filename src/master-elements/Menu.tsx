@@ -273,20 +273,20 @@ export default function NavbarWithDrawer(props: Props) {
           <TitleReactLink />
           <div className={classes.grow} />
 
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" style={{ paddingRight: "1rem" }}>
             Build:{" "}
             {process.env.REACT_APP_BUILD_ID !== undefined
               ? process.env.REACT_APP_BUILD_ID
               : "Local"}
           </Typography>
-          <IconButton
+          {/* <IconButton
             color="inherit"
             onClick={handleSettingsMenuOpen}
             edge="start"
             disabled
           >
             <Settings />
-          </IconButton>
+          </IconButton> */}
           <IconButton color="inherit" onClick={handleAvatarClick} edge="start">
             <Zoom in={profileImageLoaded}>
               <Avatar

@@ -16,6 +16,7 @@ import Event from "../pages/event";
 import EventEdit from "../pages/eventEdit";
 import Webcams from "../pages/webcams";
 import Quotes from "../pages/quotes";
+import AddQuote from "../pages/addQuote";
 
 // Type imports
 import { userInterface } from "../components/types/people";
@@ -45,6 +46,10 @@ export default function App() {
           <Switch>
             <Route path="/webcams">
               <Webcams />
+            </Route>
+
+            <Route path="/quotes/add">
+              <AddQuote />
             </Route>
 
             <Route path="/quotes">

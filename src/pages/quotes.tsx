@@ -74,16 +74,15 @@ export default function Quotes() {
           <IconButton onClick={() => getQuotes()}>
             <Refresh />
           </IconButton>
-          {/* <Link to="/quotes/new"> */}
-          <Button
-            variant="contained"
-            color="primary"
-            disabled
-            startIcon={<AddRounded />}
-          >
-            Add Quote
-          </Button>
-          {/* </Link> */}
+          <Link to="/quotes/add">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AddRounded />}
+            >
+              Add Quote
+            </Button>
+          </Link>
         </Box>
       </Grid>
 
