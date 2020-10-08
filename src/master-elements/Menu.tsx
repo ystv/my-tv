@@ -302,16 +302,17 @@ export default function NavbarWithDrawer(props: Props) {
               onClick={handleProfileClose}
               component={RouterLink}
               to="/profile"
+              disabled
             >
               Profile
             </MenuItem>
-            <MenuItem onClick={handleProfileClose}>
-              <Link
-                href={`${process.env.REACT_APP_SECURITY_ENDPOINT}/logout`}
-                color="inherit"
-              >
-                Logout
-              </Link>
+            <MenuItem
+              onClick={handleProfileClose}
+              component={Link}
+              href={`${process.env.REACT_APP_SECURITY_ENDPOINT}/logout`}
+              color="inherit"
+            >
+              Logout
             </MenuItem>
           </MenuParent>
         </Toolbar>
