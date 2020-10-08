@@ -136,8 +136,6 @@ export default function Event(props: EventProps) {
           <br />
 
           {getEventTypeContents(event)}
-          <br />
-          <br />
         </>
       ) : (
         <Typography variant="h6">No Event Found!</Typography>

@@ -89,15 +89,17 @@ export default function Quotes(props: QuotesProps) {
   };
 
   const handleDeleteConfirm = () => {
-    Axios.delete(
-      `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes/${selQuote}`,
-      {
-        withCredentials: true,
-      }
-    ).then(() => {
-      getQuotes();
-      handleDeleteMenuClose();
-    });
+    apiAuthReq("/v1/internal/people/user").then(() =>
+      Axios.delete(
+        `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes/${selQuote}`,
+        {
+          withCredentials: true,
+        }
+      ).then(() => {
+        getQuotes();
+        handleDeleteMenuClose();
+      })
+    );
   };
 
   return (

@@ -76,6 +76,8 @@ export default function App() {
               <FourOFour />
             </Route>
           </Switch>
+          <br />
+          <br />
         </NavbarWithDrawer>
       ) : (
         <Backdrop open={true}>
