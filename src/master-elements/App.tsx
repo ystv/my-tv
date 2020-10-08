@@ -53,7 +53,7 @@ export default function App() {
             </Route>
 
             <Route path="/quotes">
-              <Quotes />
+              <Quotes user={user} />
             </Route>
 
             <Route path="/calendar">

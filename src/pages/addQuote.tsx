@@ -1,6 +1,7 @@
 // React Imports
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link as RouterLink } from "react-router-dom";
+
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -44,15 +45,15 @@ export default function EventEdit() {
           Edit Event
         </Typography>
         <Box component="span">
-          <Button variant="contained" color="secondary" startIcon={<Cancel />}>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<Cancel />}
+            onClick={history.goBack}
+          >
             Cancel
           </Button>
         </Box>
-        {/* <Box component="span">
-          <Button variant="contained" color="primary" startIcon={<Save />}>
-            Save Quote
-          </Button>
-        </Box> */}
       </Grid>
 
       <br />
