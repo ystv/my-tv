@@ -1,5 +1,6 @@
 // React Imports
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 // MUI components
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -11,6 +12,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Link,
+  Tooltip,
 } from "@material-ui/core";
 
 import {
@@ -35,16 +38,25 @@ import {
   GavelRounded,
 } from "@material-ui/icons";
 
-import { ListItemRRLink, ListItemLink } from "./DrawerLinkComponents";
+interface ListItemLinkProps {
+  icon?: React.ReactElement;
+  primary: string;
+  to: string;
+  className?: string;
+  disabled?: boolean;
+  router?: boolean;
+}
 
 interface drawerContentsProps {
   handleCollapseClick: (e: any) => void;
   collapseOpen: boolean;
+  handleDrawerClose: (e: any) => void;
 }
 
 export function DrawerContents({
   handleCollapseClick,
   collapseOpen,
+  handleDrawerClose,
 }: drawerContentsProps) {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,19 +68,51 @@ export function DrawerContents({
   );
 
   const classes = useStyles();
+
+  function ListItemLink(props: ListItemLinkProps) {
+    const { icon, primary, to, className, disabled, router = false } = props;
+
+    return (
+      <li>
+        <Tooltip title={primary} placement="right">
+          <ListItem
+            button
+            component={router ? RouterLink : Link}
+            to={router ? to : ""}
+            href={router ? "" : to}
+            color="inherit"
+            onClick={handleDrawerClose}
+            className={className ? className : ""}
+            disabled={disabled}
+          >
+            {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+            <ListItemText primary={primary} />
+          </ListItem>
+        </Tooltip>
+      </li>
+    );
+  }
+
   return (
     <>
       <List>
-        <ListItemRRLink to="/calendar" primary="Calendar" icon={<Today />} />
-        <ListItemRRLink
+        <ListItemLink
+          to="/calendar"
+          primary="Calendar"
+          icon={<Today />}
+          router
+        />
+        <ListItemLink
           to="/quotes"
           primary="Quotes"
           icon={<FormatQuoteRounded />}
+          router
         />
-        <ListItemRRLink
+        <ListItemLink
           to="/webcams"
           primary="Webcams"
           icon={<VideocamRounded />}
+          router
         />
         <ListItemLink
           to="https://webmail.ystv.co.uk"
@@ -120,17 +164,19 @@ export function DrawerContents({
       </List>
       <Divider />
       <List>
-        <ListItemRRLink
+        <ListItemLink
           to="/merch"
           primary="Merch"
           icon={<Storefront />}
           disabled
+          router
         />
-        <ListItemRRLink
+        <ListItemLink
           to="/accounts"
           primary="Social Accounts"
           icon={<AccountBox />}
           disabled
+          router
         />
       </List>
       <Divider />
@@ -143,19 +189,19 @@ export function DrawerContents({
       </ListItem>
       <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
         <List>
-          <ListItemRRLink
+          <ListItemLink
             to="/members"
             primary="Members"
             icon={<People />}
             className={classes.nested}
           />
-          <ListItemRRLink
+          <ListItemLink
             to="/mailing-lists"
             primary="Mailing Lists"
             icon={<AllInbox />}
             className={classes.nested}
           />
-          <ListItemRRLink
+          <ListItemLink
             to="/hire-prices"
             primary="Hire Prices"
             icon={<MonetizationOn />}
@@ -163,6 +209,7 @@ export function DrawerContents({
           />
         </List>
       </Collapse>
+      <div style={{ padding: "2rem" }} />
     </>
   );
 }

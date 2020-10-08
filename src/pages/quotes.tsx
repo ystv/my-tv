@@ -74,15 +74,15 @@ export default function Quotes() {
           <IconButton onClick={() => getQuotes()}>
             <Refresh />
           </IconButton>
-          <Link to="/quotes/add">
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddRounded />}
-            >
-              Add Quote
-            </Button>
-          </Link>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddRounded />}
+            component={Link}
+            to="/quotes/add"
+          >
+            Add Quote
+          </Button>
         </Box>
       </Grid>
 
@@ -102,10 +102,13 @@ export default function Quotes() {
                   <Typography variant="caption">{x.id}</Typography>
                   <div style={{ flex: 1 }} />
 
-                  <IconButton color="primary" disabled>
-                    <Link to={`/quotes/edit/${x.id}`}>
-                      <Edit />
-                    </Link>
+                  <IconButton
+                    color="primary"
+                    disabled
+                    component={Link}
+                    to={`/quotes/edit/${x.id}`}
+                  >
+                    <Edit />
                   </IconButton>
                 </div>
               </Box>

@@ -25,6 +25,9 @@ import {
   Avatar,
   Box,
   Zoom,
+  Menu as MenuParent,
+  MenuItem,
+  Link,
 } from "@material-ui/core";
 
 import { Menu, ChevronLeft, ChevronRight, Settings } from "@material-ui/icons";
@@ -172,6 +175,10 @@ export default function NavbarWithDrawer(props: Props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
   const [collapseOpen, setCollapseOpen] = React.useState(false);
+  const [
+    profileAnchorEl,
+    setProfileAnchorEl,
+  ] = React.useState<null | HTMLElement>(null);
 
   /// Handler Functions
 
@@ -187,16 +194,16 @@ export default function NavbarWithDrawer(props: Props) {
     setOpen(false);
   };
 
-  const handleDrawerCloseOnLink = () => {
-    setOpen(false);
-  };
-
   const handleSettingsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     return 0;
   };
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
-    return 0;
+    setProfileAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileClose = () => {
+    setProfileAnchorEl(null);
   };
 
   /// Contents of side drawer
@@ -224,28 +231,6 @@ export default function NavbarWithDrawer(props: Props) {
     </>
   );
 
-  /// Special React Router and Standard Buttons with links Prop
-
-  /// Special YSTV Logo Component
-
-  function TitleReactLink() {
-    const renderLink = React.useMemo(
-      () =>
-        React.forwardRef<any, Omit<RouterLinkProps, "to">>((itemProps, ref) => (
-          <RouterLink to={"/"} ref={ref} {...itemProps} />
-        )),
-      []
-    );
-
-    return (
-      <IconButton color="inherit" edge="start" component={renderLink}>
-        <Typography variant="h5" noWrap>
-          My-TV
-        </Typography>
-      </IconButton>
-    );
-  }
-
   const [profileImageLoaded, setProfileImageLoaded] = React.useState(false);
 
   /// Menu and Drawer Component Master Return
@@ -270,7 +255,16 @@ export default function NavbarWithDrawer(props: Props) {
           >
             <Menu />
           </IconButton>
-          <TitleReactLink />
+          <IconButton
+            color="inherit"
+            edge="start"
+            component={RouterLink}
+            to="/"
+          >
+            <Typography variant="h5" noWrap>
+              My-TV
+            </Typography>
+          </IconButton>
           <div className={classes.grow} />
 
           <Typography variant="subtitle2" style={{ paddingRight: "1rem" }}>
@@ -297,6 +291,29 @@ export default function NavbarWithDrawer(props: Props) {
               </Avatar>
             </Zoom>
           </IconButton>
+          <MenuParent
+            id="simple-menu"
+            anchorEl={profileAnchorEl}
+            keepMounted
+            open={Boolean(profileAnchorEl)}
+            onClose={handleProfileClose}
+          >
+            <MenuItem
+              onClick={handleProfileClose}
+              component={RouterLink}
+              to="/profile"
+            >
+              Profile
+            </MenuItem>
+            <MenuItem onClick={handleProfileClose}>
+              <Link
+                href={`${process.env.REACT_APP_SECURITY_ENDPOINT}/logout`}
+                color="inherit"
+              >
+                Logout
+              </Link>
+            </MenuItem>
+          </MenuParent>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer}>
@@ -321,6 +338,7 @@ export default function NavbarWithDrawer(props: Props) {
             <DrawerContents
               handleCollapseClick={handleCollapseClick}
               collapseOpen={collapseOpen}
+              handleDrawerClose={handleDrawerClose}
             />
           </Drawer>
         </Hidden>
@@ -345,6 +363,7 @@ export default function NavbarWithDrawer(props: Props) {
             <DrawerContents
               handleCollapseClick={handleCollapseClick}
               collapseOpen={collapseOpen}
+              handleDrawerClose={handleDrawerClose}
             />
           </Drawer>
         </Hidden>
