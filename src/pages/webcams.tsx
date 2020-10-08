@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // MUI components
-import { Typography } from "@material-ui/core";
+import { Typography, Backdrop, CircularProgress } from "@material-ui/core";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Custom Components
@@ -41,9 +41,15 @@ export default function Webcams() {
     <div>
       <Typography variant="h4">Webcams</Typography>
       <br />
-      {imagesrcs.map((imagesrc, i) => (
-        <img src={imagesrc} width="50%" key={i} />
-      ))}
+      {imagesrcs.length == 0 ? (
+        <Backdrop open={true}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      ) : (
+        imagesrcs.map((imagesrc, i) => (
+          <img src={imagesrc} width="50%" key={i} />
+        ))
+      )}
     </div>
   );
 }
