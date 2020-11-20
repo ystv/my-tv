@@ -105,7 +105,7 @@ export default function Quotes(props: QuotesProps) {
   return (
     <div>
       <Typography variant="h4">Quotes</Typography>
-      <Typography variant="subtitle1">(Authenticity not varified)</Typography>
+      <Typography variant="subtitle1">(Authenticity not verified)</Typography>
 
       <Grid container alignContent="space-between">
         <div style={{ flex: 1 }} />
