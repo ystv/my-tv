@@ -24,7 +24,7 @@ export default function Calendar() {
 
   function handleGetDate(urlDate: Date) {
     apiAuthReq(
-      `/v1/internal/clapper/calendar/${urlDate.getFullYear()}/${
+      `/v1/internal/clapper/calendar/monthly/${urlDate.getFullYear()}/${
         urlDate.getMonth() + 1
       }`
     ).then((e: calendarInterface[]) => {
