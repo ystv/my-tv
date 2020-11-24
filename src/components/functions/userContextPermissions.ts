@@ -7,7 +7,7 @@ export default function userContextPermissions(
   allowedPermIDs?: userRoles[]
 ) {
   var allowed = false;
-  if (user !== undefined) {
+  if (user?.permissions !== undefined) {
     user.permissions.forEach((x) => {
       if (x.name === userRoles.SuperUser) {
         allowed = true;
