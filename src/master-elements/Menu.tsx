@@ -282,7 +282,7 @@ export default function NavbarWithDrawer(props: Props) {
             <Settings />
           </IconButton> */}
           <IconButton color="inherit" onClick={handleAvatarClick} edge="start">
-            <Zoom in={profileImageLoaded}>
+            <Zoom in={profileImageLoaded || props.profilePhoto == null}>
               <Avatar
                 src={props.profilePhoto}
                 imgProps={{ onLoad: () => setProfileImageLoaded(true) }}
