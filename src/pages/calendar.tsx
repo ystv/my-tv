@@ -16,7 +16,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 // Begin Code
 
@@ -24,6 +24,7 @@ export default function Calendar() {
   const [data, setData] = useState<Array<object>>([]);
   const [initDate, setInitDate] = useState<string>();
   const location = useLocation();
+  const rrHistory = useHistory();
 
   function GetInitDate() {
     let year = parseInt(location.pathname.split("/")[2]);
@@ -41,7 +42,6 @@ export default function Calendar() {
   }
 
   function handleGetDate(urlDate: Date) {
-    console.log("date: ", urlDate);
     apiAuthReq(
       `/v1/internal/clapper/calendar/monthly/${urlDate.getFullYear()}/${
         urlDate.getMonth() + 1
@@ -85,6 +85,13 @@ export default function Calendar() {
         firstDay={1}
         height="75vh"
         initialDate={GetInitDate()}
+        eventClick={(info) => {
+          info.jsEvent.preventDefault(); // don't let the browser navigate
+
+          if (info.event.url) {
+            rrHistory.push(info.event.url);
+          }
+        }}
       />
     </>
   );

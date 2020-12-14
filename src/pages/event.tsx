@@ -1,6 +1,6 @@
 // React Imports
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link as RouterLink } from "react-router-dom";
 
 // MUI components
 import { Grid, Typography, Button, Box, Link } from "@material-ui/core";
@@ -35,7 +35,10 @@ export default function Event(props: EventProps) {
   function updateEventUI() {
     apiAuthReq(
       `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
-    ).then((e) => setEvent(e));
+    ).then((e) => {
+      setEvent(e);
+      console.log(e);
+    });
   }
 
   function getEventTypeContents(event: eventInterface) {
@@ -90,8 +93,25 @@ export default function Event(props: EventProps) {
     <>
       {event !== undefined && event !== null ? (
         <>
+          <Link
+            variant="body2"
+            component={RouterLink}
+            to={() => {
+              let startDate = new Date(event.startDate);
+              console.log(startDate);
+              return `/calendar/${startDate.getFullYear()}/${
+                startDate.getMonth() + 1
+              }`;
+            }}
+          >
+            &#8592; Back
+          </Link>
+
           <Grid container alignContent="space-between">
-            <Typography variant="caption" style={{ flex: 1 }}>
+            <Typography
+              variant="caption"
+              style={{ flex: 1, alignSelf: "flex-end" }}
+            >
               {toTitleCase(event.eventType)}
             </Typography>
 
@@ -108,7 +128,6 @@ export default function Event(props: EventProps) {
               </Box>
             ) : null}
           </Grid>
-
           <Typography variant="subtitle2">
             {new Date(event.startDate).toLocaleDateString()}
             {new Date(event.startDate).toLocaleDateString() ===
@@ -116,9 +135,7 @@ export default function Event(props: EventProps) {
               ? null
               : ` - ${new Date(event.endDate).toLocaleDateString()}`}
           </Typography>
-
           <Typography variant="h4">{event.name}</Typography>
-
           <Typography variant="h6">
             {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
               hour: "2-digit",
@@ -128,13 +145,9 @@ export default function Event(props: EventProps) {
               minute: "2-digit",
             })}`}
           </Typography>
-
           <br />
-
           <Typography variant="body1">{event.description}</Typography>
-
           <br />
-
           {getEventTypeContents(event)}
         </>
       ) : (

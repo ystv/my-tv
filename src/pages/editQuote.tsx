@@ -32,7 +32,7 @@ export default function EditQuote() {
       axios
         .put(
           `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
-          { id: quoteNumber, ...data },
+          { id: parseInt(quoteNumber), ...data },
           {
             withCredentials: true,
           }
