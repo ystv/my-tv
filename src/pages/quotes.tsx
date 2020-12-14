@@ -50,10 +50,10 @@ export default function Quotes(props: QuotesProps) {
   const [page, setPage] = useState(0);
   const [quotes, setQuotes] = useState<quotesInterface>();
   let location = useLocation();
-  const [showDelete, setShowDelete] = useState(false);
+  const [showDelete, setShowDelete] = useState(true);
 
   useEffect(() => {
-    setShowDelete(userContextPermissions(props.user));
+    // setShowDelete(userContextPermissions(props.user)); DISABLE CHECK SUPERUSER
     var newPage = parseInt(location.pathname.split("/")[2]);
     if (isNaN(newPage)) {
       newPage = 0;
@@ -149,12 +149,12 @@ export default function Quotes(props: QuotesProps) {
 
                   <IconButton
                     color="primary"
-                    disabled
                     component={RouterLink}
                     to={`/quotes/edit/${x.id}`}
                   >
                     <Edit />
                   </IconButton>
+
                   {showDelete ? (
                     <IconButton
                       color="inherit"

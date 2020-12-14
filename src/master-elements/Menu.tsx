@@ -211,16 +211,18 @@ export default function NavbarWithDrawer(props: Props) {
   const drawerArrow = (
     <>
       <div className={classes.toolbar}>
-        <Box className={classes.logoBox}>
-          <img
-            src="/ystv.png"
-            style={{
-              height: "inherit",
-              filter: "opacity(0.65)",
-              translate: "24",
-            }}
-            alt="YSTV logo"
-          ></img>
+        <Box>
+          <a href="https://ystv.co.uk" className={classes.logoBox}>
+            <img
+              src="/ystv.png"
+              style={{
+                height: "inherit",
+                filter: "opacity(0.65)",
+                translate: "-36px 4px",
+              }}
+              alt="YSTV logo"
+            />
+          </a>
         </Box>
 
         <IconButton onClick={handleDrawerClose}>

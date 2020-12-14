@@ -18,7 +18,7 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Begin Code
 
-export default function EventEdit() {
+export default function AddQuote() {
   const { register, handleSubmit, errors } = useForm();
   let history = useHistory();
 
@@ -32,7 +32,7 @@ export default function EventEdit() {
             withCredentials: true,
           }
         )
-        .then((result) => {
+        .then(() => {
           history.push("/quotes");
         })
     );
