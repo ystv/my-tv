@@ -17,7 +17,6 @@ import EventEdit from "../pages/eventEdit";
 import Webcams from "../pages/webcams";
 import Quotes from "../pages/quotes";
 import AddQuote from "../pages/addQuote";
-import EditQuote from "../pages/editQuote";
 
 // Type imports
 import { userInterface } from "../components/types/people";
@@ -51,10 +50,6 @@ export default function App() {
 
             <Route path="/quotes/add">
               <AddQuote />
-            </Route>
-
-            <Route path="/quotes/edit/:quoteID?">
-              <EditQuote />
             </Route>
 
             <Route path="/quotes">

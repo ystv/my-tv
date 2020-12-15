@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink, useLocation, useHistory } from "react-router-dom";
 
 // MUI components
 import {
@@ -16,6 +16,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TextField,
 } from "@material-ui/core";
 
 import {
@@ -25,6 +26,7 @@ import {
   ArrowBackIosRounded,
   AddRounded,
   Delete,
+  Save,
 } from "@material-ui/icons";
 
 import { TransitionProps } from "@material-ui/core/transitions";
@@ -39,6 +41,7 @@ import userContextPermissions from "../components/functions/userContextPermissio
 import Axios from "axios";
 
 // Other imports
+import { useForm } from "react-hook-form";
 
 // Begin Code
 
@@ -51,6 +54,8 @@ export default function Quotes(props: QuotesProps) {
   const [quotes, setQuotes] = useState<quotesInterface>();
   let location = useLocation();
   const [showDelete, setShowDelete] = useState(true);
+  const { register, handleSubmit, errors } = useForm();
+  const history = useHistory();
 
   useEffect(() => {
     // setShowDelete(userContextPermissions(props.user)); DISABLE CHECK SUPERUSER
@@ -76,12 +81,37 @@ export default function Quotes(props: QuotesProps) {
     neg ? setPage(page - 1) : setPage(page + 1);
   }
 
+  function onSubmit(data: any) {
+    apiAuthReq("/v1/internal/people/user").then(() =>
+      Axios.put(
+        `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
+        { id: selQuote, ...data },
+        {
+          withCredentials: true,
+        }
+      ).then(() => {
+        getQuotes();
+        handleEditMenuClose();
+      })
+    );
+  }
+
   const [openDeleteMenu, setOpenDeleteMenu] = useState(false);
   const [selQuote, setSelQuote] = useState(-1);
+  const [openEditMenu, setOpenEditMenu] = useState(false);
 
   const handleDeleteMenuClickOpen = (e: number) => {
     setSelQuote(e);
     setOpenDeleteMenu(true);
+  };
+
+  const handleEditMenuClickOpen = (e: number) => {
+    setSelQuote(e);
+    setOpenEditMenu(true);
+  };
+
+  const handleEditMenuClose = () => {
+    setOpenEditMenu(false);
   };
 
   const handleDeleteMenuClose = () => {
@@ -103,7 +133,7 @@ export default function Quotes(props: QuotesProps) {
   };
 
   return (
-    <div>
+    <>
       <Typography variant="h4">Quotes</Typography>
       <Typography variant="subtitle1">(Authenticity not verified)</Typography>
 
@@ -149,8 +179,7 @@ export default function Quotes(props: QuotesProps) {
 
                   <IconButton
                     color="primary"
-                    component={RouterLink}
-                    to={`/quotes/edit/${x.id}`}
+                    onClick={() => handleEditMenuClickOpen(x.id)}
                   >
                     <Edit />
                   </IconButton>
@@ -195,7 +224,58 @@ export default function Quotes(props: QuotesProps) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+
+      <Dialog
+        open={openEditMenu}
+        onClose={handleEditMenuClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="alert-dialog-slide-title">
+          {`Editing quote ${selQuote}:`}
+        </DialogTitle>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent>
+            <TextField
+              type="text"
+              placeholder="Quote"
+              name="quote"
+              inputRef={register({})}
+              defaultValue={quotes?.Quotes.find((e) => e.id == selQuote)?.quote}
+              multiline
+              rows={6}
+              variant="outlined"
+              fullWidth
+            />
+
+            <TextField
+              type="text"
+              placeholder="Attributed Author"
+              name="description"
+              inputRef={register({})}
+              defaultValue={
+                quotes?.Quotes.find((e) => e.id == selQuote)?.description
+              }
+              variant="outlined"
+              fullWidth
+            />
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleEditMenuClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Save />}
+              type="submit"
+            >
+              Save Quote
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </>
   );
 }
 

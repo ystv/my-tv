@@ -71,7 +71,7 @@ export default function AddQuote() {
               type="text"
               placeholder="Quote"
               name="quote"
-              inputRef={register({ required: true })}
+              inputRef={register({})}
               multiline
               rows={6}
               variant="outlined"
@@ -83,7 +83,7 @@ export default function AddQuote() {
               type="text"
               placeholder="Attributed Author"
               name="description"
-              inputRef={register({ required: true })}
+              inputRef={register({})}
               variant="outlined"
               fullWidth
             />
