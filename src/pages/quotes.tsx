@@ -169,43 +169,41 @@ export default function Quotes(props: QuotesProps) {
 
       <br />
 
-      {quotes !== undefined ? (
-        <Grid container justify="center" spacing={3}>
-          {quotes.Quotes.map((x, n) => (
-            <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
-              <Box component={Paper} style={{ padding: "1rem" }}>
-                <Typography variant="body1">
-                  <div dangerouslySetInnerHTML={{ __html: x.quote }} />
-                </Typography>
-                <Typography variant="subtitle2">{x.description}</Typography>
+      <Grid container justify="center" spacing={3}>
+        {quotes?.Quotes.map((x, n) => (
+          <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
+            <Box component={Paper} style={{ padding: "1rem" }}>
+              <Typography variant="body1">
+                <div dangerouslySetInnerHTML={{ __html: x.quote }} />
+              </Typography>
+              <Typography variant="subtitle2">{x.description}</Typography>
 
-                <div style={{ display: "flex" }}>
-                  <Typography variant="caption">{x.id}</Typography>
-                  <div style={{ flex: 1 }} />
+              <div style={{ display: "flex" }}>
+                <Typography variant="caption">{x.id}</Typography>
+                <div style={{ flex: 1 }} />
 
-                  {showEditing ? (
-                    <>
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleEditMenuClickOpen(x.id)}
-                      >
-                        <Edit />
-                      </IconButton>
+                {showEditing ? (
+                  <>
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleEditMenuClickOpen(x.id)}
+                    >
+                      <Edit />
+                    </IconButton>
 
-                      <IconButton
-                        color="inherit"
-                        onClick={() => handleDeleteMenuClickOpen(x.id)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </>
-                  ) : null}
-                </div>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      ) : null}
+                    <IconButton
+                      color="inherit"
+                      onClick={() => handleDeleteMenuClickOpen(x.id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </>
+                ) : null}
+              </div>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
 
       <Dialog
         open={openDeleteMenu}
