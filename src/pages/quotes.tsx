@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink, useLocation, useHistory } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 // MUI components
 import {
@@ -37,7 +37,7 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 // Type imports
 import { quotesInterface } from "../components/types/quotes";
 import { userInterface } from "../components/types/people";
-import userContextPermissions from "../components/functions/userContextPermissions";
+//import userContextPermissions from "../components/functions/userContextPermissions";
 import Axios from "axios";
 
 // Other imports
@@ -53,9 +53,8 @@ export default function Quotes(props: QuotesProps) {
   const [page, setPage] = useState(0);
   const [quotes, setQuotes] = useState<quotesInterface>();
   let location = useLocation();
-  const [showDelete, setShowDelete] = useState(true);
-  const { register, handleSubmit, errors } = useForm();
-  const history = useHistory();
+  const [showEditing, setShowEditing] = useState(false);
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     // setShowDelete(userContextPermissions(props.user)); DISABLE CHECK SUPERUSER
@@ -140,6 +139,13 @@ export default function Quotes(props: QuotesProps) {
       <Grid container alignContent="space-between">
         <div style={{ flex: 1 }} />
         <Box component="span">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => setShowEditing(!showEditing)}
+          >
+            Edit Mode
+          </Button>
           <IconButton disabled={page === 0} onClick={() => updateQuotes(true)}>
             <ArrowBackIosRounded />
           </IconButton>
@@ -177,20 +183,22 @@ export default function Quotes(props: QuotesProps) {
                   <Typography variant="caption">{x.id}</Typography>
                   <div style={{ flex: 1 }} />
 
-                  <IconButton
-                    color="primary"
-                    onClick={() => handleEditMenuClickOpen(x.id)}
-                  >
-                    <Edit />
-                  </IconButton>
+                  {showEditing ? (
+                    <>
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleEditMenuClickOpen(x.id)}
+                      >
+                        <Edit />
+                      </IconButton>
 
-                  {showDelete ? (
-                    <IconButton
-                      color="inherit"
-                      onClick={() => handleDeleteMenuClickOpen(x.id)}
-                    >
-                      <Delete />
-                    </IconButton>
+                      <IconButton
+                        color="inherit"
+                        onClick={() => handleDeleteMenuClickOpen(x.id)}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </>
                   ) : null}
                 </div>
               </Box>
@@ -240,7 +248,9 @@ export default function Quotes(props: QuotesProps) {
               placeholder="Quote"
               name="quote"
               inputRef={register({})}
-              defaultValue={quotes?.Quotes.find((e) => e.id == selQuote)?.quote}
+              defaultValue={
+                quotes?.Quotes.find((e) => e.id === selQuote)?.quote
+              }
               multiline
               rows={6}
               variant="outlined"
@@ -253,7 +263,7 @@ export default function Quotes(props: QuotesProps) {
               name="description"
               inputRef={register({})}
               defaultValue={
-                quotes?.Quotes.find((e) => e.id == selQuote)?.description
+                quotes?.Quotes.find((e) => e.id === selQuote)?.description
               }
               variant="outlined"
               fullWidth
