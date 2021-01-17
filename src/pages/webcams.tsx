@@ -41,13 +41,13 @@ export default function Webcams() {
     <div>
       <Typography variant="h4">Webcams</Typography>
       <br />
-      {imagesrcs.length == 0 ? (
+      {imagesrcs.length === 0 ? (
         <Backdrop open={true}>
           <CircularProgress color="primary" />
         </Backdrop>
       ) : (
         imagesrcs.map((imagesrc, i) => (
-          <img src={imagesrc} width="50%" key={i} />
+          <img src={imagesrc} width="50%" key={i} alt={`webcam ${i}`} />
         ))
       )}
     </div>

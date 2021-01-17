@@ -8,7 +8,7 @@
 // - undefinied if it cannot authenticate the user (only if redirect is disabled)
 // - body json object if successful
 
-export default (url: string, redirect: boolean = true) => {
+const apiAuthReq = (url: string, redirect: boolean = true) => {
   const fetchURL = `${process.env.REACT_APP_API_BASEURL}${url}`;
   let apiData = fetch(fetchURL, {
     credentials: "include",
@@ -52,3 +52,5 @@ export default (url: string, redirect: boolean = true) => {
     });
   return apiData;
 };
+
+export default apiAuthReq;

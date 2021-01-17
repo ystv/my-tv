@@ -1,9 +1,6 @@
 // React Imports
 import React from "react";
-import {
-  Link as RouterLink,
-  LinkProps as RouterLinkProps,
-} from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 // MUI components
 import {
@@ -30,7 +27,7 @@ import {
   Link,
 } from "@material-ui/core";
 
-import { Menu, ChevronLeft, ChevronRight, Settings } from "@material-ui/icons";
+import { Menu, ChevronLeft, ChevronRight } from "@material-ui/icons";
 
 // Custom Components
 
@@ -194,10 +191,6 @@ export default function NavbarWithDrawer(props: Props) {
     setOpen(false);
   };
 
-  const handleSettingsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    return 0;
-  };
-
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setProfileAnchorEl(event.currentTarget);
   };
@@ -275,14 +268,6 @@ export default function NavbarWithDrawer(props: Props) {
               ? process.env.REACT_APP_BUILD_ID
               : "Local"}
           </Typography>
-          {/* <IconButton
-            color="inherit"
-            onClick={handleSettingsMenuOpen}
-            edge="start"
-            disabled
-          >
-            <Settings />
-          </IconButton> */}
           <IconButton color="inherit" onClick={handleAvatarClick} edge="start">
             <Zoom in={profileImageLoaded || props.profilePhoto == null}>
               <Avatar

@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // MUI components
 import { Typography } from "@material-ui/core";
@@ -22,7 +22,6 @@ import { useLocation, useHistory } from "react-router-dom";
 
 export default function Calendar() {
   const [data, setData] = useState<Array<object>>([]);
-  const [initDate, setInitDate] = useState<string>();
   const location = useLocation();
   const rrHistory = useHistory();
 

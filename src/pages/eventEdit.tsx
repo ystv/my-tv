@@ -26,10 +26,6 @@ export default function EventEdit(props: EventEditProps) {
   let location = useLocation();
 
   useEffect(() => {
-    updateEventUI();
-  }, []);
-
-  function updateEventUI() {
     const eventNumber = location.pathname.split("/")[3];
 
     if (eventNumber !== undefined) {
@@ -37,7 +33,8 @@ export default function EventEdit(props: EventEditProps) {
         setEvent(e)
       );
     }
-  }
+  }, [location.pathname]);
+
   return (
     <>
       <Grid container alignContent="space-between">

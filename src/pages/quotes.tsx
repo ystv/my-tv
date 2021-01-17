@@ -63,11 +63,13 @@ export default function Quotes(props: QuotesProps) {
       newPage = 0;
     }
     setPage(newPage);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     getQuotes();
     window.history.replaceState(null, "YSTV | My-TV", `/quotes/${page}`);
+    // eslint-disable-next-line
   }, [page]);
 
   function getQuotes() {

@@ -29,17 +29,13 @@ export default function Event(props: EventProps) {
   let location = useLocation();
 
   useEffect(() => {
-    updateEventUI();
-  }, []);
-
-  function updateEventUI() {
     apiAuthReq(
       `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
     ).then((e) => {
       setEvent(e);
       console.log(e);
     });
-  }
+  }, [location.pathname]);
 
   function getEventTypeContents(event: eventInterface) {
     switch (event.eventType) {

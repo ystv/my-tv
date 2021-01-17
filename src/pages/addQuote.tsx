@@ -1,6 +1,6 @@
 // React Imports
 import React from "react";
-import { useHistory, Link as RouterLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -19,7 +19,7 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 // Begin Code
 
 export default function AddQuote() {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit } = useForm();
   let history = useHistory();
 
   function onSubmit(data: any) {
