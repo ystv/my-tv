@@ -4,7 +4,7 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
-import "fontsource-roboto";
+import "@fontsource/roboto";
 import blue from "@material-ui/core/colors/blue";
 
 import App from "./master-elements/App";
