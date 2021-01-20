@@ -4,7 +4,7 @@ index.tsx to change theme
 
 App.tsx to add pages or change page routing in react Router
 
-Menu.tsx to change/add menu links/icons
+NavbarWithDrawer.tsx to change/add menu links/icons
 
 ## Available Scripts
 

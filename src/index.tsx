@@ -2,24 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
-import "@fontsource/roboto";
-import blue from "@material-ui/core/colors/blue";
-
-import App from "./master-elements/App";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-  },
-});
+import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -41,7 +41,7 @@ export default function TextTable(props: Props) {
         </TableHead>
 
         <TableBody>
-          {props.data.map((e, i) => (
+          {props.data?.map((e, i) => (
             <TableRow key={`row${i}`}>
               {props.dataKeys.map((n, m) => (
                 <TableCell key={`cell${m}`}>{e[n]}</TableCell>

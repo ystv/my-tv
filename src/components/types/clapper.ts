@@ -13,7 +13,6 @@ export interface calendarInterface {
 
 export interface eventInterface {
   eventID: number;
-
   eventType: string;
   name: string;
   startDate: Date;
@@ -23,7 +22,7 @@ export interface eventInterface {
   isPrivate: boolean;
   isCancelled: boolean;
   isTentative: boolean;
-  signups?: signupInterface[];
+  signups?: signupSheetInterface[];
   attendees?: attendeeInterface[];
 }
 
@@ -32,14 +31,14 @@ export interface crewInterface extends positionInterface {
   locked: boolean;
   credited: boolean;
   ordering: number;
-  user: calUserInterface;
+  user: clapperUserInterface;
 }
 
-export interface attendeeInterface extends calUserInterface {
+export interface attendeeInterface extends clapperUserInterface {
   attendStatus: string;
 }
 
-export interface signupInterface {
+export interface signupSheetInterface {
   signupID: number;
   title: string;
   description: string;
@@ -49,7 +48,7 @@ export interface signupInterface {
   crew: crewInterface[];
 }
 
-export interface calUserInterface {
+export interface clapperUserInterface {
   userID: number;
   nickname: string;
   firstName: string;

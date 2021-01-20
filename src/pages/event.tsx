@@ -1,5 +1,5 @@
 // React Imports
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 
 // MUI components
@@ -9,22 +9,19 @@ import { Edit } from "@material-ui/icons";
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
 import { toTitleCase } from "../components/functions/otherUsefulFunctions";
-import userContectPermissions from "../components/functions/userContextPermissions";
+import userContextPermissions from "../components/functions/userContextPermissions";
 import TextTable from "../components/textTable";
 
 // Type imports
 import { eventInterface } from "../components/types/clapper";
-import { userInterface } from "../components/types/people";
+import { useUserContext } from "../App";
 
 // Other imports
 
 // Begin Code
 
-interface EventProps {
-  user: userInterface;
-}
-
-export default function Event(props: EventProps) {
+export default function Event() {
+  const userContext = useContext(useUserContext);
   const [event, setEvent] = useState<eventInterface>();
   let location = useLocation();
 
@@ -43,13 +40,13 @@ export default function Event(props: EventProps) {
         try {
           return (
             <Grid container justify="center" spacing={3}>
-              {event.signups!.map((x, n) => (
+              {event.signups?.map((x, n) => (
                 <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
                   <TextTable
                     tableTitle={x.title}
                     columnTitles={["Role", "Name"]}
                     dataKeys={["roleName", "nickname"]}
-                    data={x.crew.map((e) => ({
+                    data={x.crew?.map((e) => ({
                       roleName: e.name,
                       nickname: `${e.user.nickname} ${e.user.lastName}`,
                     }))}
@@ -81,7 +78,13 @@ export default function Event(props: EventProps) {
               />
             </Grid>
           );
-        } catch {}
+        } catch {
+          return (
+            <Typography variant="h6">
+              Looks like you're the first one here, nice!
+            </Typography>
+          );
+        }
     }
   }
 
@@ -111,18 +114,19 @@ export default function Event(props: EventProps) {
               {toTitleCase(event.eventType)}
             </Typography>
 
-            {userContectPermissions(props.user) ? (
+            {userContextPermissions(userContext) && (
               <Box component="span">
                 <Button
                   variant="contained"
                   color="primary"
                   startIcon={<Edit />}
-                  href={`/event/edit/${event.eventID}`}
+                  component={RouterLink}
+                  to={`/event/edit/${event.eventID}`}
                 >
                   Edit Event
                 </Button>
               </Box>
-            ) : null}
+            )}
           </Grid>
           <Typography variant="subtitle2">
             {new Date(event.startDate).toLocaleDateString()}
@@ -142,7 +146,12 @@ export default function Event(props: EventProps) {
             })}`}
           </Typography>
           <br />
-          <Typography variant="body1">{event.description}</Typography>
+          {event.description.split("\n").map((e) => (
+            <Typography variant="body1">
+              {e}
+              <br />
+            </Typography>
+          ))}
           <br />
           {getEventTypeContents(event)}
         </>

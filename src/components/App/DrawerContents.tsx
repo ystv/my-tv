@@ -1,5 +1,5 @@
 // React Imports
-import React from "react";
+import { ReactElement } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 // MUI components
@@ -24,8 +24,6 @@ import {
   SupervisorAccountRounded,
   MonetizationOn,
   People,
-  Storefront,
-  AccountBox,
   Today,
   FormatQuoteRounded,
   VideocamRounded,
@@ -36,10 +34,16 @@ import {
   History,
   DescriptionRounded,
   GavelRounded,
+  NoteAddRounded,
+  SupervisedUserCircleRounded,
+  VpnKeyRounded,
 } from "@material-ui/icons";
 
+import userContextPermissions from "../functions/userContextPermissions";
+import { userInterface } from "../types/people";
+
 interface ListItemLinkProps {
-  icon?: React.ReactElement;
+  icon?: ReactElement;
   primary: string;
   to: string;
   className?: string;
@@ -51,12 +55,14 @@ interface drawerContentsProps {
   handleCollapseClick: (e: any) => void;
   collapseOpen: boolean;
   handleDrawerClose: (e: any) => void;
+  userContext: userInterface;
 }
 
 export function DrawerContents({
   handleCollapseClick,
   collapseOpen,
   handleDrawerClose,
+  userContext,
 }: drawerContentsProps) {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -129,6 +135,20 @@ export function DrawerContents({
           primary="Vault"
           icon={<SecurityRounded />}
         />
+        <ListItemLink
+          to="https://ystv.co.uk"
+          primary="Main Site"
+          icon={
+            <img
+              src={"/ystv.png"}
+              style={{
+                width: "25px",
+                filter: "opacity(0.65)",
+              }}
+              alt="Main Site Link"
+            />
+          }
+        />
       </List>
       <Divider />
       <List>
@@ -152,6 +172,11 @@ export function DrawerContents({
           icon={<DescriptionRounded />}
         />
         <ListItemLink
+          to="https://welcome.ystv.co.uk"
+          primary="Welcome Pages"
+          icon={<NoteAddRounded />}
+        />
+        <ListItemLink
           to="https://medium.com/ystv"
           primary="Tech Blog"
           icon={<AssignmentRounded />}
@@ -162,54 +187,58 @@ export function DrawerContents({
           icon={<GavelRounded />}
         />
       </List>
-      <Divider />
-      <List>
-        <ListItemLink
-          to="/merch"
-          primary="Merch"
-          icon={<Storefront />}
-          disabled
-          router
-        />
-        <ListItemLink
-          to="/accounts"
-          primary="Social Accounts"
-          icon={<AccountBox />}
-          disabled
-          router
-        />
-      </List>
-      <Divider />
-      <ListItem button onClick={handleCollapseClick} disabled>
-        <ListItemIcon>
-          <SupervisorAccountRounded />
-        </ListItemIcon>
-        <ListItemText primary="Society Admin" />
-        {collapseOpen ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
-        <List>
-          <ListItemLink
-            to="/members"
-            primary="Members"
-            icon={<People />}
-            className={classes.nested}
-          />
-          <ListItemLink
-            to="/mailing-lists"
-            primary="Mailing Lists"
-            icon={<AllInbox />}
-            className={classes.nested}
-          />
-          <ListItemLink
-            to="/hire-prices"
-            primary="Hire Prices"
-            icon={<MonetizationOn />}
-            className={classes.nested}
-          />
-        </List>
-      </Collapse>
-      <div style={{ padding: "2rem" }} />
+      {userContextPermissions(userContext, []) && (
+        <>
+          <ListItem button onClick={handleCollapseClick}>
+            <ListItemIcon>
+              <SupervisorAccountRounded />
+            </ListItemIcon>
+            <ListItemText primary="Society Admin" />
+            {collapseOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
+            <List>
+              <ListItemLink
+                to="http://auth.ystv.co.uk/internal/users"
+                primary="Members"
+                icon={<People />}
+                className={classes.nested}
+              />
+              <ListItemLink
+                to="/key_list"
+                primary="Key List"
+                icon={<VpnKeyRounded />}
+                className={classes.nested}
+                router
+                disabled
+              />
+              <ListItemLink
+                to="/roles"
+                primary="Officer Roles"
+                icon={<SupervisedUserCircleRounded />}
+                className={classes.nested}
+                router
+                disabled
+              />
+              <ListItemLink
+                to="/mailing-lists"
+                primary="Mailing Lists"
+                icon={<AllInbox />}
+                className={classes.nested}
+                disabled
+              />
+              <ListItemLink
+                to="/hire-prices"
+                primary="Hire Prices"
+                icon={<MonetizationOn />}
+                className={classes.nested}
+                disabled
+              />
+            </List>
+          </Collapse>
+        </>
+      )}
+      <div className="spacer2" />
     </>
   );
 }
