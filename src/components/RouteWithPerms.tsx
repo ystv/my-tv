@@ -1,13 +1,13 @@
 // React Imports
-import React from "react";
+import { useContext, ReactNode } from "react";
 import { Route } from "react-router-dom";
 
 // MUI components
 
 // Custom Components
 import userContextPermissions from "./functions/userContextPermissions";
-import { userInterface } from "./types/people";
 import { userRoles } from "./types/permissions";
+import { useUserContext } from "../App";
 
 // Type imports
 
@@ -17,18 +17,22 @@ import { userRoles } from "./types/permissions";
 
 interface RouteWithPermsProps {
   path: string;
-  user: userInterface;
   allowedPermIDs?: userRoles[];
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export default function RouteWithPerms(props: RouteWithPermsProps) {
-  const permission = userContextPermissions(props.user, props.allowedPermIDs);
-  console.log(`allowed ${permission} from ${props.allowedPermIDs},SuperUser`);
+export default function RouteWithPerms({
+  allowedPermIDs,
+  children,
+  path,
+}: RouteWithPermsProps) {
+  const userContext = useContext(useUserContext);
+  const permission = userContextPermissions(userContext, allowedPermIDs);
+  console.log(`allowed ${permission} from ${allowedPermIDs},SuperUser`);
 
   return (
-    <Route exact path={props.path}>
-      {permission ? props.children : (window.location.href = "/301")}
+    <Route exact path={path}>
+      {permission ? children : (window.location.href = "/301")}
     </Route>
   );
 }

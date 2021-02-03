@@ -36,8 +36,6 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
 import { quotesInterface } from "../components/types/quotes";
-import { userInterface } from "../components/types/people";
-//import userContextPermissions from "../components/functions/userContextPermissions";
 import Axios from "axios";
 
 // Other imports
@@ -45,11 +43,7 @@ import { useForm } from "react-hook-form";
 
 // Begin Code
 
-interface QuotesProps {
-  user: userInterface;
-}
-
-export default function Quotes(props: QuotesProps) {
+export default function Quotes() {
   const [page, setPage] = useState(0);
   const [quotes, setQuotes] = useState<quotesInterface>();
   let location = useLocation();
@@ -57,14 +51,13 @@ export default function Quotes(props: QuotesProps) {
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
-    // setShowDelete(userContextPermissions(props.user)); DISABLE CHECK SUPERUSER
-    var newPage = parseInt(location.pathname.split("/")[2]);
+    let newPage = parseInt(location.pathname.split("/")[2]);
     if (isNaN(newPage)) {
       newPage = 0;
     }
     setPage(newPage);
     // eslint-disable-next-line
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     getQuotes();
@@ -175,17 +168,22 @@ export default function Quotes(props: QuotesProps) {
         {quotes?.Quotes.map((x, n) => (
           <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
             <Box component={Paper} style={{ padding: "1rem" }}>
-              <Typography variant="body1">
-                <div dangerouslySetInnerHTML={{ __html: x.quote }} />
-              </Typography>
-              <Typography variant="subtitle2">{x.description}</Typography>
+              <Typography
+                variant="body1"
+                dangerouslySetInnerHTML={{ __html: x.quote }}
+              />
+              {x.description !== "" ? (
+                <>
+                  <br />
+                  <Typography variant="subtitle2">{x.description}</Typography>
+                </>
+              ) : null}
 
               <div style={{ display: "flex" }}>
-                <Typography variant="caption">{x.id}</Typography>
-                <div style={{ flex: 1 }} />
-
-                {showEditing ? (
+                {showEditing && (
                   <>
+                    <Typography variant="caption">{x.id}</Typography>
+                    <div style={{ flex: 1 }} />
                     <IconButton
                       color="primary"
                       onClick={() => handleEditMenuClickOpen(x.id)}
@@ -200,7 +198,7 @@ export default function Quotes(props: QuotesProps) {
                       <Delete />
                     </IconButton>
                   </>
-                ) : null}
+                )}
               </div>
             </Box>
           </Grid>
@@ -220,7 +218,7 @@ export default function Quotes(props: QuotesProps) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Warning this operation is permenant and cannot be undone
+            Warning this operation is permanent and cannot be undone
           </DialogContentText>
         </DialogContent>
         <DialogActions>
