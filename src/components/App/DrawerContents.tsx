@@ -144,6 +144,7 @@ export function DrawerContents({
               style={{
                 width: "25px",
                 filter: "opacity(0.65)",
+                height: "intrinsic",
               }}
               alt="Main Site Link"
             />

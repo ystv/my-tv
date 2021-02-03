@@ -30,7 +30,7 @@
     "typescript": "~4.1.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -p 3000 -s build",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -90,7 +90,7 @@ export default function Event() {
 
   return (
     <>
-      {event !== undefined && event !== null ? (
+      {event ? (
         <>
           <Link
             variant="body2"
