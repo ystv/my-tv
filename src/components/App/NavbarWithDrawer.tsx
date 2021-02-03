@@ -25,8 +25,8 @@ export default function NavbarWithDrawer({
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <NavbarComponent classes={classes} drawerOpenState={drawerOpenState} />
-      <DrawerComponent classes={classes} drawerOpenState={drawerOpenState} />
+      <NavbarComponent drawerOpenState={drawerOpenState} />
+      <DrawerComponent drawerOpenState={drawerOpenState} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <br />

@@ -6,38 +6,15 @@ import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 import { useUserContext } from "../../App";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { useTheme } from "@material-ui/core/styles";
+import { NavbarStyles } from "./NavbarStyles";
 
 interface Props {
-  classes: ClassNameMap<
-    | "drawerClose"
-    | "grow"
-    | "drawer"
-    | "logoBox"
-    | "sectionDesktop"
-    | "title"
-    | "drawerPaper"
-    | "nested"
-    | "content"
-    | "inputInput"
-    | "toolbar"
-    | "inputRoot"
-    | "hide"
-    | "appBar"
-    | "root"
-    | "menuButton"
-    | "sectionMobile"
-    | "drawerOpen"
-    | "appBarShift"
-  >;
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
   window?: () => Window;
 }
 
-export default function DrawerComponent({
-  classes,
-  drawerOpenState,
-  window,
-}: Props) {
+export default function DrawerComponent({ drawerOpenState, window }: Props) {
+  const classes = NavbarStyles();
   const userContext = useContext(useUserContext);
   const theme = useTheme();
   const [collapseOpen, setCollapseOpen] = React.useState(false);

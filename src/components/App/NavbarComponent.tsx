@@ -1,6 +1,7 @@
 import { Link as RouterLink } from "react-router-dom";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 import clsx from "clsx";
+import { NavbarStyles } from "./NavbarStyles";
 
 import {
   AppBar,
@@ -18,31 +19,11 @@ import React, { useContext } from "react";
 import { useUserContext } from "../../App";
 
 export default function NavbarComponent(props: {
-  classes: ClassNameMap<
-    | "drawerClose"
-    | "grow"
-    | "drawer"
-    | "logoBox"
-    | "sectionDesktop"
-    | "title"
-    | "drawerPaper"
-    | "nested"
-    | "content"
-    | "inputInput"
-    | "toolbar"
-    | "inputRoot"
-    | "hide"
-    | "appBar"
-    | "root"
-    | "menuButton"
-    | "sectionMobile"
-    | "drawerOpen"
-    | "appBarShift"
-  >;
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }) {
   const userContext = useContext(useUserContext);
   const [drawOpen, setDrawerOpen] = props.drawerOpenState;
+  const classes = NavbarStyles();
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setProfileAnchorEl(event.currentTarget);
@@ -66,8 +47,8 @@ export default function NavbarComponent(props: {
   return (
     <AppBar
       position="fixed"
-      className={clsx(props.classes.appBar, {
-        [props.classes.appBarShift]: drawOpen,
+      className={clsx(classes.appBar, {
+        [classes.appBarShift]: drawOpen,
       })}
     >
       <Toolbar>
@@ -75,8 +56,8 @@ export default function NavbarComponent(props: {
           color="inherit"
           onClick={handleDrawerOpen}
           edge="start"
-          className={clsx(props.classes.menuButton, {
-            [props.classes.hide]: drawOpen,
+          className={clsx(classes.menuButton, {
+            [classes.hide]: drawOpen,
           })}
         >
           <Menu />
@@ -86,7 +67,7 @@ export default function NavbarComponent(props: {
             My-TV
           </Typography>
         </IconButton>
-        <div className={props.classes.grow} />
+        <div className={classes.grow} />
 
         <Typography variant="subtitle2" style={{ paddingRight: "1rem" }}>
           Build:{" "}
