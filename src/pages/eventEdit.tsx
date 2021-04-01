@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 // MUI components
 import { Typography, Grid, Button, Box, TextField } from "@material-ui/core";
@@ -17,17 +18,27 @@ import { eventInterface } from "../components/types/clapper";
 
 // Begin Code
 
-export default function EventEdit() {
+const apiReq = async (url: string, method: string, body: any) => {
+  let endpoint = `${process.env.REACT_APP_API_BASEURL}${url}`;
+
+  let res = await axios.post<eventInterface>(endpoint, body, {
+    withCredentials: true,
+  });
+};
+
+const EventEdit: React.FC = (): JSX.Element => {
   const [event, setEvent] = useState<eventInterface>();
   const [newEvent, setNewEvent] = useState<boolean>();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<eventInterface>();
   let location = useLocation();
 
   useEffect(() => {
     const eventNumber = location.pathname.split("/")[3];
 
     if (eventNumber !== undefined) {
-      apiAuthReq(`/v1/internal/clapper/event/${eventNumber}`).then((e) => {
+      apiAuthReq<eventInterface>(
+        `/v1/internal/clapper/event/${eventNumber}`
+      ).then((e) => {
         console.log("Current event:", e);
         setEvent(e);
         setNewEvent(!e);
@@ -35,10 +46,12 @@ export default function EventEdit() {
     }
   }, [location.pathname]);
 
-  function onSubmit(data: any) {
-    newEvent
-      ? console.log(data)
-      : console.log({ eventID: event?.eventID, ...data });
+  function onSubmit(data: eventInterface) {
+    if (newEvent) {
+      console.log("creating new event", data);
+    } else {
+      console.log("updating event", data);
+    }
   }
 
   return (
@@ -113,4 +126,6 @@ export default function EventEdit() {
       )}
     </>
   );
-}
+};
+
+export default EventEdit;
