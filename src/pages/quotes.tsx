@@ -35,7 +35,7 @@ import { TransitionProps } from "@material-ui/core/transitions";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { quotesInterface } from "../components/types/quotes";
+import { quoteInterface, quotesInterface } from "../components/types/quotes";
 import Axios from "axios";
 
 // Other imports
@@ -66,7 +66,7 @@ export default function Quotes() {
   }, [page]);
 
   function getQuotes() {
-    apiAuthReq(
+    apiAuthReq<quotesInterface>(
       `/v1/internal/misc/quotes/${page === 0 ? 0 : page * 12}/12`
     ).then((e) => setQuotes(e));
   }
@@ -75,11 +75,11 @@ export default function Quotes() {
     neg ? setPage(page - 1) : setPage(page + 1);
   }
 
-  function onSubmit(data: any) {
+  function onSubmit(data: quoteInterface) {
     apiAuthReq("/v1/internal/people/user").then(() =>
-      Axios.put(
+      Axios.put<quoteInterface>(
         `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
-        { id: selQuote, ...data },
+        { data },
         {
           withCredentials: true,
         }

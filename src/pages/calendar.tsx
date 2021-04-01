@@ -41,11 +41,11 @@ export default function Calendar() {
   }
 
   function handleGetDate(urlDate: Date) {
-    apiAuthReq(
+    apiAuthReq<calendarInterface[]>(
       `/v1/internal/clapper/calendar/monthly/${urlDate.getFullYear()}/${
         urlDate.getMonth() + 1
       }`
-    ).then((e: calendarInterface[]) => {
+    ).then((e) => {
       let eventArray = e.map((event: calendarInterface) => {
         let eventObject: { [key: string]: any } = {
           id: event.eventID,

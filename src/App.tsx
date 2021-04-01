@@ -27,7 +27,7 @@ export default function App() {
   const [user, setUser] = useState<userInterface>();
 
   useEffect(() => {
-    apiAuthReq("/v1/internal/people/user/").then((e) => {
+    apiAuthReq<userInterface>("/v1/internal/people/user/").then((e) => {
       console.log("user: ", e);
       setUser(e);
     });
