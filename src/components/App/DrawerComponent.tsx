@@ -2,7 +2,6 @@ import { Box, Divider, Drawer, Hidden, IconButton } from "@material-ui/core";
 import clsx from "clsx";
 import { DrawerContents } from "./DrawerContents";
 import React, { useContext } from "react";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 import { useUserContext } from "../../App";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { useTheme } from "@material-ui/core/styles";
@@ -34,7 +33,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
     <>
       <div className={classes.toolbar}>
         <Box>
-          <a href="https://ystv.co.uk" className={classes.logoBox}>
+          <a href={process.env.REACT_APP_PUBLIC_BASEURL} className={classes.logoBox}>
             <img
               src="/ystv.png"
               style={{

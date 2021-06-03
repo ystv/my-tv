@@ -1,5 +1,4 @@
 import { Link as RouterLink } from "react-router-dom";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 import clsx from "clsx";
 import { NavbarStyles } from "./NavbarStyles";
 
@@ -105,7 +104,7 @@ export default function NavbarComponent(props: {
           <MenuItem
             onClick={handleProfileClose}
             component={Link}
-            href={`${process.env.REACT_APP_SECURITY_ENDPOINT}/logout`}
+            href={`${process.env.REACT_APP_SECURITY_BASEURL}/logout`}
             color="inherit"
           >
             Logout

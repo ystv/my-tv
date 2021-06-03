@@ -136,7 +136,7 @@ export function DrawerContents({
           icon={<SecurityRounded />}
         />
         <ListItemLink
-          to="https://ystv.co.uk"
+          to={`${process.env.REACT_APP_PUBLIC_BASEURL}`}
           primary="Main Site"
           icon={
             <img
@@ -154,10 +154,9 @@ export function DrawerContents({
       <Divider />
       <List>
         <ListItemLink
-          to="http://creator.ystv.co.uk"
-          primary="CStudio"
+          to={`${process.env.REACT_APP_CREATOR_BASEURL}`}
+          primary="Creator Studio"
           icon={<VideoLibraryRounded />}
-          disabled
         />
       </List>
       <Divider />

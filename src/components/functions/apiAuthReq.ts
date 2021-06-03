@@ -22,7 +22,7 @@ const apiAuthReq = <T = any>(
     })
     .catch(() => {
       let a1 = fetch(
-        `${process.env.REACT_APP_SECURITY_ENDPOINT}/api/set_token`,
+        `${process.env.REACT_APP_SECURITY_BASEURL}/api/set_token`,
         {
           credentials: "include",
         }
@@ -47,7 +47,7 @@ const apiAuthReq = <T = any>(
         .catch((err) => {
           console.log("could not auth: ", err);
           if (redirect === true) {
-            window.location.href = `${process.env.REACT_APP_SECURITY_ENDPOINT}/?callback=${window.location}`;
+            window.location.href = `${process.env.REACT_APP_SECURITY_BASEURL}/?callback=${window.location}`;
           }
           return undefined;
         });
