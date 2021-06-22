@@ -1,5 +1,5 @@
 // React Imports
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 
 // MUI components
@@ -20,13 +20,13 @@ import { useUserContext } from "../App";
 
 // Begin Code
 
-export default function Event() {
+export default function Event(): JSX.Element {
   const userContext = useContext(useUserContext);
   const [event, setEvent] = useState<eventInterface>();
   let location = useLocation();
 
   useEffect(() => {
-    apiAuthReq(
+    apiAuthReq<eventInterface>(
       `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
     ).then((e) => {
       setEvent(e);
@@ -34,13 +34,13 @@ export default function Event() {
     });
   }, [location.pathname]);
 
-  function getEventTypeContents(event: eventInterface) {
+  function getEventTypeContents(event: eventInterface): JSX.Element {
     switch (event.eventType) {
       case "show":
-        try {
+        if (event.signups) {
           return (
             <Grid container justify="center" spacing={3}>
-              {event.signups?.map((x, n) => (
+              {event.signups.map((x, n) => (
                 <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
                   <TextTable
                     tableTitle={x.title}
@@ -55,7 +55,7 @@ export default function Event() {
               ))}
             </Grid>
           );
-        } catch {
+        } else {
           return (
             <Typography variant="h6">
               Looks like a crew list hasn't been added yet! Check back later for
@@ -64,21 +64,22 @@ export default function Event() {
           );
         }
       default:
-        try {
+        if (event.attendees) {
           return (
             <Grid item xs={12} sm={6} md={4} xl={3}>
               <TextTable
                 tableTitle={event.name}
                 columnTitles={["Name", "Status"]}
                 dataKeys={["name", "status"]}
-                data={event.attendees!.map((e) => ({
+                data={event.attendees.map((e) => ({
                   status: e.attendStatus,
                   name: `${e.nickname} ${e.lastName}`,
                 }))}
               />
             </Grid>
           );
-        } catch {
+          // No one is currently attending the non-show
+        } else {
           return (
             <Typography variant="h6">
               Looks like you're the first one here, nice!

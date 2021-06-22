@@ -21,7 +21,7 @@ export default function Webcams() {
     apiAuthReq("/v1/internal/misc/webcams").then((e) => {
       const srcs = e.map(
         (i: any) =>
-          `https://api.ystv.co.uk/v1/internal/misc/webcams/${i.id}/${
+          `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/webcams/${i.id}/${
             i.file
           }?${Date.now()}}`
       );

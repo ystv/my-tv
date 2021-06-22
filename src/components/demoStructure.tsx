@@ -11,10 +11,10 @@ import React from "react";
 
 // Begin Code
 
-export default function demoStructure() {
+const demoStructure: React.FC = (): JSX.Element => {
   return (
     <div>
       <h1>Contents</h1>
     </div>
   );
-}
+};

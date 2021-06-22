@@ -8,7 +8,10 @@
 // - undefinied if it cannot authenticate the user (only if redirect is disabled)
 // - body json object if successful
 
-const apiAuthReq = (url: string, redirect: boolean = true) => {
+const apiAuthReq = <T = any>(
+  url: string,
+  redirect: boolean = true
+): Promise<T> => {
   const fetchURL = `${process.env.REACT_APP_API_BASEURL}${url}`;
   let apiData = fetch(fetchURL, {
     credentials: "include",
@@ -19,7 +22,7 @@ const apiAuthReq = (url: string, redirect: boolean = true) => {
     })
     .catch(() => {
       let a1 = fetch(
-        `${process.env.REACT_APP_SECURITY_ENDPOINT}/api/set_token`,
+        `${process.env.REACT_APP_SECURITY_BASEURL}/api/set_token`,
         {
           credentials: "include",
         }
@@ -44,7 +47,7 @@ const apiAuthReq = (url: string, redirect: boolean = true) => {
         .catch((err) => {
           console.log("could not auth: ", err);
           if (redirect === true) {
-            window.location.href = `${process.env.REACT_APP_SECURITY_ENDPOINT}/?callback=${window.location}`;
+            window.location.href = `${process.env.REACT_APP_SECURITY_BASEURL}/?callback=${window.location}`;
           }
           return undefined;
         });
