@@ -91,7 +91,7 @@ pipeline {
             echo 'That is not ideal'
         }
         always {
-            sh "docker image rm $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" || true // Removing the local builder image
+            sh "docker image rm $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID || true" // Removing the local builder image
         }
     }
 }
