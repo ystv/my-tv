@@ -1,39 +1,25 @@
 pipeline {
     agent any
 
+    environment {
+        REGISTRY_ENDPOINT = credentials('docker-registry-endpoint')
+    }
+
     stages {
         stage('Update Components') {
-            when {
-                anyOf {
-                    branch 'master'
-                    }
-                }
             steps {
-                echo "Updating"
                 sh "docker pull nginx:stable-alpine"
                 sh "docker pull node:alpine"
             }
         }
         stage('Build') {
-            when {
-                anyOf {
-                    branch 'master'
-                    }
-                }
             steps {
-                echo "Building"
-                sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_BASEURL_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk --build-arg REACT_APP_PUBLIC_BASEURL_ARG=https://ystv.co.uk --build-arg REACT_APP_CREATOR_BASEURL_ARG=https://creator.ystv.co.uk -t localhost:5000/ystv/my-tv:$BUILD_ID ."
+                sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_BASEURL_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk --build-arg REACT_APP_PUBLIC_BASEURL_ARG=https://ystv.co.uk --build-arg REACT_APP_CREATOR_BASEURL_ARG=https://creator.ystv.co.uk -t $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID ."
             }
         }
-        stage('Cleanup') {
-            when {
-                anyOf {
-                    branch 'master'
-                    }
-                }
+        stage('Registry Upload') {
             steps {
-                echo "Uploading To Registry"
-                sh "docker push localhost:5000/ystv/my-tv:$BUILD_ID" // Uploaded to registry
+                sh "docker push $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Uploaded to registry
                 echo "Performing Cleanup"
                 script {
                     try {
@@ -44,29 +30,56 @@ pipeline {
                         echo err.getMessage()
                     }
                 }
-                sh "docker image rm localhost:5000/ystv/my-tv:$BUILD_ID" // Removing the local builder image
             }
         }
         stage('Deploy') {
-            when {
-                anyOf {
-                    branch 'master'
+            stages {
+                stage('Production') {
+                    when {
+                        branch 'master'
+                        tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP" // Checking if it is main semantic version release
+                    }
+                    environment {
+                        APP_ENV = credentials('mytv-prod-env')
+                    }
+                    steps {
+                        sshagent(credentials : ['deploy-web']) {
+                            script {
+                                sh '''ssh -tt deploy@web << EOF
+                                    docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker rm -f ystv-my-tv || true
+                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTERY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
+                                EOF'''
+                            }
+                        }
                     }
                 }
-            steps {
-                echo "Deploying"
-                sh "docker pull localhost:5000/ystv/my-tv:$BUILD_ID" // Pulling image from local registry
-                script {
-                    try {
-                        sh "docker kill ystv-my-tv" // Stop old container
+                stage('Development') {
+                    when {
+                        branch 'master'
+                        not {
+                            tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP"
+                        }
                     }
-                    catch (err) {
-                        echo "Couldn't find container to stop"
-                        echo err.getMessage()
+                    environment {
+                        APP_ENV = credentials('mytv-dev-env')
+                    }
+                    steps {
+                        sh "docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Pulling image from registry
+                        script {
+                            try {
+                                sh "docker rm -f ystv-my-tv" // Stop old container if it exists
+                            }
+                            catch (err) {
+                                echo "Couldn't find container to stop"
+                                echo err.getMessage()
+                            }
+                        }
+                        ssh "docker run -d -p 8002:80 --name ystv-my-tv $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Deploying site
+                        sh 'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
                     }
                 }
-                sh "docker run -d --rm -p 8002:80 --name ystv-my-tv localhost:5000/ystv/my-tv:$BUILD_ID" // Deploying site
-                sh 'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
             }
         }
     }
@@ -76,6 +89,9 @@ pipeline {
         }
         failure {
             echo 'That is not ideal'
+        }
+        always {
+            sh "docker image rm $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" || true // Removing the local builder image
         }
     }
 }
