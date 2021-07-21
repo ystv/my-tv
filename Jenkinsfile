@@ -76,7 +76,7 @@ pipeline {
                                 echo err.getMessage()
                             }
                         }
-                        ssh "docker run -d -p 8002:80 --name ystv-my-tv $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Deploying site
+                        sh "docker run -d -p 8002:80 --name ystv-my-tv $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Deploying site
                         sh 'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
                     }
                 }
