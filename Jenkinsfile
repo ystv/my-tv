@@ -13,8 +13,26 @@ pipeline {
             }
         }
         stage('Build') {
-            steps {
-                sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_BASEURL_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk --build-arg REACT_APP_PUBLIC_BASEURL_ARG=https://ystv.co.uk --build-arg REACT_APP_CREATOR_BASEURL_ARG=https://creator.ystv.co.uk -t $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID ."
+            stages {
+                stage('Staging') {
+                    when {
+                        branch 'master'
+                        not {
+                            tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP"
+                        }
+                    }
+                    steps {
+                        sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_BASEURL_ARG=https://auth.dev.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.dev.ystv.co.uk --build-arg REACT_APP_PUBLIC_BASEURL_ARG=https://dev.ystv.co.uk --build-arg REACT_APP_CREATOR_BASEURL_ARG=https://creator.dev.ystv.co.uk -t $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID ."
+                    }
+                }
+                stage('Production') {
+                    when {
+                        tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP" // Checking if it is main semantic version release
+                    }
+                    steps {
+                        sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_BASEURL_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk --build-arg REACT_APP_PUBLIC_BASEURL_ARG=https://ystv.co.uk --build-arg REACT_APP_CREATOR_BASEURL_ARG=https://creator.ystv.co.uk -t $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID ."
+                    }
+                }
             }
         }
         stage('Registry Upload') {
@@ -39,10 +57,10 @@ pipeline {
                             script {
                                 sh '''ssh -tt deploy@$TARGET_SERVER << EOF
                                     docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
-                                    docker rm -f ystv-my-tv || true
-                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTERY_ENDPOINT/ystv/my-tv:$BUILD_ID
-                                    docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final" || true // remove old image
-                                    exit
+                                    docker rm -f ystv-my-tv
+                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final" // remove old image
+                                    exit 0
                                 EOF'''
                             }
                         }
@@ -60,10 +78,10 @@ pipeline {
                             script {
                                 sh '''ssh -tt deploy@$TARGET_SERVER << EOF
                                     docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
-                                    docker rm -f ystv-my-tv || true
-                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTERY_ENDPOINT/ystv/my-tv:$BUILD_ID
-                                    docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' || true // remove old image
-                                    exit
+                                    docker rm -f ystv-my-tv
+                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
+                                    exit 0
                                 EOF'''
                             }
                         }
