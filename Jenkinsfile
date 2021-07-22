@@ -19,43 +19,12 @@ pipeline {
         }
         stage('Registry Upload') {
             steps {
-                sh "docker push $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Uploaded to registry
-                echo "Performing Cleanup"
-                script {
-                    try {
-                        sh "docker image prune -f --filter label=site=my-tv --filter label=stage=builder --filter label=build=\$((${env.BUILD_NUMBER} - 1))" // Removing the pervious local builder image (keeps latest one for potential yarn install caching goodness)
-                    }
-                    catch (err) {
-                        echo "Couldn't find old build to delete"
-                        echo err.getMessage()
-                    }
-                }
+                sh 'docker push $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID' // Uploaded to registry
             }
         }
         stage('Deploy') {
             stages {
-                stage('Production') {
-                    when {
-                        branch 'master'
-                        tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP" // Checking if it is main semantic version release
-                    }
-                    environment {
-                        APP_ENV = credentials('mytv-prod-env')
-                    }
-                    steps {
-                        sshagent(credentials : ['deploy-web']) {
-                            script {
-                                sh '''ssh -tt deploy@web << EOF
-                                    docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
-                                    docker rm -f ystv-my-tv || true
-                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTERY_ENDPOINT/ystv/my-tv:$BUILD_ID
-                                    'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
-                                EOF'''
-                            }
-                        }
-                    }
-                }
-                stage('Development') {
+                stage('Staging') {
                     when {
                         branch 'master'
                         not {
@@ -63,21 +32,41 @@ pipeline {
                         }
                     }
                     environment {
-                        APP_ENV = credentials('mytv-dev-env')
+                        TARGET_SERVER = credentials('staging-server-address')
                     }
                     steps {
-                        sh "docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Pulling image from registry
-                        script {
-                            try {
-                                sh "docker rm -f ystv-my-tv" // Stop old container if it exists
-                            }
-                            catch (err) {
-                                echo "Couldn't find container to stop"
-                                echo err.getMessage()
+                        sshagent(credentials : ['staging-server-key']) {
+                            script {
+                                sh '''ssh -tt deploy@$TARGET_SERVER << EOF
+                                    docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker rm -f ystv-my-tv || true
+                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTERY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final" || true // remove old image
+                                    exit
+                                EOF'''
                             }
                         }
-                        sh "docker run -d -p 8002:80 --name ystv-my-tv $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID" // Deploying site
-                        sh 'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' // remove old image
+                    }
+                }
+                stage('Production') {
+                    when {
+                        tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP" // Checking if it is main semantic version release
+                    }
+                    environment {
+                        TARGET_SERVER = credentials('prod-server-address')
+                    }
+                    steps {
+                        sshagent(credentials : ['prod-server-key']) {
+                            script {
+                                sh '''ssh -tt deploy@$TARGET_SERVER << EOF
+                                    docker pull $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker rm -f ystv-my-tv || true
+                                    docker run -d -p 8002:80 --name ystv-my-tv $REGISTERY_ENDPOINT/ystv/my-tv:$BUILD_ID
+                                    docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final"' || true // remove old image
+                                    exit
+                                EOF'''
+                            }
+                        }
                     }
                 }
             }
@@ -91,7 +80,17 @@ pipeline {
             echo 'That is not ideal'
         }
         always {
-            sh "docker image rm $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID || true" // Removing the local builder image
+            script {
+                try {
+                    sh "docker image prune -f --filter label=site=my-tv --filter label=stage=builder --filter label=build=\$((${env.BUILD_NUMBER} - 1))" // Removing the pervious local builder image (keeps latest one for potential yarn install caching goodness)
+                }
+                catch (err) {
+                    echo "Couldn't find old build to delete"
+                    echo err.getMessage()
+                }
+            }
+            sh 'docker image rm $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID || true' // Removing the local builder image
+            sh 'docker image prune -a -f --filter "label=site=my-tv" --filter "label=stage=final" || true' // remove old image
         }
     }
 }
