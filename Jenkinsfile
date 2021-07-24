@@ -18,7 +18,7 @@ pipeline {
                     when {
                         branch 'master'
                         not {
-                            tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP"
+                            expression { return env.TAG_NAME ==~ /v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)/ }
                         }
                     }
                     steps {
@@ -27,7 +27,7 @@ pipeline {
                 }
                 stage('Production') {
                     when {
-                        tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP" // Checking if it is main semantic version release
+                        expression { return env.TAG_NAME ==~ /v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)/ } // Checking if it is main semantic version release
                     }
                     steps {
                         sh "docker build --build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID} --build-arg REACT_APP_SECURITY_BASEURL_ARG=https://auth.ystv.co.uk --build-arg REACT_APP_API_BASEURL_ARG=https://api.ystv.co.uk --build-arg REACT_APP_PUBLIC_BASEURL_ARG=https://ystv.co.uk --build-arg REACT_APP_CREATOR_BASEURL_ARG=https://creator.ystv.co.uk -t $REGISTRY_ENDPOINT/ystv/my-tv:$BUILD_ID ."
@@ -46,7 +46,7 @@ pipeline {
                     when {
                         branch 'master'
                         not {
-                            tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP"
+                            expression { return env.TAG_NAME ==~ /v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)/ }
                         }
                     }
                     environment {
@@ -68,7 +68,7 @@ pipeline {
                 }
                 stage('Production') {
                     when {
-                        tag pattern: "^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)", comparator: "REGEXP" // Checking if it is main semantic version release
+                        expression { return env.TAG_NAME ==~ /v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)/ } // Checking if it is main semantic version release
                     }
                     environment {
                         TARGET_SERVER = credentials('prod-server-address')
