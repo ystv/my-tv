@@ -8,7 +8,7 @@ import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
 } from "@material-ui/core/styles";
 import { CircularProgress, Backdrop } from "@material-ui/core";
-import blue from "@material-ui/core/colors/blue";
+import { blueGrey, lightBlue } from "@material-ui/core/colors";
 import "@fontsource/roboto";
 
 // Custom Components
@@ -54,6 +54,9 @@ export default function App() {
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue,
+    primary: {
+      main: blueGrey[600],
+    },
+    secondary: lightBlue,
   },
 });

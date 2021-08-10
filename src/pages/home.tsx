@@ -15,16 +15,13 @@ import { Typography } from "@material-ui/core";
 export default function Home() {
   return (
     <div>
-      <Typography variant="h4">Welcome Home!!</Typography>
+      <Typography variant="h4">Welcome Home!</Typography>
       <br />
       <Typography variant="h6">
-        You've found a site under construction, keep checking as we add new
-        features!
-      </Typography>
-      <Typography variant="h6">
-        Please note this site uses a separate development data source from the
-        main site, anything entered on here will not be permenant or show
-        changes on the main site; this is for fun experimenting only!
+        This site is still being actively developed so some features maybe still
+        be missing temporarily! Please check{" "}
+        <a href="https://forum.ystv.co.uk">the forum</a> if you have any
+        questions or suggestions.
       </Typography>
       <Typography variant="h6">
         If you find something wrong, please let the computing team know :)

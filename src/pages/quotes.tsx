@@ -164,7 +164,7 @@ export default function Quotes() {
 
       <br />
 
-      <Grid container justify="center" spacing={3}>
+      <Grid container justifyContent="center" spacing={3}>
         {quotes?.Quotes.map((x, n) => (
           <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
             <Box component={Paper} style={{ padding: "1rem" }}>
@@ -244,8 +244,7 @@ export default function Quotes() {
             <TextField
               type="text"
               placeholder="Quote"
-              name="quote"
-              inputRef={register({})}
+              {...register("quote")}
               defaultValue={
                 quotes?.Quotes.find((e) => e.id === selQuote)?.quote
               }
@@ -258,8 +257,7 @@ export default function Quotes() {
             <TextField
               type="text"
               placeholder="Attributed Author"
-              name="description"
-              inputRef={register({})}
+              {...register("description")}
               defaultValue={
                 quotes?.Quotes.find((e) => e.id === selQuote)?.description
               }

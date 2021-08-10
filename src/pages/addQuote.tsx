@@ -70,8 +70,7 @@ export default function AddQuote() {
             <TextField
               type="text"
               placeholder="Quote"
-              name="quote"
-              inputRef={register({})}
+              {...register("quote")}
               multiline
               rows={6}
               variant="outlined"
@@ -82,8 +81,7 @@ export default function AddQuote() {
             <TextField
               type="text"
               placeholder="Attributed Author"
-              name="description"
-              inputRef={register({})}
+              {...register("description")}
               variant="outlined"
               fullWidth
             />

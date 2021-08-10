@@ -136,7 +136,13 @@ export default function Event(): JSX.Element {
               ? null
               : ` - ${new Date(event.endDate).toLocaleDateString()}`}
           </Typography>
-          <Typography variant="h4">{event.name}</Typography>
+          <Typography variant="h4">
+            {event.isCancelled
+              ? `${event.name} (Cancelled)`
+              : event.isTentative
+              ? `${event.name} (Tentative)`
+              : event.name}
+          </Typography>
           <Typography variant="h6">
             {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
               hour: "2-digit",

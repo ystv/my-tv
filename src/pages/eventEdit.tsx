@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 
 // MUI components
 import { Typography, Grid, Button, Box, TextField } from "@material-ui/core";
@@ -18,13 +17,15 @@ import { eventInterface } from "../components/types/clapper";
 
 // Begin Code
 
-const apiReq = async (url: string, method: string, body: any) => {
-  let endpoint = `${process.env.REACT_APP_API_BASEURL}${url}`;
-
-  let res = await axios.post<eventInterface>(endpoint, body, {
-    withCredentials: true,
-  });
-};
+// const apiReq = async (url: string, method: string, body: any) => {
+//   let endpoint = `${process.env.REACT_APP_API_BASEURL}${url}`;
+//
+//   let res = await axios.post<eventInterface>(endpoint, body, {
+//     withCredentials: true,
+//   });
+//
+//   return res
+// };
 
 const EventEdit: React.FC = (): JSX.Element => {
   const [event, setEvent] = useState<eventInterface>();
@@ -56,7 +57,7 @@ const EventEdit: React.FC = (): JSX.Element => {
 
   return (
     <>
-      {newEvent === undefined ? (
+      {true ? ( //newEvent === undefined ? (
         <div>Loading</div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,8 +104,7 @@ const EventEdit: React.FC = (): JSX.Element => {
                 type="text"
                 placeholder="Event Name"
                 defaultValue={event?.name}
-                name="name"
-                inputRef={register({})}
+                {...register("name")}
                 variant="outlined"
                 fullWidth
               />
@@ -115,7 +115,7 @@ const EventEdit: React.FC = (): JSX.Element => {
                 placeholder="Event Description"
                 defaultValue={event?.description}
                 name="description"
-                inputRef={register({})}
+                // inputRef={register({})}
                 variant="outlined"
                 fullWidth
                 multiline

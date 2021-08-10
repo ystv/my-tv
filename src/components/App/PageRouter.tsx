@@ -9,6 +9,7 @@ import RouteWithPerms from "../RouteWithPerms";
 import EventEdit from "../../pages/eventEdit";
 import Event from "../../pages/event";
 import Home from "../../pages/home";
+import EventAdd from "../../pages/eventAdd";
 
 export default function PageRouter() {
   return (
@@ -32,6 +33,10 @@ export default function PageRouter() {
       <RouteWithPerms path="/event/edit/:eventID?">
         <EventEdit />
       </RouteWithPerms>
+
+      <Route path="/event/add">
+        <EventAdd />
+      </Route>
 
       <Route path="/event">
         <Event />

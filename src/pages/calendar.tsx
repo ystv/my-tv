@@ -53,10 +53,15 @@ export default function Calendar() {
           end: event.endDate,
           title: event.name,
           url: `/event/${event.eventID}`,
+          color: "#00b4ff",
         };
+        if (event.isTentative === true) {
+          eventObject.color = "#555555";
+          eventObject.title = `${event.name} (Tentative)`;
+        }
         if (event.isCancelled === true) {
-          eventObject.url = "";
-          eventObject.color = "#B00020";
+          eventObject.color = "#e21717";
+          eventObject.title = `${event.name} (Cancelled)`;
         }
         return eventObject;
       });
