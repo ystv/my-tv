@@ -3,12 +3,9 @@ import { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // MUI components
-import {
-  ThemeProvider,
-  unstable_createMuiStrictModeTheme as createMuiTheme,
-} from "@material-ui/core/styles";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import { CircularProgress, Backdrop } from "@material-ui/core";
-import { blueGrey, lightBlue } from "@material-ui/core/colors";
 import "@fontsource/roboto";
 
 // Custom Components
@@ -23,6 +20,12 @@ import { userInterface } from "./components/types/people";
 
 export const useUserContext = createContext<userInterface>(null as any);
 
+const chakraTheme = extendTheme({
+  components: {
+    Steps,
+  },
+});
+
 export default function App() {
   const [user, setUser] = useState<userInterface>();
 
@@ -34,7 +37,8 @@ export default function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
+    <ChakraProvider theme={chakraTheme}>
       {user ? (
         <useUserContext.Provider value={user}>
           <Router>
@@ -48,15 +52,7 @@ export default function App() {
           <CircularProgress color="primary" />
         </Backdrop>
       )}
-    </ThemeProvider>
+    </ChakraProvider>
+    // </ThemeProvider>
   );
 }
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: blueGrey[600],
-    },
-    secondary: lightBlue,
-  },
-});
