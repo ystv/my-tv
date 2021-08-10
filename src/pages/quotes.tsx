@@ -1,23 +1,23 @@
 // React Imports
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 // MUI components
+import { Grid, IconButton } from "@material-ui/core";
 import {
-  Grid,
-  Typography,
-  Box,
-  Paper,
-  IconButton,
   Button,
-  Dialog,
-  DialogTitle,
-  Slide,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-} from "@material-ui/core";
+  Heading,
+  Text,
+  Box,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogBody,
+  Textarea,
+  Input,
+} from "@chakra-ui/react";
 
 import {
   Refresh,
@@ -26,10 +26,7 @@ import {
   ArrowBackIosRounded,
   AddRounded,
   Delete,
-  Save,
 } from "@material-ui/icons";
-
-import { TransitionProps } from "@material-ui/core/transitions";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
@@ -49,6 +46,8 @@ export default function Quotes() {
   let location = useLocation();
   const [showEditing, setShowEditing] = useState(false);
   const { register, handleSubmit } = useForm();
+  const cancelRefDelete = useRef(null);
+  const cancelRefEdit = useRef(null);
 
   useEffect(() => {
     let newPage = parseInt(location.pathname.split("/")[2]);
@@ -128,17 +127,13 @@ export default function Quotes() {
 
   return (
     <>
-      <Typography variant="h4">Quotes</Typography>
-      <Typography variant="subtitle1">(Authenticity not verified)</Typography>
+      <Heading>Quotes</Heading>
+      <Text>(Authenticity not verified)</Text>
 
       <Grid container alignContent="space-between">
         <div style={{ flex: 1 }} />
         <Box component="span">
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => setShowEditing(!showEditing)}
-          >
+          <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
             Edit Mode
           </Button>
           <IconButton disabled={page === 0} onClick={() => updateQuotes(true)}>
@@ -151,8 +146,7 @@ export default function Quotes() {
             <Refresh />
           </IconButton>
           <Button
-            variant="contained"
-            color="primary"
+            variant="solid"
             startIcon={<AddRounded />}
             component={RouterLink}
             to="/quotes/add"
@@ -167,22 +161,26 @@ export default function Quotes() {
       <Grid container justifyContent="center" spacing={3}>
         {quotes?.Quotes.map((x, n) => (
           <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
-            <Box component={Paper} style={{ padding: "1rem" }}>
-              <Typography
-                variant="body1"
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              style={{ padding: "1rem" }}
+            >
+              <Text
+                fontSize="xl"
                 dangerouslySetInnerHTML={{ __html: x.quote }}
               />
               {x.description !== "" ? (
                 <>
                   <br />
-                  <Typography variant="subtitle2">{x.description}</Typography>
+                  <Heading fontSize="sm">{x.description}</Heading>
                 </>
               ) : null}
 
               <div style={{ display: "flex" }}>
                 {showEditing && (
                   <>
-                    <Typography variant="caption">{x.id}</Typography>
+                    <Heading fontSize="xs">{x.id}</Heading>
                     <div style={{ flex: 1 }} />
                     <IconButton
                       color="primary"
@@ -205,89 +203,94 @@ export default function Quotes() {
         ))}
       </Grid>
 
-      <Dialog
-        open={openDeleteMenu}
-        TransitionComponent={Transition}
-        keepMounted
+      <AlertDialog
+        isOpen={openDeleteMenu}
         onClose={handleDeleteMenuClose}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
+        leastDestructiveRef={cancelRefDelete}
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          {`Delete quote ${selQuote}?`}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Warning this operation is permanent and cannot be undone
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteMenuClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirm} color="primary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Customer
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Warning this operation is permanent and cannot be undone
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button
+                onClick={handleDeleteMenuClose}
+                ref={cancelRefDelete}
+                variant={"outline"}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleDeleteConfirm}
+                colorScheme={"red"}
+                variant={"solid"}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
 
-      <Dialog
-        open={openEditMenu}
+      <AlertDialog
+        isOpen={openEditMenu}
         onClose={handleEditMenuClose}
-        aria-labelledby="form-dialog-title"
+        leastDestructiveRef={cancelRefEdit}
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          {`Editing quote ${selQuote}:`}
-        </DialogTitle>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogContent>
-            <TextField
-              type="text"
-              placeholder="Quote"
-              {...register("quote")}
-              defaultValue={
-                quotes?.Quotes.find((e) => e.id === selQuote)?.quote
-              }
-              multiline
-              rows={6}
-              variant="outlined"
-              fullWidth
-            />
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {`Editing quote ${selQuote}:`}
+            </AlertDialogHeader>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <AlertDialogBody>
+                <Textarea
+                  placeholder="Quote"
+                  {...register("quote")}
+                  defaultValue={
+                    quotes?.Quotes.find((e) => e.id === selQuote)?.quote
+                  }
+                  multiline
+                  rows={6}
+                  variant="outline"
+                />
 
-            <TextField
-              type="text"
-              placeholder="Attributed Author"
-              {...register("description")}
-              defaultValue={
-                quotes?.Quotes.find((e) => e.id === selQuote)?.description
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </DialogContent>
+                <Input
+                  placeholder="Attributed Author"
+                  {...register("description")}
+                  defaultValue={
+                    quotes?.Quotes.find((e) => e.id === selQuote)?.description
+                  }
+                  variant="outline"
+                />
+              </AlertDialogBody>
 
-          <DialogActions>
-            <Button onClick={handleEditMenuClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Save />}
-              type="submit"
-            >
-              Save Quote
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+              <AlertDialogFooter>
+                <Button
+                  onClick={handleEditMenuClose}
+                  variant="outline"
+                  ref={cancelRefEdit}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="solid"
+                  type="submit"
+                  colorScheme={"blue"}
+                  ml={3}
+                >
+                  Save Quote
+                </Button>
+              </AlertDialogFooter>
+            </form>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
