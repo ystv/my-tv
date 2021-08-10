@@ -278,12 +278,7 @@ export default function Quotes() {
                 >
                   Cancel
                 </Button>
-                <Button
-                  variant="solid"
-                  type="submit"
-                  colorScheme={"blue"}
-                  ml={3}
-                >
+                <Button variant="solid" type="submit" ml={3}>
                   Save Quote
                 </Button>
               </AlertDialogFooter>

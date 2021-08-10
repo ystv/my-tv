@@ -5,10 +5,7 @@ import { NavbarStyles } from "./NavbarStyles";
 import {
   AppBar,
   Toolbar,
-  Typography,
   IconButton,
-  Avatar,
-  Zoom,
   Menu as MenuParent,
   MenuItem,
   Link,
@@ -16,6 +13,7 @@ import {
 import { Menu } from "@material-ui/icons";
 import React, { useContext } from "react";
 import { useUserContext } from "../../App";
+import { Heading, Text, Avatar } from "@chakra-ui/react";
 
 export default function NavbarComponent(props: {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
@@ -41,8 +39,6 @@ export default function NavbarComponent(props: {
     setProfileAnchorEl,
   ] = React.useState<null | HTMLElement>(null);
 
-  const [profileImageLoaded, setProfileImageLoaded] = React.useState(false);
-
   return (
     <AppBar
       position="fixed"
@@ -62,29 +58,21 @@ export default function NavbarComponent(props: {
           <Menu />
         </IconButton>
         <IconButton color="inherit" edge="start" component={RouterLink} to="/">
-          <Typography variant="h5" noWrap>
-            My-TV
-          </Typography>
+          <Heading size={"lg"}>My-TV</Heading>
         </IconButton>
         <div className={classes.grow} />
 
-        <Typography variant="subtitle2" style={{ paddingRight: "1rem" }}>
+        <Text fontSize={"sm"} style={{ paddingRight: "1rem" }}>
           Build:{" "}
           {process.env.REACT_APP_BUILD_ID !== undefined
             ? process.env.REACT_APP_BUILD_ID
             : "Local"}
-        </Typography>
+        </Text>
         <IconButton color="inherit" onClick={handleAvatarClick} edge="start">
-          <Zoom in={profileImageLoaded || userContext.avatar == null}>
-            <Avatar
-              src={userContext.avatar}
-              imgProps={{ onLoad: () => setProfileImageLoaded(true) }}
-            >
-              {userContext.firstName
-                .charAt(0)
-                .concat(userContext.lastName.charAt(0))}
-            </Avatar>
-          </Zoom>
+          <Avatar
+            name={`${userContext.firstName} ${userContext.lastName}`}
+            src={userContext.avatar}
+          />
         </IconButton>
         <MenuParent
           id="simple-menu"

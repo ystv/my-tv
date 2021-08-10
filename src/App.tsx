@@ -3,9 +3,14 @@ import { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // MUI components
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  extendTheme,
+  Spinner,
+  withDefaultColorScheme,
+} from "@chakra-ui/react";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import { CircularProgress, Backdrop } from "@material-ui/core";
+import { Backdrop } from "@material-ui/core";
 import "@fontsource/roboto";
 
 // Custom Components
@@ -20,11 +25,10 @@ import { userInterface } from "./components/types/people";
 
 export const useUserContext = createContext<userInterface>(null as any);
 
-const chakraTheme = extendTheme({
-  components: {
-    Steps,
-  },
-});
+const chakraTheme = extendTheme(
+  withDefaultColorScheme({ colorScheme: "blue" }),
+  { components: { Steps } }
+);
 
 export default function App() {
   const [user, setUser] = useState<userInterface>();
@@ -37,7 +41,6 @@ export default function App() {
   }, []);
 
   return (
-    // <ThemeProvider theme={theme}>
     <ChakraProvider theme={chakraTheme}>
       {user ? (
         <useUserContext.Provider value={user}>
@@ -49,10 +52,9 @@ export default function App() {
         </useUserContext.Provider>
       ) : (
         <Backdrop open>
-          <CircularProgress color="primary" />
+          <Spinner />
         </Backdrop>
       )}
     </ChakraProvider>
-    // </ThemeProvider>
   );
 }
