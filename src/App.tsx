@@ -25,9 +25,13 @@ import { userInterface } from "./components/types/people";
 
 export const useUserContext = createContext<userInterface>(null as any);
 
-const chakraTheme = extendTheme(
+export const chakraTheme = extendTheme(
   withDefaultColorScheme({ colorScheme: "blue" }),
-  { components: { Steps } }
+  {
+    components: { Steps },
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  }
 );
 
 export default function App() {

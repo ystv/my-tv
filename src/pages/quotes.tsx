@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 // MUI components
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import {
   Button,
   Heading,
@@ -17,16 +17,11 @@ import {
   AlertDialogBody,
   Textarea,
   Input,
+  IconButton,
+  HStack,
+  Flex,
+  Spacer,
 } from "@chakra-ui/react";
-
-import {
-  Refresh,
-  Edit,
-  ArrowForwardIosRounded,
-  ArrowBackIosRounded,
-  AddRounded,
-  Delete,
-} from "@material-ui/icons";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
@@ -37,6 +32,13 @@ import Axios from "axios";
 
 // Other imports
 import { useForm } from "react-hook-form";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  DeleteIcon,
+  EditIcon,
+  RepeatIcon,
+} from "@chakra-ui/icons";
 
 // Begin Code
 
@@ -130,31 +132,36 @@ export default function Quotes() {
       <Heading>Quotes</Heading>
       <Text>(Authenticity not verified)</Text>
 
-      <Grid container alignContent="space-between">
-        <div style={{ flex: 1 }} />
-        <Box component="span">
+      <Flex>
+        <Spacer />
+        <HStack spacing={2}>
           <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
             Edit Mode
           </Button>
-          <IconButton disabled={page === 0} onClick={() => updateQuotes(true)}>
-            <ArrowBackIosRounded />
-          </IconButton>
-          <IconButton onClick={() => updateQuotes()}>
-            <ArrowForwardIosRounded />
-          </IconButton>
-          <IconButton onClick={() => getQuotes()}>
-            <Refresh />
-          </IconButton>
-          <Button
-            variant="solid"
-            startIcon={<AddRounded />}
-            component={RouterLink}
-            to="/quotes/add"
-          >
+          <IconButton
+            disabled={page === 0}
+            onClick={() => updateQuotes(true)}
+            variant={"outline"}
+            icon={<ArrowLeftIcon />}
+            aria-label="Previous quotes page"
+          />
+          <IconButton
+            onClick={() => updateQuotes()}
+            icon={<ArrowRightIcon />}
+            aria-label="Next quotes page"
+            variant={"outline"}
+          />
+          <IconButton
+            onClick={() => getQuotes()}
+            icon={<RepeatIcon />}
+            aria-label="Refresh quotes"
+            variant={"outline"}
+          />
+          <Button variant="solid" as={RouterLink} to="/quotes/add">
             Add Quote
           </Button>
-        </Box>
-      </Grid>
+        </HStack>
+      </Flex>
 
       <br />
 
@@ -177,27 +184,27 @@ export default function Quotes() {
                 </>
               ) : null}
 
-              <div style={{ display: "flex" }}>
-                {showEditing && (
-                  <>
-                    <Heading fontSize="xs">{x.id}</Heading>
-                    <div style={{ flex: 1 }} />
+              {showEditing && (
+                <Flex>
+                  <Heading fontSize="xs">{x.id}</Heading>
+                  <Spacer />
+                  <HStack spacing={2}>
                     <IconButton
-                      color="primary"
                       onClick={() => handleEditMenuClickOpen(x.id)}
-                    >
-                      <Edit />
-                    </IconButton>
+                      icon={<EditIcon />}
+                      aria-label="Edit quote"
+                      variant={"outline"}
+                    />
 
                     <IconButton
-                      color="inherit"
                       onClick={() => handleDeleteMenuClickOpen(x.id)}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </>
-                )}
-              </div>
+                      icon={<DeleteIcon />}
+                      aria-label="Delete quote"
+                      variant={"outline"}
+                    />
+                  </HStack>
+                </Flex>
+              )}
             </Box>
           </Grid>
         ))}

@@ -1,4 +1,5 @@
-import { Box, Divider, Drawer, Hidden, IconButton } from "@material-ui/core";
+import { Divider, Drawer, Hidden, IconButton } from "@material-ui/core";
+import { Box, Center } from "@chakra-ui/react";
 import clsx from "clsx";
 import { DrawerContents } from "./DrawerContents";
 import React, { useContext } from "react";
@@ -32,8 +33,11 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
   const drawerArrow = (
     <>
       <div className={classes.toolbar}>
-        <Box>
-          <a href={process.env.REACT_APP_PUBLIC_BASEURL} className={classes.logoBox}>
+        <Center>
+          <a
+            href={process.env.REACT_APP_PUBLIC_BASEURL}
+            className={classes.logoBox}
+          >
             <img
               src="/ystv.png"
               style={{
@@ -44,7 +48,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
               alt="YSTV logo"
             />
           </a>
-        </Box>
+        </Center>
 
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
@@ -72,6 +76,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
               [classes.drawerClose]: !drawOpen,
             }),
           }}
+          hideBackdrop
         >
           {drawerArrow}
           <DrawerContents
@@ -92,9 +97,6 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
           anchor={theme.direction === "rtl" ? "right" : "left"}
           open={drawOpen}
           onClose={handleDrawerClose}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}

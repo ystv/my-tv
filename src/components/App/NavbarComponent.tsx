@@ -10,10 +10,18 @@ import {
   MenuItem,
   Link,
 } from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
 import React, { useContext } from "react";
 import { useUserContext } from "../../App";
-import { Heading, Text, Avatar } from "@chakra-ui/react";
+import {
+  Heading,
+  Text,
+  Avatar,
+  Button,
+  IconButton as CIconButton,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function NavbarComponent(props: {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
@@ -21,6 +29,8 @@ export default function NavbarComponent(props: {
   const userContext = useContext(useUserContext);
   const [drawOpen, setDrawerOpen] = props.drawerOpenState;
   const classes = NavbarStyles();
+  const { toggleColorMode } = useColorMode();
+  const colourModeIcon = useColorModeValue(<MoonIcon />, <SunIcon />);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setProfileAnchorEl(event.currentTarget);
@@ -47,20 +57,35 @@ export default function NavbarComponent(props: {
       })}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
+        <CIconButton
           onClick={handleDrawerOpen}
-          edge="start"
-          className={clsx(classes.menuButton, {
-            [classes.hide]: drawOpen,
-          })}
+          hidden={drawOpen}
+          icon={<HamburgerIcon />}
+          aria-label={"Open main menu"}
+          variant={"ghost"}
+          colorScheme={"white"}
+          _hover={{ background: "whiteAlpha.300" }}
+        />
+        <Button
+          as={RouterLink}
+          to="/"
+          variant={"ghost"}
+          colorScheme={"white"}
+          _hover={{ background: "whiteAlpha.300" }}
         >
-          <Menu />
-        </IconButton>
-        <IconButton color="inherit" edge="start" component={RouterLink} to="/">
           <Heading size={"lg"}>My-TV</Heading>
-        </IconButton>
+        </Button>
         <div className={classes.grow} />
+
+        <CIconButton
+          onClick={toggleColorMode}
+          icon={colourModeIcon}
+          aria-label={"Toggle colour"}
+          variant={"ghost"}
+          colorScheme={"white"}
+          _hover={{ background: "whiteAlpha.300" }}
+          mr={2}
+        />
 
         <Text fontSize={"sm"} style={{ paddingRight: "1rem" }}>
           Build:{" "}

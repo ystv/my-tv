@@ -102,7 +102,6 @@ export const NavbarStyles = makeStyles(
           display: "none",
         },
       },
-      drawerPaper: {},
       nested: {
         paddingLeft: theme.spacing(4),
       },

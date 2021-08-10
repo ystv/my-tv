@@ -13,8 +13,8 @@ import {
   ListItemIcon,
   ListItemText,
   Link,
-  Tooltip,
 } from "@material-ui/core";
+import { Tooltip } from "@chakra-ui/react";
 
 import {
   ExpandLess,
@@ -80,7 +80,7 @@ export function DrawerContents({
 
     return (
       <li>
-        <Tooltip title={primary} placement="right">
+        <Tooltip label={primary} placement="auto-start">
           <ListItem
             button
             component={router ? RouterLink : Link}
