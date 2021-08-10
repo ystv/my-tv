@@ -12,9 +12,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Link,
 } from "@material-ui/core";
-import { Tooltip } from "@chakra-ui/react";
+import { Button, Link, Tooltip, VStack } from "@chakra-ui/react";
 
 import {
   ExpandLess,
@@ -43,7 +42,9 @@ import userContextPermissions from "../functions/userContextPermissions";
 import { userInterface } from "../types/people";
 
 interface ListItemLinkProps {
-  icon?: ReactElement;
+  icon?:
+    | ReactElement<any, string | React.JSXElementConstructor<any>>
+    | undefined;
   primary: string;
   to: string;
   className?: string;
@@ -76,32 +77,45 @@ export function DrawerContents({
   const classes = useStyles();
 
   function ListItemLink(props: ListItemLinkProps) {
-    const { icon, primary, to, className, disabled, router = false } = props;
+    const { primary, to, router = false } = props;
 
     return (
-      <li>
-        <Tooltip label={primary} placement="auto-start">
-          <ListItem
-            button
-            component={router ? RouterLink : Link}
-            to={router ? to : ""}
-            href={router ? "" : to}
-            color="inherit"
-            onClick={handleDrawerClose}
-            className={className ? className : ""}
-            disabled={disabled}
-          >
-            {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-            <ListItemText primary={primary} />
-          </ListItem>
-        </Tooltip>
-      </li>
+      <Tooltip label={primary} placement="auto-start">
+        {router ? (
+          <RouterLink to={to} style={{ width: "100%" }}>
+            {ListItemButton(props)}
+          </RouterLink>
+        ) : (
+          <Link href={to} style={{ width: "100%" }}>
+            {ListItemButton(props)}
+          </Link>
+        )}
+      </Tooltip>
+    );
+  }
+
+  function ListItemButton(props: ListItemLinkProps) {
+    const { icon, primary, className, disabled = false } = props;
+    return (
+      <Button
+        onClick={handleDrawerClose}
+        className={className ? className : ""}
+        disabled={disabled}
+        leftIcon={icon ? icon : undefined}
+        borderRadius={0}
+        isFullWidth={true}
+        variant={"ghost"}
+        justifyContent={"right"}
+        iconSpacing={"40px"}
+      >
+        {primary}
+      </Button>
     );
   }
 
   return (
     <>
-      <List>
+      <VStack>
         <ListItemLink
           to="/calendar"
           primary="Calendar"
@@ -150,17 +164,17 @@ export function DrawerContents({
             />
           }
         />
-      </List>
+      </VStack>
       <Divider />
-      <List>
+      <VStack>
         <ListItemLink
           to={`${process.env.REACT_APP_CREATOR_BASEURL}`}
           primary="Creator Studio"
           icon={<VideoLibraryRounded />}
         />
-      </List>
+      </VStack>
       <Divider />
-      <List>
+      <VStack>
         <ListItemLink
           to="http://wiki.ystv.co.uk"
           primary="History Wiki"
@@ -186,7 +200,7 @@ export function DrawerContents({
           primary="Constitution & Policy"
           icon={<GavelRounded />}
         />
-      </List>
+      </VStack>
       {userContextPermissions(userContext, []) && (
         <>
           <ListItem button onClick={handleCollapseClick}>

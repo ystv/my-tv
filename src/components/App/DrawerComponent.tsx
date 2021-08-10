@@ -1,10 +1,9 @@
-import { Divider, Drawer, Hidden, IconButton } from "@material-ui/core";
-import { Box, Center } from "@chakra-ui/react";
+import { Divider, Drawer, Hidden } from "@material-ui/core";
+import { Center, CloseButton, Container } from "@chakra-ui/react";
 import clsx from "clsx";
 import { DrawerContents } from "./DrawerContents";
 import React, { useContext } from "react";
 import { useUserContext } from "../../App";
-import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { useTheme } from "@material-ui/core/styles";
 import { NavbarStyles } from "./NavbarStyles";
 
@@ -33,28 +32,23 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
   const drawerArrow = (
     <>
       <div className={classes.toolbar}>
-        <Center>
-          <a
-            href={process.env.REACT_APP_PUBLIC_BASEURL}
-            className={classes.logoBox}
-          >
+        <Center w={"154px"}>
+          <a href={process.env.REACT_APP_PUBLIC_BASEURL}>
             <img
               src="/ystv.png"
               style={{
-                height: "inherit",
                 filter: "opacity(0.65)",
-                translate: "-36px 4px",
+                height: "40px",
               }}
               alt="YSTV logo"
             />
           </a>
         </Center>
 
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
-        </IconButton>
+        <CloseButton onClick={handleDrawerClose} />
       </div>
       <Divider />
+      <br />
     </>
   );
 
