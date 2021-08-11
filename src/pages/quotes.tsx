@@ -185,7 +185,7 @@ export default function Quotes() {
               ) : null}
 
               {showEditing && (
-                <Flex>
+                <Flex align={"flex-end"}>
                   <Heading fontSize="xs">{x.id}</Heading>
                   <Spacer />
                   <HStack spacing={2}>
@@ -218,7 +218,7 @@ export default function Quotes() {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Customer
+              {`Deleting quote ${selQuote}:`}
             </AlertDialogHeader>
             <AlertDialogBody>
               Warning this operation is permanent and cannot be undone

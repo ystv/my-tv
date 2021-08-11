@@ -1,8 +1,17 @@
-import { Divider, Drawer, Hidden } from "@material-ui/core";
-import { Center, CloseButton, Container } from "@chakra-ui/react";
-import clsx from "clsx";
+import { Divider, Hidden } from "@material-ui/core";
+import {
+  Button,
+  Center,
+  CloseButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+} from "@chakra-ui/react";
 import { DrawerContents } from "./DrawerContents";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useUserContext } from "../../App";
 import { useTheme } from "@material-ui/core/styles";
 import { NavbarStyles } from "./NavbarStyles";
@@ -16,23 +25,19 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
   const classes = NavbarStyles();
   const userContext = useContext(useUserContext);
   const theme = useTheme();
-  const [collapseOpen, setCollapseOpen] = React.useState(false);
-  const [drawOpen, setDrawerOpen] = drawerOpenState;
+  const [drawerOpen, setDrawerOpen] = drawerOpenState;
   const container =
     window !== undefined ? () => window().document.body : undefined;
+  const closeDrawerRef = useRef(null);
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
 
-  const handleCollapseClick = () => {
-    setCollapseOpen(!collapseOpen);
-  };
-
   const drawerArrow = (
     <>
       <div className={classes.toolbar}>
-        <Center w={"154px"}>
+        <Center w={"240px"}>
           <a href={process.env.REACT_APP_PUBLIC_BASEURL}>
             <img
               src="/ystv.png"
@@ -45,7 +50,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
           </a>
         </Center>
 
-        <CloseButton onClick={handleDrawerClose} />
+        <CloseButton onClick={handleDrawerClose} ref={closeDrawerRef} />
       </div>
       <Divider />
       <br />
@@ -53,57 +58,57 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
   );
 
   return (
-    <nav className={classes.drawer}>
-      <Hidden xsDown>
-        {
-          //desktop version
-        }
-        <Drawer
-          variant="permanent"
-          className={clsx(classes.drawer, {
-            [classes.drawerOpen]: drawOpen,
-            [classes.drawerClose]: !drawOpen,
-          })}
-          classes={{
-            paper: clsx({
-              [classes.drawerOpen]: drawOpen,
-              [classes.drawerClose]: !drawOpen,
-            }),
-          }}
-          hideBackdrop
-        >
+    <>
+      {/*<nav className={classes.drawer}>*/}
+      {/*<Hidden xsDown>*/}
+      {/*  {*/}
+      {/*    //desktop version*/}
+      {/*  }*/}
+      {/*  <Menu isOpen={drawerOpen}>*/}
+      {/*    <MenuButton as={Button} onClick={() => setDrawerOpen(!drawerOpen)}>*/}
+      {/*      Menu*/}
+      {/*    </MenuButton>*/}
+      {/*    <MenuList>*/}
+      {/*      <DrawerContents*/}
+      {/*        handleDrawerClose={handleDrawerClose}*/}
+      {/*        userContext={userContext}*/}
+      {/*      />*/}
+      {/*    </MenuList>*/}
+      {/*  </Menu>*/}
+      {/*</Hidden>*/}
+      {/*<Hidden smUp>*/}
+      {
+        //mobile version
+      }
+      {/*<Drawer*/}
+      {/*  container={container}*/}
+      {/*  variant="temporary"*/}
+      {/*  anchor={theme.direction === "rtl" ? "right" : "left"}*/}
+      {/*  open={drawerOpen}*/}
+      {/*  onClose={handleDrawerClose}*/}
+      {/*  ModalProps={{*/}
+      {/*    keepMounted: true, // Better open performance on mobile.*/}
+      {/*  }}*/}
+      {/*>*/}
+      <Drawer
+        isOpen={drawerOpen}
+        placement="left"
+        onClose={() => setDrawerOpen(false)}
+        size={"xs"}
+        initialFocusRef={closeDrawerRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
           {drawerArrow}
           <DrawerContents
-            handleCollapseClick={handleCollapseClick}
-            collapseOpen={collapseOpen}
             handleDrawerClose={handleDrawerClose}
             userContext={userContext}
           />
-        </Drawer>
-      </Hidden>
-      <Hidden smUp>
-        {
-          //mobile version
-        }
-        <Drawer
-          container={container}
-          variant="temporary"
-          anchor={theme.direction === "rtl" ? "right" : "left"}
-          open={drawOpen}
-          onClose={handleDrawerClose}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          {drawerArrow}
-          <DrawerContents
-            handleCollapseClick={handleCollapseClick}
-            collapseOpen={collapseOpen}
-            handleDrawerClose={handleDrawerClose}
-            userContext={userContext}
-          />
-        </Drawer>
-      </Hidden>
-    </nav>
+        </DrawerContent>
+      </Drawer>
+      {/*</Drawer>*/}
+      {/*</Hidden>*/}
+      {/*</nav>*/}
+    </>
   );
 }

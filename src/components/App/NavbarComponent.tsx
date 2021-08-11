@@ -1,5 +1,4 @@
 import { Link as RouterLink } from "react-router-dom";
-import clsx from "clsx";
 import { NavbarStyles } from "./NavbarStyles";
 
 import {
@@ -27,7 +26,7 @@ export default function NavbarComponent(props: {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }) {
   const userContext = useContext(useUserContext);
-  const [drawOpen, setDrawerOpen] = props.drawerOpenState;
+  const [, setDrawerOpen] = props.drawerOpenState;
   const classes = NavbarStyles();
   const { toggleColorMode } = useColorMode();
   const colourModeIcon = useColorModeValue(<MoonIcon />, <SunIcon />);
@@ -50,16 +49,10 @@ export default function NavbarComponent(props: {
   ] = React.useState<null | HTMLElement>(null);
 
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: drawOpen,
-      })}
-    >
+    <AppBar position="fixed">
       <Toolbar>
         <CIconButton
           onClick={handleDrawerOpen}
-          hidden={drawOpen}
           icon={<HamburgerIcon />}
           aria-label={"Open main menu"}
           variant={"ghost"}

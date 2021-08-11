@@ -5,15 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 // MUI components
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-import {
-  List,
-  Divider,
-  Collapse,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@material-ui/core";
-import { Button, Link, Tooltip, VStack } from "@chakra-ui/react";
+import { Button, Link, Tooltip, VStack, Divider } from "@chakra-ui/react";
 
 import {
   ExpandLess,
@@ -53,44 +45,29 @@ interface ListItemLinkProps {
 }
 
 interface drawerContentsProps {
-  handleCollapseClick: (e: any) => void;
-  collapseOpen: boolean;
   handleDrawerClose: (e: any) => void;
   userContext: userInterface;
 }
 
 export function DrawerContents({
-  handleCollapseClick,
-  collapseOpen,
   handleDrawerClose,
   userContext,
 }: drawerContentsProps) {
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      drawerPaper: {},
-      nested: {
-        paddingLeft: theme.spacing(4),
-      },
-    })
-  );
-
-  const classes = useStyles();
-
   function ListItemLink(props: ListItemLinkProps) {
     const { primary, to, router = false } = props;
 
     return (
-      <Tooltip label={primary} placement="auto-start">
-        {router ? (
-          <RouterLink to={to} style={{ width: "100%" }}>
-            {ListItemButton(props)}
-          </RouterLink>
-        ) : (
-          <Link href={to} style={{ width: "100%" }}>
-            {ListItemButton(props)}
-          </Link>
-        )}
-      </Tooltip>
+      // <Tooltip label={primary} placement="auto-start">
+      router ? (
+        <RouterLink to={to} style={{ width: "100%" }}>
+          {ListItemButton(props)}
+        </RouterLink>
+      ) : (
+        <Link href={to} style={{ width: "100%" }}>
+          {ListItemButton(props)}
+        </Link>
+      )
+      // </Tooltip>
     );
   }
 
@@ -106,7 +83,7 @@ export function DrawerContents({
         isFullWidth={true}
         variant={"ghost"}
         justifyContent={"right"}
-        iconSpacing={"40px"}
+        iconSpacing={"30px"}
       >
         {primary}
       </Button>
@@ -164,17 +141,13 @@ export function DrawerContents({
             />
           }
         />
-      </VStack>
-      <Divider />
-      <VStack>
+        <Divider />
         <ListItemLink
           to={`${process.env.REACT_APP_CREATOR_BASEURL}`}
           primary="Creator Studio"
           icon={<VideoLibraryRounded />}
         />
-      </VStack>
-      <Divider />
-      <VStack>
+        <Divider />
         <ListItemLink
           to="http://wiki.ystv.co.uk"
           primary="History Wiki"
@@ -201,58 +174,58 @@ export function DrawerContents({
           icon={<GavelRounded />}
         />
       </VStack>
-      {userContextPermissions(userContext, []) && (
-        <>
-          <ListItem button onClick={handleCollapseClick}>
-            <ListItemIcon>
-              <SupervisorAccountRounded />
-            </ListItemIcon>
-            <ListItemText primary="Society Admin" />
-            {collapseOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
-            <List>
-              <ListItemLink
-                to="http://auth.ystv.co.uk/internal/users"
-                primary="Members"
-                icon={<People />}
-                className={classes.nested}
-              />
-              <ListItemLink
-                to="/key_list"
-                primary="Key List"
-                icon={<VpnKeyRounded />}
-                className={classes.nested}
-                router
-                disabled
-              />
-              <ListItemLink
-                to="/roles"
-                primary="Officer Roles"
-                icon={<SupervisedUserCircleRounded />}
-                className={classes.nested}
-                router
-                disabled
-              />
-              <ListItemLink
-                to="/mailing-lists"
-                primary="Mailing Lists"
-                icon={<AllInbox />}
-                className={classes.nested}
-                disabled
-              />
-              <ListItemLink
-                to="/hire-prices"
-                primary="Hire Prices"
-                icon={<MonetizationOn />}
-                className={classes.nested}
-                disabled
-              />
-            </List>
-          </Collapse>
-        </>
-      )}
-      <div className="spacer2" />
+      {/*{userContextPermissions(userContext, []) && (*/}
+      {/*  <>*/}
+      {/*    <ListItem button>*/}
+      {/*      <ListItemIcon>*/}
+      {/*        <SupervisorAccountRounded />*/}
+      {/*      </ListItemIcon>*/}
+      {/*      <ListItemText primary="Society Admin" />*/}
+      {/*      {collapseOpen ? <ExpandLess /> : <ExpandMore />}*/}
+      {/*    </ListItem>*/}
+      {/*    <Collapse in={collapseOpen} timeout="auto" unmountOnExit>*/}
+      {/*      <List>*/}
+      {/*        <ListItemLink*/}
+      {/*          to="http://auth.ystv.co.uk/internal/users"*/}
+      {/*          primary="Members"*/}
+      {/*          icon={<People />}*/}
+      {/*          className={classes.nested}*/}
+      {/*        />*/}
+      {/*        <ListItemLink*/}
+      {/*          to="/key_list"*/}
+      {/*          primary="Key List"*/}
+      {/*          icon={<VpnKeyRounded />}*/}
+      {/*          className={classes.nested}*/}
+      {/*          router*/}
+      {/*          disabled*/}
+      {/*        />*/}
+      {/*        <ListItemLink*/}
+      {/*          to="/roles"*/}
+      {/*          primary="Officer Roles"*/}
+      {/*          icon={<SupervisedUserCircleRounded />}*/}
+      {/*          className={classes.nested}*/}
+      {/*          router*/}
+      {/*          disabled*/}
+      {/*        />*/}
+      {/*        <ListItemLink*/}
+      {/*          to="/mailing-lists"*/}
+      {/*          primary="Mailing Lists"*/}
+      {/*          icon={<AllInbox />}*/}
+      {/*          className={classes.nested}*/}
+      {/*          disabled*/}
+      {/*        />*/}
+      {/*        <ListItemLink*/}
+      {/*          to="/hire-prices"*/}
+      {/*          primary="Hire Prices"*/}
+      {/*          icon={<MonetizationOn />}*/}
+      {/*          className={classes.nested}*/}
+      {/*          disabled*/}
+      {/*        />*/}
+      {/*      </List>*/}
+      {/*    </Collapse>*/}
+      {/*  </>*/}
+      {/*)}*/}
+      {/*<div className="spacer2" />*/}
     </>
   );
 }
