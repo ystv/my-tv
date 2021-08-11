@@ -14,7 +14,7 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <Box w={["sm", "xl"]}>
+    <Box w={["100%", "xl"]}>
       <Heading>Welcome Home!</Heading>
       <br />
       <Text fontSize={"xl"}>

@@ -22,6 +22,7 @@ import {
   Spacer,
   Grid,
   GridItem,
+  Wrap,
 } from "@chakra-ui/react";
 
 // Custom Components
@@ -133,36 +134,34 @@ export default function Quotes() {
       <Heading>Quotes</Heading>
       <Text>(Authenticity not verified)</Text>
 
-      <Flex>
+      <Wrap spacing={2} justify={"flex-end"}>
         <Spacer />
-        <HStack spacing={2}>
-          <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
-            Edit Mode
-          </Button>
-          <IconButton
-            disabled={page === 0}
-            onClick={() => updateQuotes(true)}
-            variant={"outline"}
-            icon={<ArrowLeftIcon />}
-            aria-label="Previous quotes page"
-          />
-          <IconButton
-            onClick={() => updateQuotes()}
-            icon={<ArrowRightIcon />}
-            aria-label="Next quotes page"
-            variant={"outline"}
-          />
-          <IconButton
-            onClick={() => getQuotes()}
-            icon={<RepeatIcon />}
-            aria-label="Refresh quotes"
-            variant={"outline"}
-          />
-          <Button variant="solid" as={RouterLink} to="/quotes/add">
-            Add Quote
-          </Button>
-        </HStack>
-      </Flex>
+        <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
+          Edit Mode
+        </Button>
+        <IconButton
+          disabled={page === 0}
+          onClick={() => updateQuotes(true)}
+          variant={"outline"}
+          icon={<ArrowLeftIcon />}
+          aria-label="Previous quotes page"
+        />
+        <IconButton
+          onClick={() => updateQuotes()}
+          icon={<ArrowRightIcon />}
+          aria-label="Next quotes page"
+          variant={"outline"}
+        />
+        <IconButton
+          onClick={() => getQuotes()}
+          icon={<RepeatIcon />}
+          aria-label="Refresh quotes"
+          variant={"outline"}
+        />
+        <Button variant="solid" as={RouterLink} to="/quotes/add">
+          Add Quote
+        </Button>
+      </Wrap>
 
       <br />
 
