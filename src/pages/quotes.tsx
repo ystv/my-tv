@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 // MUI components
-import { Grid } from "@material-ui/core";
 import {
   Button,
   Heading,
@@ -21,6 +20,8 @@ import {
   HStack,
   Flex,
   Spacer,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 
 // Custom Components
@@ -165,9 +166,17 @@ export default function Quotes() {
 
       <br />
 
-      <Grid container justifyContent="center" spacing={3}>
+      <Grid
+        templateColumns={[
+          "repeat(1, 1fr)",
+          "repeat(2, 1fr)",
+          "repeat(3, 1fr)",
+          "repeat(4, 1fr)",
+        ]}
+        gap={3}
+      >
         {quotes?.Quotes.map((x, n) => (
-          <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
+          <GridItem>
             <Box
               borderWidth="1px"
               borderRadius="lg"
@@ -206,7 +215,7 @@ export default function Quotes() {
                 </Flex>
               )}
             </Box>
-          </Grid>
+          </GridItem>
         ))}
       </Grid>
 

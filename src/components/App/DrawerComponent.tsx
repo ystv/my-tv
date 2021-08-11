@@ -9,12 +9,13 @@ import {
   Drawer,
   DrawerContent,
   DrawerOverlay,
+  Flex,
+  Box,
 } from "@chakra-ui/react";
 import { DrawerContents } from "./DrawerContents";
 import React, { useContext, useRef } from "react";
 import { useUserContext } from "../../App";
 import { useTheme } from "@material-ui/core/styles";
-import { NavbarStyles } from "./NavbarStyles";
 
 interface Props {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
@@ -22,7 +23,6 @@ interface Props {
 }
 
 export default function DrawerComponent({ drawerOpenState, window }: Props) {
-  const classes = NavbarStyles();
   const userContext = useContext(useUserContext);
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = drawerOpenState;
@@ -36,8 +36,9 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
 
   const drawerArrow = (
     <>
-      <div className={classes.toolbar}>
-        <Center w={"240px"}>
+      <Flex direction={"row"} padding={"0 1rem"} align={"center"}>
+        <Box w={"32px"} />
+        <Center h={"4rem"} flexGrow={1}>
           <a href={process.env.REACT_APP_PUBLIC_BASEURL}>
             <img
               src="/ystv.png"
@@ -51,7 +52,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
         </Center>
 
         <CloseButton onClick={handleDrawerClose} ref={closeDrawerRef} />
-      </div>
+      </Flex>
       <Divider />
       <br />
     </>

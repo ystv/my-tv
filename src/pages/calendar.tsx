@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 
 // MUI components
-import { Typography } from "@material-ui/core";
 
 // Custom Components
 import "../components/calendar.css";
@@ -17,6 +16,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import { useLocation, useHistory } from "react-router-dom";
+import { Heading } from "@chakra-ui/react";
 
 // Begin Code
 
@@ -76,7 +76,7 @@ export default function Calendar() {
 
   return (
     <>
-      <Typography variant="h4">Calendar</Typography>
+      <Heading>Calendar</Heading>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
         initialView="dayGridMonth"

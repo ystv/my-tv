@@ -1,5 +1,4 @@
 import { Link as RouterLink } from "react-router-dom";
-import { NavbarStyles } from "./NavbarStyles";
 
 import {
   AppBar,
@@ -19,6 +18,7 @@ import {
   IconButton as CIconButton,
   useColorMode,
   useColorModeValue,
+  Spacer,
 } from "@chakra-ui/react";
 import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 
@@ -27,7 +27,6 @@ export default function NavbarComponent(props: {
 }) {
   const userContext = useContext(useUserContext);
   const [, setDrawerOpen] = props.drawerOpenState;
-  const classes = NavbarStyles();
   const { toggleColorMode } = useColorMode();
   const colourModeIcon = useColorModeValue(<MoonIcon />, <SunIcon />);
 
@@ -68,7 +67,7 @@ export default function NavbarComponent(props: {
         >
           <Heading size={"lg"}>My-TV</Heading>
         </Button>
-        <div className={classes.grow} />
+        <Spacer />
 
         <CIconButton
           onClick={toggleColorMode}
