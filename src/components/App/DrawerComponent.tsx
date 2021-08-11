@@ -1,21 +1,18 @@
-import { Divider, Hidden } from "@material-ui/core";
 import {
   Button,
   Center,
   CloseButton,
-  Menu,
-  MenuButton,
-  MenuList,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
   Box,
+  Divider,
 } from "@chakra-ui/react";
 import { DrawerContents } from "./DrawerContents";
 import React, { useContext, useRef } from "react";
 import { useUserContext } from "../../App";
-import { useTheme } from "@material-ui/core/styles";
+import { ReactComponent as YSTVLogoIcon } from "../YSTV_LIGHT.svg";
 
 interface Props {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
@@ -24,10 +21,7 @@ interface Props {
 
 export default function DrawerComponent({ drawerOpenState, window }: Props) {
   const userContext = useContext(useUserContext);
-  const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = drawerOpenState;
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
   const closeDrawerRef = useRef(null);
 
   const handleDrawerClose = () => {
@@ -39,16 +33,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
       <Flex direction={"row"} padding={"0 1rem"} align={"center"}>
         <Box w={"32px"} />
         <Center h={"4rem"} flexGrow={1}>
-          <a href={process.env.REACT_APP_PUBLIC_BASEURL}>
-            <img
-              src="/ystv.png"
-              style={{
-                filter: "opacity(0.65)",
-                height: "40px",
-              }}
-              alt="YSTV logo"
-            />
-          </a>
+          <YSTVLogoIcon height="2.5rem" fill={"#333333"} />
         </Center>
 
         <CloseButton onClick={handleDrawerClose} ref={closeDrawerRef} />
@@ -81,16 +66,6 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
       {
         //mobile version
       }
-      {/*<Drawer*/}
-      {/*  container={container}*/}
-      {/*  variant="temporary"*/}
-      {/*  anchor={theme.direction === "rtl" ? "right" : "left"}*/}
-      {/*  open={drawerOpen}*/}
-      {/*  onClose={handleDrawerClose}*/}
-      {/*  ModalProps={{*/}
-      {/*    keepMounted: true, // Better open performance on mobile.*/}
-      {/*  }}*/}
-      {/*>*/}
       <Drawer
         isOpen={drawerOpen}
         placement="left"
@@ -107,9 +82,6 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
           />
         </DrawerContent>
       </Drawer>
-      {/*</Drawer>*/}
-      {/*</Hidden>*/}
-      {/*</nav>*/}
     </>
   );
 }

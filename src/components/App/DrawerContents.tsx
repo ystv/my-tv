@@ -3,35 +3,34 @@ import { ReactElement } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 // MUI components
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-
-import { Button, Link, Tooltip, VStack, Divider } from "@chakra-ui/react";
 
 import {
-  ExpandLess,
-  ExpandMore,
+  Button,
+  Link,
+  Tooltip,
+  VStack,
+  Divider,
+  createIcon,
+} from "@chakra-ui/react";
+
+import {
   Mail,
-  AllInbox,
-  SupervisorAccountRounded,
-  MonetizationOn,
-  People,
   Today,
   FormatQuoteRounded,
   VideocamRounded,
   SecurityRounded,
   BookmarksRounded,
   AssignmentRounded,
-  VideoLibraryRounded,
   History,
   DescriptionRounded,
   GavelRounded,
   NoteAddRounded,
-  SupervisedUserCircleRounded,
-  VpnKeyRounded,
 } from "@material-ui/icons";
+import { ReactComponent as YSTVLogoIcon } from "../YSTV_LIGHT.svg";
 
 import userContextPermissions from "../functions/userContextPermissions";
 import { userInterface } from "../types/people";
+import { Icon } from "@chakra-ui/icons";
 
 interface ListItemLinkProps {
   icon?:
@@ -78,7 +77,7 @@ export function DrawerContents({
         onClick={handleDrawerClose}
         className={className ? className : ""}
         disabled={disabled}
-        leftIcon={icon ? icon : undefined}
+        leftIcon={icon}
         borderRadius={0}
         isFullWidth={true}
         variant={"ghost"}
@@ -129,25 +128,15 @@ export function DrawerContents({
         <ListItemLink
           to={`${process.env.REACT_APP_PUBLIC_BASEURL}`}
           primary="Main Site"
-          icon={
-            <img
-              src={"/ystv.png"}
-              style={{
-                width: "25px",
-                filter: "opacity(0.65)",
-                height: "intrinsic",
-              }}
-              alt="Main Site Link"
-            />
-          }
+          icon={<Icon w={"1.5em"} fill={"current"} as={YSTVLogoIcon} />}
         />
         <Divider />
-        <ListItemLink
-          to={`${process.env.REACT_APP_CREATOR_BASEURL}`}
-          primary="Creator Studio"
-          icon={<VideoLibraryRounded />}
-        />
-        <Divider />
+        {/*<ListItemLink*/}
+        {/*  to={`${process.env.REACT_APP_CREATOR_BASEURL}`}*/}
+        {/*  primary="Creator Studio"*/}
+        {/*  icon={<VideoLibraryRounded />}*/}
+        {/*/>*/}
+        {/*<Divider />*/}
         <ListItemLink
           to="http://wiki.ystv.co.uk"
           primary="History Wiki"

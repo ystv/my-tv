@@ -2,7 +2,7 @@
 import React from "react";
 
 // MUI components
-import { Typography } from "@material-ui/core";
+import { Box, Heading, Text } from "@chakra-ui/react";
 
 // Custom Components
 
@@ -14,18 +14,19 @@ import { Typography } from "@material-ui/core";
 
 export default function Home() {
   return (
-    <div>
-      <Typography variant="h4">Welcome Home!</Typography>
+    <Box w={["sm", "xl"]}>
+      <Heading>Welcome Home!</Heading>
       <br />
-      <Typography variant="h6">
-        This site is still being actively developed so some features maybe still
-        be missing temporarily! Please check{" "}
+      <Text fontSize={"xl"}>
+        This site is still being actively developed over the summer so some
+        features may be still be missing temporarily! Please check out{" "}
         <a href="https://forum.ystv.co.uk">the forum</a> if you have any
         questions or suggestions.
-      </Typography>
-      <Typography variant="h6">
+      </Text>
+      <br />
+      <Text fontSize="xl">
         If you find something wrong, please let the computing team know :)
-      </Typography>
-    </div>
+      </Text>
+    </Box>
   );
 }

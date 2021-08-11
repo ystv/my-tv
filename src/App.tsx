@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 // MUI components
 import {
+  Center,
   ChakraProvider,
   extendTheme,
   Spinner,
@@ -55,9 +56,9 @@ export default function App() {
           </Router>
         </useUserContext.Provider>
       ) : (
-        <Backdrop open>
+        <Center height={"100vh"}>
           <Spinner />
-        </Backdrop>
+        </Center>
       )}
     </ChakraProvider>
   );
