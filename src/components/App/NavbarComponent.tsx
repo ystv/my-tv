@@ -1,28 +1,34 @@
 import { Link as RouterLink } from "react-router-dom";
-import clsx from "clsx";
-import { NavbarStyles } from "./NavbarStyles";
 
 import {
   AppBar,
   Toolbar,
-  Typography,
   IconButton,
-  Avatar,
-  Zoom,
   Menu as MenuParent,
   MenuItem,
   Link,
 } from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
 import React, { useContext } from "react";
 import { useUserContext } from "../../App";
+import {
+  Heading,
+  Text,
+  Avatar,
+  Button,
+  IconButton as CIconButton,
+  useColorMode,
+  useColorModeValue,
+  Spacer,
+} from "@chakra-ui/react";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function NavbarComponent(props: {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }) {
   const userContext = useContext(useUserContext);
-  const [drawOpen, setDrawerOpen] = props.drawerOpenState;
-  const classes = NavbarStyles();
+  const [, setDrawerOpen] = props.drawerOpenState;
+  const { toggleColorMode } = useColorMode();
+  const colourModeIcon = useColorModeValue(<MoonIcon />, <SunIcon />);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setProfileAnchorEl(event.currentTarget);
@@ -41,50 +47,49 @@ export default function NavbarComponent(props: {
     setProfileAnchorEl,
   ] = React.useState<null | HTMLElement>(null);
 
-  const [profileImageLoaded, setProfileImageLoaded] = React.useState(false);
-
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: drawOpen,
-      })}
-    >
+    <AppBar position="fixed">
       <Toolbar>
-        <IconButton
-          color="inherit"
+        <CIconButton
           onClick={handleDrawerOpen}
-          edge="start"
-          className={clsx(classes.menuButton, {
-            [classes.hide]: drawOpen,
-          })}
+          icon={<HamburgerIcon />}
+          aria-label={"Open main menu"}
+          variant={"ghost"}
+          colorScheme={"white"}
+          _hover={{ background: "whiteAlpha.300" }}
+        />
+        <Button
+          as={RouterLink}
+          to="/"
+          variant={"ghost"}
+          colorScheme={"white"}
+          _hover={{ background: "whiteAlpha.300" }}
         >
-          <Menu />
-        </IconButton>
-        <IconButton color="inherit" edge="start" component={RouterLink} to="/">
-          <Typography variant="h5" noWrap>
-            My-TV
-          </Typography>
-        </IconButton>
-        <div className={classes.grow} />
+          <Heading size={"lg"}>My-TV</Heading>
+        </Button>
+        <Spacer />
 
-        <Typography variant="subtitle2" style={{ paddingRight: "1rem" }}>
+        <CIconButton
+          onClick={toggleColorMode}
+          icon={colourModeIcon}
+          aria-label={"Toggle colour"}
+          variant={"ghost"}
+          colorScheme={"white"}
+          _hover={{ background: "whiteAlpha.300" }}
+          mr={2}
+        />
+
+        <Text fontSize={"sm"} style={{ paddingRight: "1rem" }}>
           Build:{" "}
           {process.env.REACT_APP_BUILD_ID !== undefined
             ? process.env.REACT_APP_BUILD_ID
             : "Local"}
-        </Typography>
+        </Text>
         <IconButton color="inherit" onClick={handleAvatarClick} edge="start">
-          <Zoom in={profileImageLoaded || userContext.avatar == null}>
-            <Avatar
-              src={userContext.avatar}
-              imgProps={{ onLoad: () => setProfileImageLoaded(true) }}
-            >
-              {userContext.firstName
-                .charAt(0)
-                .concat(userContext.lastName.charAt(0))}
-            </Avatar>
-          </Zoom>
+          <Avatar
+            name={`${userContext.firstName} ${userContext.lastName}`}
+            src={userContext.avatar}
+          />
         </IconButton>
         <MenuParent
           id="simple-menu"

@@ -1,11 +1,18 @@
-import { Box, Divider, Drawer, Hidden, IconButton } from "@material-ui/core";
-import clsx from "clsx";
+import {
+  Button,
+  Center,
+  CloseButton,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  Box,
+  Divider,
+} from "@chakra-ui/react";
 import { DrawerContents } from "./DrawerContents";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useUserContext } from "../../App";
-import { ChevronLeft, ChevronRight } from "@material-ui/icons";
-import { useTheme } from "@material-ui/core/styles";
-import { NavbarStyles } from "./NavbarStyles";
+import { ReactComponent as YSTVLogoIcon } from "../YSTV_LIGHT.svg";
 
 interface Props {
   drawerOpenState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
@@ -13,101 +20,68 @@ interface Props {
 }
 
 export default function DrawerComponent({ drawerOpenState, window }: Props) {
-  const classes = NavbarStyles();
   const userContext = useContext(useUserContext);
-  const theme = useTheme();
-  const [collapseOpen, setCollapseOpen] = React.useState(false);
-  const [drawOpen, setDrawerOpen] = drawerOpenState;
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const [drawerOpen, setDrawerOpen] = drawerOpenState;
+  const closeDrawerRef = useRef(null);
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
 
-  const handleCollapseClick = () => {
-    setCollapseOpen(!collapseOpen);
-  };
-
   const drawerArrow = (
     <>
-      <div className={classes.toolbar}>
-        <Box>
-          <a href={process.env.REACT_APP_PUBLIC_BASEURL} className={classes.logoBox}>
-            <img
-              src="/ystv.png"
-              style={{
-                height: "inherit",
-                filter: "opacity(0.65)",
-                translate: "-36px 4px",
-              }}
-              alt="YSTV logo"
-            />
-          </a>
-        </Box>
+      <Flex direction={"row"} padding={"0 1rem"} align={"center"}>
+        <Box w={"32px"} />
+        <Center h={"4rem"} flexGrow={1}>
+          <YSTVLogoIcon height="2.5rem" fill={"#333333"} />
+        </Center>
 
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
-        </IconButton>
-      </div>
+        <CloseButton onClick={handleDrawerClose} ref={closeDrawerRef} />
+      </Flex>
       <Divider />
+      <br />
     </>
   );
 
   return (
-    <nav className={classes.drawer}>
-      <Hidden xsDown>
-        {
-          //desktop version
-        }
-        <Drawer
-          variant="permanent"
-          className={clsx(classes.drawer, {
-            [classes.drawerOpen]: drawOpen,
-            [classes.drawerClose]: !drawOpen,
-          })}
-          classes={{
-            paper: clsx({
-              [classes.drawerOpen]: drawOpen,
-              [classes.drawerClose]: !drawOpen,
-            }),
-          }}
-        >
+    <>
+      {/*<nav className={classes.drawer}>*/}
+      {/*<Hidden xsDown>*/}
+      {/*  {*/}
+      {/*    //desktop version*/}
+      {/*  }*/}
+      {/*  <Menu isOpen={drawerOpen}>*/}
+      {/*    <MenuButton as={Button} onClick={() => setDrawerOpen(!drawerOpen)}>*/}
+      {/*      Menu*/}
+      {/*    </MenuButton>*/}
+      {/*    <MenuList>*/}
+      {/*      <DrawerContents*/}
+      {/*        handleDrawerClose={handleDrawerClose}*/}
+      {/*        userContext={userContext}*/}
+      {/*      />*/}
+      {/*    </MenuList>*/}
+      {/*  </Menu>*/}
+      {/*</Hidden>*/}
+      {/*<Hidden smUp>*/}
+      {
+        //mobile version
+      }
+      <Drawer
+        isOpen={drawerOpen}
+        placement="left"
+        onClose={() => setDrawerOpen(false)}
+        size={"xs"}
+        initialFocusRef={closeDrawerRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
           {drawerArrow}
           <DrawerContents
-            handleCollapseClick={handleCollapseClick}
-            collapseOpen={collapseOpen}
             handleDrawerClose={handleDrawerClose}
             userContext={userContext}
           />
-        </Drawer>
-      </Hidden>
-      <Hidden smUp>
-        {
-          //mobile version
-        }
-        <Drawer
-          container={container}
-          variant="temporary"
-          anchor={theme.direction === "rtl" ? "right" : "left"}
-          open={drawOpen}
-          onClose={handleDrawerClose}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          {drawerArrow}
-          <DrawerContents
-            handleCollapseClick={handleCollapseClick}
-            collapseOpen={collapseOpen}
-            handleDrawerClose={handleDrawerClose}
-            userContext={userContext}
-          />
-        </Drawer>
-      </Hidden>
-    </nav>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 }

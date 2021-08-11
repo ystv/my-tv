@@ -1,35 +1,28 @@
 // React Imports
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 // MUI components
 import {
-  Grid,
-  Typography,
-  Box,
-  Paper,
-  IconButton,
   Button,
-  Dialog,
-  DialogTitle,
-  Slide,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-} from "@material-ui/core";
-
-import {
-  Refresh,
-  Edit,
-  ArrowForwardIosRounded,
-  ArrowBackIosRounded,
-  AddRounded,
-  Delete,
-  Save,
-} from "@material-ui/icons";
-
-import { TransitionProps } from "@material-ui/core/transitions";
+  Heading,
+  Text,
+  Box,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogBody,
+  Textarea,
+  Input,
+  IconButton,
+  HStack,
+  Flex,
+  Spacer,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
@@ -40,6 +33,13 @@ import Axios from "axios";
 
 // Other imports
 import { useForm } from "react-hook-form";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  DeleteIcon,
+  EditIcon,
+  RepeatIcon,
+} from "@chakra-ui/icons";
 
 // Begin Code
 
@@ -49,6 +49,8 @@ export default function Quotes() {
   let location = useLocation();
   const [showEditing, setShowEditing] = useState(false);
   const { register, handleSubmit } = useForm();
+  const cancelRefDelete = useRef(null);
+  const cancelRefEdit = useRef(null);
 
   useEffect(() => {
     let newPage = parseInt(location.pathname.split("/")[2]);
@@ -128,166 +130,178 @@ export default function Quotes() {
 
   return (
     <>
-      <Typography variant="h4">Quotes</Typography>
-      <Typography variant="subtitle1">(Authenticity not verified)</Typography>
+      <Heading>Quotes</Heading>
+      <Text>(Authenticity not verified)</Text>
 
-      <Grid container alignContent="space-between">
-        <div style={{ flex: 1 }} />
-        <Box component="span">
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => setShowEditing(!showEditing)}
-          >
+      <Flex>
+        <Spacer />
+        <HStack spacing={2}>
+          <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
             Edit Mode
           </Button>
-          <IconButton disabled={page === 0} onClick={() => updateQuotes(true)}>
-            <ArrowBackIosRounded />
-          </IconButton>
-          <IconButton onClick={() => updateQuotes()}>
-            <ArrowForwardIosRounded />
-          </IconButton>
-          <IconButton onClick={() => getQuotes()}>
-            <Refresh />
-          </IconButton>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddRounded />}
-            component={RouterLink}
-            to="/quotes/add"
-          >
+          <IconButton
+            disabled={page === 0}
+            onClick={() => updateQuotes(true)}
+            variant={"outline"}
+            icon={<ArrowLeftIcon />}
+            aria-label="Previous quotes page"
+          />
+          <IconButton
+            onClick={() => updateQuotes()}
+            icon={<ArrowRightIcon />}
+            aria-label="Next quotes page"
+            variant={"outline"}
+          />
+          <IconButton
+            onClick={() => getQuotes()}
+            icon={<RepeatIcon />}
+            aria-label="Refresh quotes"
+            variant={"outline"}
+          />
+          <Button variant="solid" as={RouterLink} to="/quotes/add">
             Add Quote
           </Button>
-        </Box>
-      </Grid>
+        </HStack>
+      </Flex>
 
       <br />
 
-      <Grid container justifyContent="center" spacing={3}>
+      <Grid
+        templateColumns={[
+          "repeat(1, 1fr)",
+          "repeat(2, 1fr)",
+          "repeat(3, 1fr)",
+          "repeat(4, 1fr)",
+        ]}
+        gap={3}
+      >
         {quotes?.Quotes.map((x, n) => (
-          <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
-            <Box component={Paper} style={{ padding: "1rem" }}>
-              <Typography
-                variant="body1"
+          <GridItem>
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              style={{ padding: "1rem" }}
+            >
+              <Text
+                fontSize="xl"
                 dangerouslySetInnerHTML={{ __html: x.quote }}
               />
               {x.description !== "" ? (
                 <>
                   <br />
-                  <Typography variant="subtitle2">{x.description}</Typography>
+                  <Heading fontSize="sm">{x.description}</Heading>
                 </>
               ) : null}
 
-              <div style={{ display: "flex" }}>
-                {showEditing && (
-                  <>
-                    <Typography variant="caption">{x.id}</Typography>
-                    <div style={{ flex: 1 }} />
+              {showEditing && (
+                <Flex align={"flex-end"}>
+                  <Heading fontSize="xs">{x.id}</Heading>
+                  <Spacer />
+                  <HStack spacing={2}>
                     <IconButton
-                      color="primary"
                       onClick={() => handleEditMenuClickOpen(x.id)}
-                    >
-                      <Edit />
-                    </IconButton>
+                      icon={<EditIcon />}
+                      aria-label="Edit quote"
+                      variant={"outline"}
+                    />
 
                     <IconButton
-                      color="inherit"
                       onClick={() => handleDeleteMenuClickOpen(x.id)}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </>
-                )}
-              </div>
+                      icon={<DeleteIcon />}
+                      aria-label="Delete quote"
+                      variant={"outline"}
+                    />
+                  </HStack>
+                </Flex>
+              )}
             </Box>
-          </Grid>
+          </GridItem>
         ))}
       </Grid>
 
-      <Dialog
-        open={openDeleteMenu}
-        TransitionComponent={Transition}
-        keepMounted
+      <AlertDialog
+        isOpen={openDeleteMenu}
         onClose={handleDeleteMenuClose}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
+        leastDestructiveRef={cancelRefDelete}
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          {`Delete quote ${selQuote}?`}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Warning this operation is permanent and cannot be undone
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteMenuClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirm} color="primary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {`Deleting quote ${selQuote}:`}
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Warning this operation is permanent and cannot be undone
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button
+                onClick={handleDeleteMenuClose}
+                ref={cancelRefDelete}
+                variant={"outline"}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleDeleteConfirm}
+                colorScheme={"red"}
+                variant={"solid"}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
 
-      <Dialog
-        open={openEditMenu}
+      <AlertDialog
+        isOpen={openEditMenu}
         onClose={handleEditMenuClose}
-        aria-labelledby="form-dialog-title"
+        leastDestructiveRef={cancelRefEdit}
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          {`Editing quote ${selQuote}:`}
-        </DialogTitle>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogContent>
-            <TextField
-              type="text"
-              placeholder="Quote"
-              {...register("quote")}
-              defaultValue={
-                quotes?.Quotes.find((e) => e.id === selQuote)?.quote
-              }
-              multiline
-              rows={6}
-              variant="outlined"
-              fullWidth
-            />
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {`Editing quote ${selQuote}:`}
+            </AlertDialogHeader>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <AlertDialogBody>
+                <Textarea
+                  placeholder="Quote"
+                  {...register("quote")}
+                  defaultValue={
+                    quotes?.Quotes.find((e) => e.id === selQuote)?.quote
+                  }
+                  multiline
+                  rows={6}
+                  variant="outline"
+                />
 
-            <TextField
-              type="text"
-              placeholder="Attributed Author"
-              {...register("description")}
-              defaultValue={
-                quotes?.Quotes.find((e) => e.id === selQuote)?.description
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </DialogContent>
+                <Input
+                  placeholder="Attributed Author"
+                  {...register("description")}
+                  defaultValue={
+                    quotes?.Quotes.find((e) => e.id === selQuote)?.description
+                  }
+                  variant="outline"
+                />
+              </AlertDialogBody>
 
-          <DialogActions>
-            <Button onClick={handleEditMenuClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Save />}
-              type="submit"
-            >
-              Save Quote
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+              <AlertDialogFooter>
+                <Button
+                  onClick={handleEditMenuClose}
+                  variant="outline"
+                  ref={cancelRefEdit}
+                >
+                  Cancel
+                </Button>
+                <Button variant="solid" type="submit" ml={3}>
+                  Save Quote
+                </Button>
+              </AlertDialogFooter>
+            </form>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});

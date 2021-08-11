@@ -2,12 +2,11 @@
 import { ReactNode, useState } from "react";
 
 // MUI components
-import { CssBaseline } from "@material-ui/core";
 
 // Other imports
-import { NavbarStyles } from "./NavbarStyles";
 import DrawerComponent from "./DrawerComponent";
 import NavbarComponent from "./NavbarComponent";
+import { Box } from "@chakra-ui/react";
 
 // Begin Code
 
@@ -17,18 +16,16 @@ export default function NavbarWithDrawer({
   children?: ReactNode;
 }) {
   /// Declarations
-  const classes = NavbarStyles();
   const drawerOpenState = useState(false);
 
   /// Menu and Drawer Component Master Return
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
+    <div>
       <NavbarComponent drawerOpenState={drawerOpenState} />
       <DrawerComponent drawerOpenState={drawerOpenState} />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
+      <main style={{ padding: "0 2rem" }}>
+        <Box height={"4rem"} />
         <br />
         {
           /// THIS IS WHERE THE PAGE CONTENT GOES
