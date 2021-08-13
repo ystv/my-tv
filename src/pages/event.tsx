@@ -40,30 +40,40 @@ export default function Event(): JSX.Element {
         if (event.signups) {
           return (
             <Grid container justify="center" spacing={3}>
-              {event.signups.map((x, n) => (
-                <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
-                  <TextTable
-                    tableDescription={x.description}
-                    tableSubheading={
-                      x.arrivalTime
-                        ? `Arrive at ${new Date(
-                            x.arrivalTime
-                          ).toLocaleTimeString("en-GB", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}`
-                        : undefined
-                    }
-                    tableTitle={x.title}
-                    columnTitles={["Role", "Name"]}
-                    dataKeys={["roleName", "nickname"]}
-                    data={x.crew?.map((e) => ({
-                      roleName: e.name,
-                      nickname: `${e.user.nickname} ${e.user.lastName}`,
-                    }))}
-                  />
-                </Grid>
-              ))}
+              {event.signups
+                .sort((a, b) => {
+                  if (a.title < b.title) {
+                    return -1;
+                  }
+                  if (a.title > b.title) {
+                    return 1;
+                  }
+                  return 0;
+                })
+                .map((x, n) => (
+                  <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
+                    <TextTable
+                      tableDescription={x.description}
+                      tableSubheading={
+                        x.arrivalTime
+                          ? `Arrive at ${new Date(
+                              x.arrivalTime
+                            ).toLocaleTimeString("en-GB", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}`
+                          : undefined
+                      }
+                      tableTitle={x.title}
+                      columnTitles={["Role", "Name"]}
+                      dataKeys={["roleName", "nickname"]}
+                      data={x.crew?.map((e) => ({
+                        roleName: e.name,
+                        nickname: `${e.user.nickname} ${e.user.lastName}`,
+                      }))}
+                    />
+                  </Grid>
+                ))}
             </Grid>
           );
         } else {
