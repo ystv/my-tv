@@ -43,6 +43,17 @@ export default function Event(): JSX.Element {
               {event.signups.map((x, n) => (
                 <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
                   <TextTable
+                    tableDescription={x.description}
+                    tableSubheading={
+                      x.arrivalTime
+                        ? `Arrive at ${new Date(
+                            x.arrivalTime
+                          ).toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}`
+                        : undefined
+                    }
                     tableTitle={x.title}
                     columnTitles={["Role", "Name"]}
                     dataKeys={["roleName", "nickname"]}

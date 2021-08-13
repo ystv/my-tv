@@ -5,12 +5,16 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-// MUI components
-import { Typography, Grid, Button, Box, TextField } from "@material-ui/core";
-import { Save, Cancel } from "@material-ui/icons";
-
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
+import {
+  Button,
+  Heading,
+  HStack,
+  Input,
+  Textarea,
+  VStack,
+} from "@chakra-ui/react";
 
 // Type imports
 
@@ -40,64 +44,29 @@ export default function AddQuote() {
 
   return (
     <>
-      <Grid container alignContent="space-between">
-        <Typography variant="h4" style={{ flex: 1 }}>
-          Edit Event
-        </Typography>
-        <Box component="span">
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<Cancel />}
-            onClick={history.goBack}
-          >
-            Cancel
-          </Button>
-        </Box>
-      </Grid>
-
+      <Heading>Edit Event</Heading>
       <br />
-
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid
-          container
-          direction="column"
-          justify="flex-start"
-          alignItems="stretch"
-          spacing={2}
-        >
-          <Grid item>
-            <TextField
-              type="text"
-              placeholder="Quote"
-              {...register("quote")}
-              multiline
-              rows={6}
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              type="text"
-              placeholder="Attributed Author"
-              {...register("description")}
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Save />}
-              type="submit"
-            >
-              Save Quote
+        <VStack align={"left"}>
+          <Textarea
+            placeholder="Quote"
+            {...register("quote")}
+            multiline
+            rows={6}
+            fullWidth
+          />
+          <Input
+            placeholder="Attributed Author"
+            {...register("description")}
+            fullWidth
+          />
+          <HStack>
+            <Button variant="outline" onClick={history.goBack}>
+              Cancel
             </Button>
-          </Grid>
-        </Grid>
+            <Button type="submit">Save Quote</Button>
+          </HStack>
+        </VStack>
       </form>
     </>
   );

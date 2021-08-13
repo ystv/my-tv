@@ -4,14 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 // MUI components
 
-import {
-  Button,
-  Link,
-  Tooltip,
-  VStack,
-  Divider,
-  createIcon,
-} from "@chakra-ui/react";
+import { Button, Link, VStack, Divider } from "@chakra-ui/react";
 
 import {
   Mail,
@@ -28,7 +21,7 @@ import {
 } from "@material-ui/icons";
 import { ReactComponent as YSTVLogoIcon } from "../YSTV_LIGHT.svg";
 
-import userContextPermissions from "../functions/userContextPermissions";
+// import userContextPermissions from "../functions/userContextPermissions";
 import { userInterface } from "../types/people";
 import { Icon } from "@chakra-ui/icons";
 
@@ -53,7 +46,7 @@ export function DrawerContents({
   userContext,
 }: drawerContentsProps) {
   function ListItemLink(props: ListItemLinkProps) {
-    const { primary, to, router = false } = props;
+    const { to, router = false } = props;
 
     return (
       // <Tooltip label={primary} placement="auto-start">

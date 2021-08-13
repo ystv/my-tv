@@ -45,6 +45,7 @@ export interface signupSheetInterface {
   unlockDate: Date;
   startTime: Date;
   endTime: Date;
+  arrivalTime: Date;
   crew: crewInterface[];
 }
 

@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // MUI components
 
@@ -16,7 +16,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import { useLocation, useHistory } from "react-router-dom";
-import { Heading } from "@chakra-ui/react";
+import { Heading, useBreakpointValue } from "@chakra-ui/react";
 
 // Begin Code
 
@@ -24,6 +24,19 @@ export default function Calendar() {
   const [data, setData] = useState<Array<object>>([]);
   const location = useLocation();
   const rrHistory = useHistory();
+  const calendarRef = useRef<FullCalendar>(null);
+  const initialView = useBreakpointValue(
+    {
+      base: "listMonth",
+      md: "dayGridMonth",
+    },
+    "base"
+  );
+  useEffect(() => {
+    let calendarApi: any;
+    calendarApi = calendarRef.current?.getApi();
+    calendarApi.changeView(initialView);
+  }, [initialView]);
 
   function GetInitDate() {
     let year = parseInt(location.pathname.split("/")[2]);
@@ -79,7 +92,8 @@ export default function Calendar() {
       <Heading>Calendar</Heading>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-        initialView="dayGridMonth"
+        initialView={initialView}
+        ref={calendarRef}
         events={data}
         headerToolbar={{
           right: "today prev,next dayGridMonth,listMonth,timeGridDay",

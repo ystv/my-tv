@@ -1,5 +1,4 @@
 import {
-  Button,
   Center,
   CloseButton,
   Drawer,
@@ -8,6 +7,7 @@ import {
   Flex,
   Box,
   Divider,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { DrawerContents } from "./DrawerContents";
 import React, { useContext, useRef } from "react";
@@ -23,6 +23,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
   const userContext = useContext(useUserContext);
   const [drawerOpen, setDrawerOpen] = drawerOpenState;
   const closeDrawerRef = useRef(null);
+  const YSTVLogoIconFill = useColorModeValue("#444444", "#fbfbfb");
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
@@ -33,7 +34,7 @@ export default function DrawerComponent({ drawerOpenState, window }: Props) {
       <Flex direction={"row"} padding={"0 1rem"} align={"center"}>
         <Box w={"32px"} />
         <Center h={"4rem"} flexGrow={1}>
-          <YSTVLogoIcon height="2.5rem" fill={"#333333"} />
+          <YSTVLogoIcon height="2.5rem" fill={YSTVLogoIconFill} />
         </Center>
 
         <CloseButton onClick={handleDrawerClose} ref={closeDrawerRef} />

@@ -2,7 +2,7 @@
 import React from "react";
 
 // MUI components
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Link, Text } from "@chakra-ui/react";
 
 // Custom Components
 
@@ -20,8 +20,13 @@ export default function Home() {
       <Text fontSize={"xl"}>
         This site is still being actively developed over the summer so some
         features may be still be missing temporarily! Please check out{" "}
-        <a href="https://forum.ystv.co.uk">the forum</a> if you have any
-        questions or suggestions.
+        <Link
+          href="https://forum.ystv.co.uk"
+          style={{ textDecoration: "underline" }}
+        >
+          the forum
+        </Link>{" "}
+        if you have any questions or suggestions.
       </Text>
       <br />
       <Text fontSize="xl">

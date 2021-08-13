@@ -11,7 +11,6 @@ import {
   withDefaultColorScheme,
 } from "@chakra-ui/react";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import { Backdrop } from "@material-ui/core";
 import "@fontsource/roboto";
 
 // Custom Components
