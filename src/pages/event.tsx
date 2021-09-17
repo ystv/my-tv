@@ -3,8 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 
 // MUI components
-import { Grid, Typography, Button, Box, Link } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
@@ -15,6 +13,16 @@ import TextTable from "../components/textTable";
 // Type imports
 import { eventInterface } from "../components/types/clapper";
 import { useUserContext } from "../App";
+import {
+  Box,
+  Button,
+  Grid,
+  Heading,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { FiTool } from "react-icons/fi";
 
 // Other imports
 
@@ -40,26 +48,26 @@ export default function Event(): JSX.Element {
         if (event.signups) {
           return (
             <Grid container justify="center" spacing={3}>
-              {event.signups.map((x, n) => (
-                <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
+              {event.signups.map((signup, i) => (
+                <Grid key={i} item xs={12} sm={6} md={4} xl={3}>
                   <TextTable
-                    tableDescription={x.description}
+                    tableDescription={signup.description}
                     tableSubheading={
-                      x.arrivalTime
+                      signup.arrivalTime
                         ? `Arrive at ${new Date(
-                            x.arrivalTime
+                            signup.arrivalTime
                           ).toLocaleTimeString("en-GB", {
                             hour: "2-digit",
                             minute: "2-digit",
                           })}`
                         : undefined
                     }
-                    tableTitle={x.title}
+                    tableTitle={signup.title}
                     columnTitles={["Role", "Name"]}
                     dataKeys={["roleName", "nickname"]}
-                    data={x.crew?.map((e) => ({
-                      roleName: e.name,
-                      nickname: `${e.user.nickname} ${e.user.lastName}`,
+                    data={signup.crew?.map((crewMember) => ({
+                      roleName: crewMember.name,
+                      nickname: `${crewMember.user.nickname} ${crewMember.user.lastName}`,
                     }))}
                   />
                 </Grid>
@@ -68,10 +76,14 @@ export default function Event(): JSX.Element {
           );
         } else {
           return (
-            <Typography variant="h6">
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+              lineHeight={"110%"}
+            >
               Looks like a crew list hasn't been added yet! Check back later for
               more information.
-            </Typography>
+            </Heading>
           );
         }
       default:
@@ -92,9 +104,13 @@ export default function Event(): JSX.Element {
           // No one is currently attending the non-show
         } else {
           return (
-            <Typography variant="h6">
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+              lineHeight={"110%"}
+            >
               Looks like you're the first one here, nice!
-            </Typography>
+            </Heading>
           );
         }
     }
@@ -119,19 +135,19 @@ export default function Event(): JSX.Element {
           </Link>
 
           <Grid container alignContent="space-between">
-            <Typography
+            <Heading
               variant="caption"
               style={{ flex: 1, alignSelf: "flex-end" }}
             >
               {toTitleCase(event.eventType)}
-            </Typography>
+            </Heading>
 
             {userContextPermissions(userContext) && (
               <Box component="span">
                 <Button
                   variant="contained"
                   color="primary"
-                  startIcon={<Edit />}
+                  startIcon={<FiTool />}
                   component={RouterLink}
                   to={`/event/edit/${event.eventID}`}
                 >
@@ -140,21 +156,21 @@ export default function Event(): JSX.Element {
               </Box>
             )}
           </Grid>
-          <Typography variant="subtitle2">
+          <Heading variant="subtitle2">
             {new Date(event.startDate).toLocaleDateString()}
             {new Date(event.startDate).toLocaleDateString() ===
             new Date(event.endDate).toLocaleDateString()
               ? null
               : ` - ${new Date(event.endDate).toLocaleDateString()}`}
-          </Typography>
-          <Typography variant="h4">
+          </Heading>
+          <Heading variant="h4">
             {event.isCancelled
               ? `${event.name} (Cancelled)`
               : event.isTentative
               ? `${event.name} (Tentative)`
               : event.name}
-          </Typography>
-          <Typography variant="h6">
+          </Heading>
+          <Heading variant="h6">
             {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
               hour: "2-digit",
               minute: "2-digit",
@@ -162,19 +178,22 @@ export default function Event(): JSX.Element {
               hour: "2-digit",
               minute: "2-digit",
             })}`}
-          </Typography>
+          </Heading>
           <br />
-          {event.description.split("\n").map((e) => (
-            <Typography variant="body1">
-              {e}
-              <br />
-            </Typography>
-          ))}
+          <Stack>
+            {event.description.split("\n").map((e) => (
+              <Text>
+                {e}
+                <br />
+              </Text>
+            ))}
+          </Stack>
+
           <br />
           {getEventTypeContents(event)}
         </>
       ) : (
-        <Typography variant="h6">No Event Found!</Typography>
+        <Heading variant="h6">No Event Found!</Heading>
       )}
     </>
   );

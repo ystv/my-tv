@@ -4,14 +4,14 @@ import { useLocation, Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 // MUI components
-import { Typography, Grid, Button, Box, TextField } from "@material-ui/core";
-import { CancelRounded, Save } from "@material-ui/icons";
 
 // Custom Components
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
 import { eventInterface } from "../components/types/clapper";
+import { Box, Button, Grid, Heading, Textarea } from "@chakra-ui/react";
+import { FiSave, FiXCircle } from "react-icons/fi";
 
 // Other imports
 
@@ -62,14 +62,14 @@ const EventEdit: React.FC = (): JSX.Element => {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container alignContent="space-between">
-            <Typography variant="h4" style={{ flex: 1 }}>
+            <Heading variant="h4" style={{ flex: 1 }}>
               Edit Event
-            </Typography>
+            </Heading>
             <Box component="span">
               <Button
                 variant="contained"
                 color="secondary"
-                startIcon={<CancelRounded />}
+                startIcon={<FiXCircle />}
                 component={RouterLink}
                 to={newEvent ? `/calendar` : `/event/${event?.eventID}`}
               >
@@ -78,7 +78,7 @@ const EventEdit: React.FC = (): JSX.Element => {
               <Button
                 variant="contained"
                 color="primary"
-                startIcon={<Save />}
+                startIcon={<FiSave />}
                 type="submit"
               >
                 Save Event
@@ -86,9 +86,9 @@ const EventEdit: React.FC = (): JSX.Element => {
             </Box>
           </Grid>
 
-          <Typography variant="body1">
+          <Heading variant="body1">
             {newEvent ? "New Event" : `${event?.eventID} - ${event?.name}`}
-          </Typography>
+          </Heading>
 
           <br />
 
@@ -100,7 +100,7 @@ const EventEdit: React.FC = (): JSX.Element => {
             spacing={2}
           >
             <Grid item>
-              <TextField
+              <Textarea
                 type="text"
                 placeholder="Event Name"
                 defaultValue={event?.name}
@@ -110,7 +110,7 @@ const EventEdit: React.FC = (): JSX.Element => {
               />
             </Grid>
             <Grid item>
-              <TextField
+              <Textarea
                 type="text"
                 placeholder="Event Description"
                 defaultValue={event?.description}

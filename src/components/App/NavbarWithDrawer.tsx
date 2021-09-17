@@ -4,9 +4,10 @@ import { ReactNode, useState } from "react";
 // MUI components
 
 // Other imports
-import DrawerComponent from "./DrawerComponent";
-import NavbarComponent from "./NavbarComponent";
+// import DrawerComponent from "./DrawerComponent";
+// import NavbarComponent from "./NavbarComponent";
 import { Box } from "@chakra-ui/react";
+import SidebarWithHeader from "./DrawerContents";
 
 // Begin Code
 
@@ -21,9 +22,7 @@ export default function NavbarWithDrawer({
   /// Menu and Drawer Component Master Return
 
   return (
-    <div>
-      <NavbarComponent drawerOpenState={drawerOpenState} />
-      <DrawerComponent drawerOpenState={drawerOpenState} />
+    <SidebarWithHeader>
       <main style={{ padding: "0 2rem" }}>
         <Box height={"4rem"} />
         <br />
@@ -33,6 +32,6 @@ export default function NavbarWithDrawer({
         }
         <div className="spacer2" />
       </main>
-    </div>
+    </SidebarWithHeader>
   );
 }

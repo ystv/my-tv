@@ -1,5 +1,5 @@
 // React Imports
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // MUI components
@@ -11,7 +11,6 @@ import {
   withDefaultColorScheme,
 } from "@chakra-ui/react";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import "@fontsource/roboto";
 
 // Custom Components
 import apiAuthReq from "./components/functions/apiAuthReq";
@@ -34,7 +33,7 @@ export const chakraTheme = extendTheme(
   }
 );
 
-export default function App() {
+export default function App(): JSX.Element {
   const [user, setUser] = useState<userInterface>();
 
   useEffect(() => {
@@ -55,7 +54,7 @@ export default function App() {
           </Router>
         </useUserContext.Provider>
       ) : (
-        <Center height={"100vh"}>
+        <Center height="100vh">
           <Spinner />
         </Center>
       )}

@@ -1,3 +1,16 @@
+export interface permissionInterface {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export interface roleInterface {
+  id: number;
+  name: string;
+  description: string;
+  permissions: permissionInterface[];
+}
+
 export interface userInterface {
   id: number;
   username: string;
@@ -18,17 +31,4 @@ export interface userFullInterface extends userInterface {
   deletedAt: Date;
   deletedBy: number;
   roles: roleInterface;
-}
-
-export interface roleInterface {
-  id: number;
-  name: string;
-  description: string;
-  permissions: permissionInterface[];
-}
-
-export interface permissionInterface {
-  id: number;
-  name: string;
-  description: string;
 }
