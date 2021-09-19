@@ -1,17 +1,17 @@
-export interface permissionInterface {
+export interface PermissionInterface {
   id: number;
   name: string;
   description: string;
 }
 
-export interface roleInterface {
+export interface RoleInterface {
   id: number;
   name: string;
   description: string;
-  permissions: permissionInterface[];
+  permissions: PermissionInterface[];
 }
 
-export interface userInterface {
+export interface UserInterface {
   id: number;
   username: string;
   email: string;
@@ -19,10 +19,10 @@ export interface userInterface {
   avatar: string;
   firstName: string;
   lastName: string;
-  permissions: permissionInterface[];
+  permissions: PermissionInterface[];
 }
 
-export interface userFullInterface extends userInterface {
+export interface UserFullInterface extends UserInterface {
   lastLogin: Date;
   createdAt: Date;
   createdBy: number;
@@ -30,5 +30,5 @@ export interface userFullInterface extends userInterface {
   updatedBy: number;
   deletedAt: Date;
   deletedBy: number;
-  roles: roleInterface;
+  roles: RoleInterface;
 }

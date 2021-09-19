@@ -1,5 +1,5 @@
 // React Imports
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // MUI components
@@ -19,10 +19,9 @@ import PageRouter from "./components/App/PageRouter";
 
 // Type imports
 import { userInterface } from "./components/types/people";
+import UserProvider from "./components/contexts/userProvider";
 
 // Begin Code
-
-export const useUserContext = createContext<userInterface>(null as any);
 
 export const chakraTheme = extendTheme(
   withDefaultColorScheme({ colorScheme: "blue" }),
@@ -38,7 +37,6 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     apiAuthReq<userInterface>("/v1/internal/people/user/").then((e) => {
-      console.log("user: ", e);
       setUser(e);
     });
   }, []);
@@ -46,13 +44,13 @@ export default function App(): JSX.Element {
   return (
     <ChakraProvider theme={chakraTheme}>
       {user ? (
-        <useUserContext.Provider value={user}>
+        <UserProvider user={user}>
           <Router>
             <NavbarWithDrawer>
               <PageRouter />
             </NavbarWithDrawer>
           </Router>
-        </useUserContext.Provider>
+        </UserProvider>
       ) : (
         <Center height="100vh">
           <Spinner />

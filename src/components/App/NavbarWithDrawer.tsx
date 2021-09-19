@@ -1,5 +1,5 @@
 // React Imports
-import { ReactNode, useState } from "react";
+import React from "react";
 
 // MUI components
 
@@ -11,27 +11,18 @@ import SidebarWithHeader from "./DrawerContents";
 
 // Begin Code
 
-export default function NavbarWithDrawer({
-  children,
-}: {
-  children?: ReactNode;
-}) {
-  /// Declarations
-  const drawerOpenState = useState(false);
+const NavbarWithDrawer: React.FC = ({ children }): JSX.Element => (
+  <SidebarWithHeader>
+    <main style={{ padding: "0 2rem" }}>
+      <Box height="4rem" />
+      <br />
+      {
+        // THIS IS WHERE THE PAGE CONTENT GOES
+        children
+      }
+      <div className="spacer2" />
+    </main>
+  </SidebarWithHeader>
+);
 
-  /// Menu and Drawer Component Master Return
-
-  return (
-    <SidebarWithHeader>
-      <main style={{ padding: "0 2rem" }}>
-        <Box height={"4rem"} />
-        <br />
-        {
-          /// THIS IS WHERE THE PAGE CONTENT GOES
-          children
-        }
-        <div className="spacer2" />
-      </main>
-    </SidebarWithHeader>
-  );
-}
+export default NavbarWithDrawer;

@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 // MUI components
 
 // Custom Components
+import { Box, Button, Grid, Heading, Textarea } from "@chakra-ui/react";
+import { FiSave, FiXCircle } from "react-icons/fi";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
 import { eventInterface } from "../components/types/clapper";
-import { Box, Button, Grid, Heading, Textarea } from "@chakra-ui/react";
-import { FiSave, FiXCircle } from "react-icons/fi";
 
 // Other imports
 
@@ -31,7 +31,7 @@ const EventEdit: React.FC = (): JSX.Element => {
   const [event, setEvent] = useState<eventInterface>();
   const [newEvent, setNewEvent] = useState<boolean>();
   const { register, handleSubmit } = useForm<eventInterface>();
-  let location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     const eventNumber = location.pathname.split("/")[3];
@@ -40,7 +40,6 @@ const EventEdit: React.FC = (): JSX.Element => {
       apiAuthReq<eventInterface>(
         `/v1/internal/clapper/event/${eventNumber}`
       ).then((e) => {
-        console.log("Current event:", e);
         setEvent(e);
         setNewEvent(!e);
       });
@@ -57,7 +56,7 @@ const EventEdit: React.FC = (): JSX.Element => {
 
   return (
     <>
-      {true ? ( //newEvent === undefined ? (
+      {true ? ( // newEvent === undefined ? (
         <div>Loading</div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>

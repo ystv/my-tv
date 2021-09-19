@@ -54,7 +54,7 @@ const EventAdd: React.FC = (): JSX.Element => {
   }
 
   return (
-    <Steps orientation={"vertical"} activeStep={activeStep}>
+    <Steps orientation="vertical" activeStep={activeStep}>
       <Step key="Create Event" label="Create Event">
         <form onSubmit={handleSubmit(onSubmitStepOne)}>
           <Heading>Create Event</Heading>
@@ -81,7 +81,7 @@ const EventAdd: React.FC = (): JSX.Element => {
           />
 
           <FormLabel>Type</FormLabel>
-          <Select {...register("eventType")} variant={"outline"}>
+          <Select {...register("eventType")} variant="outline">
             <option value="show">Show</option>
             <option value="meeting">Meeting</option>
             <option value="social">Social</option>
@@ -95,7 +95,7 @@ const EventAdd: React.FC = (): JSX.Element => {
 
           <br />
           <HStack>
-            <Button variant="outline" component={RouterLink} to={`/calendar`}>
+            <Button variant="outline" component={RouterLink} to="/calendar">
               Back
             </Button>{" "}
             <Button variant="solid" type="submit">

@@ -1,8 +1,8 @@
-export interface quotesInterface {
-  Quotes: quoteInterface[];
+export interface QuotesInterface {
+  Quotes: QuoteInterface[];
 }
 
-export interface quoteInterface {
+export interface QuoteInterface {
   id: number;
   quote: string;
   description: string;

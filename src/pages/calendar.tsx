@@ -5,10 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 // Custom Components
 import "../components/calendar.css";
-import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { calendarInterface } from "../components/types/clapper";
 
 // Other imports
 import FullCalendar from "@fullcalendar/react";
@@ -17,11 +15,12 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import { useLocation, useHistory } from "react-router-dom";
 import { Heading, useBreakpointValue } from "@chakra-ui/react";
+import { CalendarInterface } from "../components/types/clapper";
+import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Begin Code
 
-export default function Calendar() {
-  const [data, setData] = useState<Array<object>>([]);
+export default function Calendar(): JSX.Element {
   const location = useLocation();
   const rrHistory = useHistory();
   const calendarRef = useRef<FullCalendar>(null);
@@ -33,34 +32,32 @@ export default function Calendar() {
     "base"
   );
   useEffect(() => {
-    let calendarApi: any;
-    calendarApi = calendarRef.current?.getApi();
-    calendarApi.changeView(initialView);
+    const calendarApi = calendarRef.current?.getApi();
+    calendarApi?.changeView(initialView);
   }, [initialView]);
 
   function GetInitDate() {
-    let year = parseInt(location.pathname.split("/")[2]);
-    if (!isNaN(year)) {
-      let month = parseInt(location.pathname.split("/")[3]);
-      if (!isNaN(month)) {
+    const year = parseInt(location.pathname.split("/")[2], 10);
+    if (!Number.isNaN(year)) {
+      const month = parseInt(location.pathname.split("/")[3], 10);
+      if (!Number.isNaN(month)) {
         if (month < 10) {
           return `${year}-0${month}-01`;
-        } else {
-          return `${year}-${month}-01`;
         }
+        return `${year}-${month}-01`;
       }
     }
     return Date.now();
   }
 
   function handleGetDate(urlDate: Date) {
-    apiAuthReq<calendarInterface[]>(
+    apiAuthReq<CalendarInterface[]>(
       `/v1/internal/clapper/calendar/monthly/${urlDate.getFullYear()}/${
         urlDate.getMonth() + 1
       }`
     ).then((e) => {
-      let eventArray = e.map((event: calendarInterface) => {
-        let eventObject: { [key: string]: any } = {
+      const eventArray = e.map((event: CalendarInterface) => {
+        const eventObject: { [key: string]: any } = {
           id: event.eventID,
           start: event.startDate,
           end: event.endDate,

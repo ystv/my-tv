@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
+import getToken from "../api/auth";
 import APIToken from "./types/apiToken";
-import getToken from "./Auth";
 
 interface AuthProps extends RouteProps {
   requiredRoles?: string[];

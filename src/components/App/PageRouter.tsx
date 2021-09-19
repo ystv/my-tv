@@ -11,7 +11,15 @@ import Event from "../../pages/event";
 import Home from "../../pages/home";
 import EventAdd from "../../pages/eventAdd";
 
-export default function PageRouter() {
+function FourOFour() {
+  return <h2>Sorry Bud, this does not exist!</h2>;
+}
+
+function ThreeOOne() {
+  return <h2>Sorry Bud, you cannot see that!</h2>;
+}
+
+export default function PageRouter(): JSX.Element {
   return (
     <Switch>
       <Route path="/webcams">
@@ -55,12 +63,4 @@ export default function PageRouter() {
       </Route>
     </Switch>
   );
-}
-
-function FourOFour() {
-  return <h2>Sorry Bud, this doesn't exist!</h2>;
-}
-
-function ThreeOOne() {
-  return <h2>Sorry Bud, you can't see that!</h2>;
 }

@@ -17,7 +17,7 @@ export default function Home() {
     <Box w={["100%", "xl"]}>
       <Heading>Welcome Home!</Heading>
       <br />
-      <Text fontSize={"xl"}>
+      <Text fontSize="xl">
         This site is still being actively developed over the summer so some
         features may be still be missing temporarily! Please check out{" "}
         <Link

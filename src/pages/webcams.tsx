@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 
 // MUI components
-import apiAuthReq from "../components/functions/apiAuthReq";
 import { Center, Grid, Heading, Spinner } from "@chakra-ui/react";
+import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Custom Components
 
