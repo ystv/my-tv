@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 
 // MUI components
+import { Center, Grid, Heading, Link, Spinner } from "@chakra-ui/react";
 import apiAuthReq from "../components/functions/apiAuthReq";
-import { Center, Grid, Heading, Spinner } from "@chakra-ui/react";
 
 // Custom Components
 
@@ -13,7 +13,7 @@ import { Center, Grid, Heading, Spinner } from "@chakra-ui/react";
 
 // Begin Code
 
-export default function Webcams() {
+export default function Webcams(): JSX.Element {
   const interval = 2000;
   const [imagesrcs, setImagesrcs] = useState([]);
 
@@ -48,10 +48,17 @@ export default function Webcams() {
       ) : (
         <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}>
           {imagesrcs.map((imageSrc, i) => (
-            <img src={imageSrc} key={i} alt={`webcam ${i}`} />
+            <img src={imageSrc} key={imageSrc} alt={`webcam ${i}`} />
           ))}
         </Grid>
       )}
+      <p>
+        Please note that these feeds are not 100% reliable and go down from time
+        to time, please inform{" "}
+        <Link href="https://ystv.slack.com/archives/C0CG8PRBN">#computing</Link>{" "}
+        Slack channel or email the{" "}
+        <Link href="mailto:computing@ystv.co.uk">Computing team</Link>.
+      </p>
     </div>
   );
 }

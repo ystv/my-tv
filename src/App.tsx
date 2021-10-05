@@ -1,5 +1,5 @@
 // React Imports
-import { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // MUI components
@@ -11,19 +11,17 @@ import {
   withDefaultColorScheme,
 } from "@chakra-ui/react";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import "@fontsource/roboto";
 
 // Custom Components
 import apiAuthReq from "./components/functions/apiAuthReq";
-import NavbarWithDrawer from "./components/App/NavbarWithDrawer";
+import SidebarWithHeader from "./components/App/SidebarWithHeader";
 import PageRouter from "./components/App/PageRouter";
 
 // Type imports
-import { userInterface } from "./components/types/people";
+import { UserInterface } from "./components/types/people";
+import UserProvider from "./components/contexts/userProvider";
 
 // Begin Code
-
-export const useUserContext = createContext<userInterface>(null as any);
 
 export const chakraTheme = extendTheme(
   withDefaultColorScheme({ colorScheme: "blue" }),
@@ -34,12 +32,11 @@ export const chakraTheme = extendTheme(
   }
 );
 
-export default function App() {
-  const [user, setUser] = useState<userInterface>();
+export default function App(): JSX.Element {
+  const [user, setUser] = useState<UserInterface>();
 
   useEffect(() => {
-    apiAuthReq<userInterface>("/v1/internal/people/user/").then((e) => {
-      console.log("user: ", e);
+    apiAuthReq<UserInterface>("/v1/internal/people/user/").then((e) => {
       setUser(e);
     });
   }, []);
@@ -47,15 +44,15 @@ export default function App() {
   return (
     <ChakraProvider theme={chakraTheme}>
       {user ? (
-        <useUserContext.Provider value={user}>
+        <UserProvider user={user}>
           <Router>
-            <NavbarWithDrawer>
+            <SidebarWithHeader>
               <PageRouter />
-            </NavbarWithDrawer>
+            </SidebarWithHeader>
           </Router>
-        </useUserContext.Provider>
+        </UserProvider>
       ) : (
-        <Center height={"100vh"}>
+        <Center height="100vh">
           <Spinner />
         </Center>
       )}

@@ -4,14 +4,14 @@ import { useLocation, Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 // MUI components
-import { Typography, Grid, Button, Box, TextField } from "@material-ui/core";
-import { CancelRounded, Save } from "@material-ui/icons";
 
 // Custom Components
+import { Box, Button, Grid, Heading, Textarea } from "@chakra-ui/react";
+import { FiSave, FiXCircle } from "react-icons/fi";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { eventInterface } from "../components/types/clapper";
+import { EventInterface } from "../components/types/clapper";
 
 // Other imports
 
@@ -28,26 +28,25 @@ import { eventInterface } from "../components/types/clapper";
 // };
 
 const EventEdit: React.FC = (): JSX.Element => {
-  const [event, setEvent] = useState<eventInterface>();
+  const [event, setEvent] = useState<EventInterface>();
   const [newEvent, setNewEvent] = useState<boolean>();
-  const { register, handleSubmit } = useForm<eventInterface>();
-  let location = useLocation();
+  const { register, handleSubmit } = useForm<EventInterface>();
+  const location = useLocation();
 
   useEffect(() => {
     const eventNumber = location.pathname.split("/")[3];
 
     if (eventNumber !== undefined) {
-      apiAuthReq<eventInterface>(
+      apiAuthReq<EventInterface>(
         `/v1/internal/clapper/event/${eventNumber}`
       ).then((e) => {
-        console.log("Current event:", e);
         setEvent(e);
         setNewEvent(!e);
       });
     }
   }, [location.pathname]);
 
-  function onSubmit(data: eventInterface) {
+  function onSubmit(data: EventInterface) {
     if (newEvent) {
       console.log("creating new event", data);
     } else {
@@ -57,19 +56,19 @@ const EventEdit: React.FC = (): JSX.Element => {
 
   return (
     <>
-      {true ? ( //newEvent === undefined ? (
+      {true ? ( // newEvent === undefined ? (
         <div>Loading</div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container alignContent="space-between">
-            <Typography variant="h4" style={{ flex: 1 }}>
+            <Heading variant="h4" style={{ flex: 1 }}>
               Edit Event
-            </Typography>
+            </Heading>
             <Box component="span">
               <Button
                 variant="contained"
                 color="secondary"
-                startIcon={<CancelRounded />}
+                startIcon={<FiXCircle />}
                 component={RouterLink}
                 to={newEvent ? `/calendar` : `/event/${event?.eventID}`}
               >
@@ -78,7 +77,7 @@ const EventEdit: React.FC = (): JSX.Element => {
               <Button
                 variant="contained"
                 color="primary"
-                startIcon={<Save />}
+                startIcon={<FiSave />}
                 type="submit"
               >
                 Save Event
@@ -86,9 +85,9 @@ const EventEdit: React.FC = (): JSX.Element => {
             </Box>
           </Grid>
 
-          <Typography variant="body1">
+          <Heading variant="body1">
             {newEvent ? "New Event" : `${event?.eventID} - ${event?.name}`}
-          </Typography>
+          </Heading>
 
           <br />
 
@@ -100,7 +99,7 @@ const EventEdit: React.FC = (): JSX.Element => {
             spacing={2}
           >
             <Grid item>
-              <TextField
+              <Textarea
                 type="text"
                 placeholder="Event Name"
                 defaultValue={event?.name}
@@ -110,7 +109,7 @@ const EventEdit: React.FC = (): JSX.Element => {
               />
             </Grid>
             <Grid item>
-              <TextField
+              <Textarea
                 type="text"
                 placeholder="Event Description"
                 defaultValue={event?.description}

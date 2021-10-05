@@ -1,4 +1,4 @@
-export interface calendarInterface {
+export interface CalendarInterface {
   eventID: number;
   eventType: string;
   name: string;
@@ -11,7 +11,7 @@ export interface calendarInterface {
   isTentative: boolean;
 }
 
-export interface eventInterface {
+export interface EventInterface {
   eventID: number;
   eventType: string;
   name: string;
@@ -22,23 +22,23 @@ export interface eventInterface {
   isPrivate: boolean;
   isCancelled: boolean;
   isTentative: boolean;
-  signups?: signupSheetInterface[];
-  attendees?: attendeeInterface[];
+  signups?: SignupSheetInterface[];
+  attendees?: AttendeeInterface[];
 }
 
-export interface crewInterface extends positionInterface {
+export interface CrewInterface extends PositionInterface {
   crewID: number;
   locked: boolean;
   credited: boolean;
   ordering: number;
-  user: clapperUserInterface;
+  user: ClapperUserInterface;
 }
 
-export interface attendeeInterface extends clapperUserInterface {
+export interface AttendeeInterface extends ClapperUserInterface {
   attendStatus: string;
 }
 
-export interface signupSheetInterface {
+export interface SignupSheetInterface {
   signupID: number;
   title: string;
   description: string;
@@ -46,17 +46,17 @@ export interface signupSheetInterface {
   startTime: Date;
   endTime: Date;
   arrivalTime: Date;
-  crew: crewInterface[];
+  crew: CrewInterface[];
 }
 
-export interface clapperUserInterface {
+export interface ClapperUserInterface {
   userID: number;
   nickname: string;
   firstName: string;
   lastName: string;
 }
 
-export interface positionInterface {
+export interface PositionInterface {
   positionID: number;
   name: string;
   description: string;
