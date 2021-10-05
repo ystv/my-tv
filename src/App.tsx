@@ -14,11 +14,11 @@ import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 
 // Custom Components
 import apiAuthReq from "./components/functions/apiAuthReq";
-import NavbarWithDrawer from "./components/App/NavbarWithDrawer";
+import SidebarWithHeader from "./components/App/SidebarWithHeader";
 import PageRouter from "./components/App/PageRouter";
 
 // Type imports
-import { userInterface } from "./components/types/people";
+import { UserInterface } from "./components/types/people";
 import UserProvider from "./components/contexts/userProvider";
 
 // Begin Code
@@ -33,10 +33,10 @@ export const chakraTheme = extendTheme(
 );
 
 export default function App(): JSX.Element {
-  const [user, setUser] = useState<userInterface>();
+  const [user, setUser] = useState<UserInterface>();
 
   useEffect(() => {
-    apiAuthReq<userInterface>("/v1/internal/people/user/").then((e) => {
+    apiAuthReq<UserInterface>("/v1/internal/people/user/").then((e) => {
       setUser(e);
     });
   }, []);
@@ -46,9 +46,9 @@ export default function App(): JSX.Element {
       {user ? (
         <UserProvider user={user}>
           <Router>
-            <NavbarWithDrawer>
+            <SidebarWithHeader>
               <PageRouter />
-            </NavbarWithDrawer>
+            </SidebarWithHeader>
           </Router>
         </UserProvider>
       ) : (

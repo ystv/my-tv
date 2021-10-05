@@ -52,9 +52,9 @@ const TextTable: React.FC<TableProps> = (props): JSX.Element => (
       </Thead>
       <Tbody>
         {props.data?.map((e, i) => (
-          <Tr key={`row${i}`}>
-            {props.dataKeys.map((n, m) => (
-              <Td key={`cell${m}`}>{e[n]}</Td>
+          <Tr key={`row${props.dataKeys[i]}`}>
+            {props.dataKeys.map((n) => (
+              <Td key={props.dataKeys[i]}>{e[n]}</Td>
             ))}
           </Tr>
         ))}

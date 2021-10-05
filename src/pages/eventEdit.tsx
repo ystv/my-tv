@@ -11,7 +11,7 @@ import { FiSave, FiXCircle } from "react-icons/fi";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { eventInterface } from "../components/types/clapper";
+import { EventInterface } from "../components/types/clapper";
 
 // Other imports
 
@@ -28,16 +28,16 @@ import { eventInterface } from "../components/types/clapper";
 // };
 
 const EventEdit: React.FC = (): JSX.Element => {
-  const [event, setEvent] = useState<eventInterface>();
+  const [event, setEvent] = useState<EventInterface>();
   const [newEvent, setNewEvent] = useState<boolean>();
-  const { register, handleSubmit } = useForm<eventInterface>();
+  const { register, handleSubmit } = useForm<EventInterface>();
   const location = useLocation();
 
   useEffect(() => {
     const eventNumber = location.pathname.split("/")[3];
 
     if (eventNumber !== undefined) {
-      apiAuthReq<eventInterface>(
+      apiAuthReq<EventInterface>(
         `/v1/internal/clapper/event/${eventNumber}`
       ).then((e) => {
         setEvent(e);
@@ -46,7 +46,7 @@ const EventEdit: React.FC = (): JSX.Element => {
     }
   }, [location.pathname]);
 
-  function onSubmit(data: eventInterface) {
+  function onSubmit(data: EventInterface) {
     if (newEvent) {
       console.log("creating new event", data);
     } else {

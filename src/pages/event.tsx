@@ -20,14 +20,14 @@ import toTitleCase from "../components/functions/toTitleCase";
 import TextTable from "../components/textTable";
 
 // Type imports
-import { eventInterface } from "../components/types/clapper";
+import { EventInterface } from "../components/types/clapper";
 import { withPermissions } from "../components/contexts/userContext";
 
 // Other imports
 
 // Begin Code
 
-function getEventTypeContents(event: eventInterface): JSX.Element {
+function getEventTypeContents(event: EventInterface): JSX.Element {
   switch (event.eventType) {
     case "show":
       if (event.signups) {
@@ -36,8 +36,9 @@ function getEventTypeContents(event: eventInterface): JSX.Element {
             {event.signups.map((signup) => (
               <Grid key={signup.signupID} item xs={12} sm={6} md={4} xl={3}>
                 <TextTable
-                  tableDescription={signup.description}
-                  tableSubheading={
+                  title={signup.title}
+                  description={signup.description}
+                  subheading={
                     signup.arrivalTime
                       ? `Arrive at ${new Date(
                           signup.arrivalTime
@@ -47,7 +48,6 @@ function getEventTypeContents(event: eventInterface): JSX.Element {
                         })}`
                       : undefined
                   }
-                  tableTitle={signup.title}
                   columnTitles={["Role", "Name"]}
                   dataKeys={["roleName", "nickname"]}
                   data={signup.crew?.map((crewMember) => ({
@@ -76,7 +76,7 @@ function getEventTypeContents(event: eventInterface): JSX.Element {
         return (
           <Grid item xs={12} sm={6} md={4} xl={3}>
             <TextTable
-              tableTitle={event.name}
+              title={event.name}
               columnTitles={["Name", "Status"]}
               dataKeys={["name", "status"]}
               data={event.attendees.map((e) => ({
@@ -101,11 +101,11 @@ function getEventTypeContents(event: eventInterface): JSX.Element {
 }
 
 export default function Event(): JSX.Element {
-  const [event, setEvent] = useState<eventInterface>();
+  const [event, setEvent] = useState<EventInterface>();
   const location = useLocation();
 
   useEffect(() => {
-    apiAuthReq<eventInterface>(
+    apiAuthReq<EventInterface>(
       `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
     ).then((e) => {
       setEvent(e);

@@ -13,7 +13,7 @@ import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Begin Code
 
-export default function Webcams() {
+export default function Webcams(): JSX.Element {
   const interval = 2000;
   const [imagesrcs, setImagesrcs] = useState([]);
 
@@ -48,7 +48,7 @@ export default function Webcams() {
       ) : (
         <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}>
           {imagesrcs.map((imageSrc, i) => (
-            <img src={imageSrc} key={i} alt={`webcam ${i}`} />
+            <img src={imageSrc} key={imageSrc} alt={`webcam ${i}`} />
           ))}
         </Grid>
       )}

@@ -4,7 +4,6 @@ import { Route, Switch } from "react-router-dom";
 import Webcams from "../../pages/webcams";
 import AddQuote from "../../pages/addQuote";
 import Quotes from "../../pages/quotes";
-import Calendar from "../../pages/calendar";
 import RouteWithPerms from "../RouteWithPerms";
 import EventEdit from "../../pages/eventEdit";
 import Event from "../../pages/event";
@@ -34,9 +33,7 @@ export default function PageRouter(): JSX.Element {
         <Quotes />
       </Route>
 
-      <Route path="/calendar">
-        <Calendar />
-      </Route>
+      <Route path="/calendar">{/* <Calendar /> */}</Route>
 
       <RouteWithPerms path="/event/edit/:eventID?">
         <EventEdit />

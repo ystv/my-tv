@@ -22,7 +22,7 @@ import SearchSelect from "react-select";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { eventInterface, positionInterface } from "../components/types/clapper";
+import { EventInterface, PositionInterface } from "../components/types/clapper";
 
 // Other imports
 
@@ -38,8 +38,8 @@ import { eventInterface, positionInterface } from "../components/types/clapper";
 // };
 
 const EventAdd: React.FC = (): JSX.Element => {
-  const { register, handleSubmit } = useForm<eventInterface>();
-  const [positions, setPositions] = useState<positionInterface[]>([]);
+  const { register, handleSubmit } = useForm<EventInterface>();
+  const [positions, setPositions] = useState<PositionInterface[]>([]);
   const { nextStep, activeStep } = useSteps({
     initialStep: 0,
   });
@@ -48,7 +48,7 @@ const EventAdd: React.FC = (): JSX.Element => {
     apiAuthReq("/v1/internal/clapper/positions").then((e) => setPositions(e));
   }, []);
 
-  function onSubmitStepOne(data: eventInterface) {
+  function onSubmitStepOne(data: EventInterface) {
     console.log("creating new event", data);
     nextStep();
   }

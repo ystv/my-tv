@@ -1,9 +1,9 @@
 import React from "react";
 import UserContext from "./userContext";
-import { userInterface } from "../types/people";
+import { UserInterface } from "../types/people";
 
 interface ProviderProps {
-  user: userInterface;
+  user: UserInterface;
 }
 
 const UserProvider: React.FC<ProviderProps> = ({ user, children }) => {
