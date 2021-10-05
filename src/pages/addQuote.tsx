@@ -15,6 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import apiAuthReq from "../components/functions/apiAuthReq";
+import { QuoteInterface } from "../components/types/quotes";
 
 // Type imports
 
@@ -26,7 +27,7 @@ export default function AddQuote(): JSX.Element {
   const { register, handleSubmit } = useForm();
   const history = useHistory();
 
-  function onSubmit(data: any) {
+  function onSubmit(data: QuoteInterface) {
     apiAuthReq("/v1/internal/people/user").then(() =>
       axios
         .post(

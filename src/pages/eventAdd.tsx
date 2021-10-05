@@ -15,6 +15,7 @@ import {
   FormControl,
   FormLabel,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import SearchSelect from "react-select";
 
@@ -44,12 +45,20 @@ const EventAdd: React.FC = (): JSX.Element => {
     initialStep: 0,
   });
 
+  const toast = useToast();
+
   useEffect(() => {
     apiAuthReq("/v1/internal/clapper/positions").then((e) => setPositions(e));
   }, []);
 
   function onSubmitStepOne(data: EventInterface) {
-    console.log("creating new event", data);
+    toast({
+      title: "Stepped one",
+      description: JSON.stringify(data),
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
     nextStep();
   }
 
