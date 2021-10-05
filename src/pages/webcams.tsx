@@ -52,6 +52,10 @@ export default function Webcams(): JSX.Element {
           ))}
         </Grid>
       )}
+      <p>
+        Please note that these feeds are not 100% reliable and go down from time
+        to time, please inform #computing on slack or email the Computing team.
+      </p>
     </div>
   );
 }
