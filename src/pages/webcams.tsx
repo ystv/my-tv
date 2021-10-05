@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // MUI components
-import { Center, Grid, Heading, Spinner } from "@chakra-ui/react";
+import { Center, Grid, Heading, Link, Spinner } from "@chakra-ui/react";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Custom Components
@@ -54,7 +54,10 @@ export default function Webcams(): JSX.Element {
       )}
       <p>
         Please note that these feeds are not 100% reliable and go down from time
-        to time, please inform #computing on slack or email the Computing team.
+        to time, please inform{" "}
+        <Link href="https://ystv.slack.com/archives/C0CG8PRBN">#computing</Link>{" "}
+        Slack channel or email the{" "}
+        <Link href="mailto:computing@ystv.co.uk">Computing team</Link>.
       </p>
     </div>
   );
