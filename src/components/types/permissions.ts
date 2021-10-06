@@ -1,4 +1,4 @@
-export enum userRoles {
+enum UserRoles {
   VideoStats = "VideoStats",
   KeyListManage = "KeyList.Manage",
   Director = "Director",
@@ -45,3 +45,5 @@ export enum userRoles {
   BookingsAdmin = "BookingsAdmin",
   CMSEndboardAdmin = "CMS.EndboardAdmin",
 }
+
+export default UserRoles;

@@ -1,38 +1,62 @@
-// React Imports
-import { useContext, ReactNode } from "react";
-import { Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Redirect, RouteProps } from "react-router-dom";
+import getToken from "../api/auth";
+import APIToken from "./types/apiToken";
 
-// MUI components
-
-// Custom Components
-import userContextPermissions from "./functions/userContextPermissions";
-import { userRoles } from "./types/permissions";
-import { useUserContext } from "../App";
-
-// Type imports
-
-// Other imports
-
-// Begin Code
-
-interface RouteWithPermsProps {
-  path: string;
-  allowedPermIDs?: userRoles[];
-  children: ReactNode;
+interface AuthProps extends RouteProps {
+  requiredRoles?: string[];
 }
 
-export default function RouteWithPerms({
-  allowedPermIDs,
-  children,
-  path,
-}: RouteWithPermsProps) {
-  const userContext = useContext(useUserContext);
-  const permission = userContextPermissions(userContext, allowedPermIDs);
-  console.log(`allowed ${permission} from ${allowedPermIDs},SuperUser`);
+const AuthRoute: React.FC<AuthProps> = (props): JSX.Element => {
+  const [token, setToken] = useState<APIToken | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    async function getData() {
+      getToken()
+        .then((gotToken) => {
+          setToken(gotToken);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    getData();
+  }, []);
 
-  return (
-    <Route exact path={path}>
-      {permission ? children : (window.location.href = "/301")}
-    </Route>
-  );
-}
+  if (!isLoading) {
+    if (token === null) {
+      return <Redirect to="/login" />;
+    }
+
+    let reqRoles: string[];
+    // if a reqRole wasn't given, default to all
+    if (props.requiredRoles) {
+      reqRoles = props.requiredRoles;
+    } else {
+      reqRoles = [""];
+    }
+
+    const userHasRequiredRole = token?.perms.some((permission) =>
+      reqRoles.includes(permission.name)
+    );
+    const message = "Unauthorized";
+    if (userHasRequiredRole || reqRoles === [""]) {
+      return <Route />;
+    }
+    return (
+      <Redirect
+        to={{
+          pathname: "/unauthorized",
+          state: {
+            message,
+            requestedPath: props.path,
+          },
+        }}
+      />
+    );
+  }
+
+  return <h1>Loading</h1>;
+};
+
+export default AuthRoute;

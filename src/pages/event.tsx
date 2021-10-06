@@ -1,114 +1,116 @@
 // React Imports
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 
 // MUI components
-import { Grid, Typography, Button, Box, Link } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
 
 // Custom Components
+import {
+  Box,
+  Button,
+  Grid,
+  Heading,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { FiTool } from "react-icons/fi";
 import apiAuthReq from "../components/functions/apiAuthReq";
-import { toTitleCase } from "../components/functions/otherUsefulFunctions";
-import userContextPermissions from "../components/functions/userContextPermissions";
+import toTitleCase from "../components/functions/toTitleCase";
 import TextTable from "../components/textTable";
 
 // Type imports
-import { eventInterface } from "../components/types/clapper";
-import { useUserContext } from "../App";
+import { EventInterface } from "../components/types/clapper";
+import { withPermissions } from "../components/contexts/userContext";
 
 // Other imports
 
 // Begin Code
 
+function getEventTypeContents(event: EventInterface): JSX.Element {
+  switch (event.eventType) {
+    case "show":
+      if (event.signups) {
+        return (
+          <Grid container justify="center" spacing={3}>
+            {event.signups.map((signup) => (
+              <Grid key={signup.signupID} item xs={12} sm={6} md={4} xl={3}>
+                <TextTable
+                  title={signup.title}
+                  description={signup.description}
+                  subheading={
+                    signup.arrivalTime
+                      ? `Arrive at ${new Date(
+                          signup.arrivalTime
+                        ).toLocaleTimeString("en-GB", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}`
+                      : undefined
+                  }
+                  columnTitles={["Role", "Name"]}
+                  dataKeys={["roleName", "nickname"]}
+                  data={signup.crew?.map((crewMember) => ({
+                    roleName: crewMember.name,
+                    nickname: `${crewMember.user.nickname} ${crewMember.user.lastName}`,
+                  }))}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        );
+      }
+      return (
+        <Heading
+          fontWeight={600}
+          fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+          lineHeight="110%"
+        >
+          Looks like a crew list has not been added yet! Check back later for
+          more information.
+        </Heading>
+      );
+
+    default:
+      if (event.attendees) {
+        return (
+          <Grid item xs={12} sm={6} md={4} xl={3}>
+            <TextTable
+              title={event.name}
+              columnTitles={["Name", "Status"]}
+              dataKeys={["name", "status"]}
+              data={event.attendees.map((e) => ({
+                status: e.attendStatus,
+                name: `${e.nickname} ${e.lastName}`,
+              }))}
+            />
+          </Grid>
+        );
+        // No one is currently attending the non-show
+      }
+      return (
+        <Heading
+          fontWeight={600}
+          fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+          lineHeight="110%"
+        >
+          Looks like you are the first one here, nice!
+        </Heading>
+      );
+  }
+}
+
 export default function Event(): JSX.Element {
-  const userContext = useContext(useUserContext);
-  const [event, setEvent] = useState<eventInterface>();
-  let location = useLocation();
+  const [event, setEvent] = useState<EventInterface>();
+  const location = useLocation();
 
   useEffect(() => {
-    apiAuthReq<eventInterface>(
+    apiAuthReq<EventInterface>(
       `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
     ).then((e) => {
       setEvent(e);
-      console.log(e);
     });
   }, [location.pathname]);
-
-  function getEventTypeContents(event: eventInterface): JSX.Element {
-    switch (event.eventType) {
-      case "show":
-        if (event.signups) {
-          return (
-            <Grid container justify="center" spacing={3}>
-              {event.signups
-                .sort((a, b) => {
-                  if (a.title < b.title) {
-                    return -1;
-                  }
-                  if (a.title > b.title) {
-                    return 1;
-                  }
-                  return 0;
-                })
-                .map((x, n) => (
-                  <Grid key={n} item xs={12} sm={6} md={4} xl={3}>
-                    <TextTable
-                      tableDescription={x.description}
-                      tableSubheading={
-                        x.arrivalTime
-                          ? `Arrive at ${new Date(
-                              x.arrivalTime
-                            ).toLocaleTimeString("en-GB", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}`
-                          : undefined
-                      }
-                      tableTitle={x.title}
-                      columnTitles={["Role", "Name"]}
-                      dataKeys={["roleName", "nickname"]}
-                      data={x.crew?.map((e) => ({
-                        roleName: e.name,
-                        nickname: `${e.user.nickname} ${e.user.lastName}`,
-                      }))}
-                    />
-                  </Grid>
-                ))}
-            </Grid>
-          );
-        } else {
-          return (
-            <Typography variant="h6">
-              Looks like a crew list hasn't been added yet! Check back later for
-              more information.
-            </Typography>
-          );
-        }
-      default:
-        if (event.attendees) {
-          return (
-            <Grid item xs={12} sm={6} md={4} xl={3}>
-              <TextTable
-                tableTitle={event.name}
-                columnTitles={["Name", "Status"]}
-                dataKeys={["name", "status"]}
-                data={event.attendees.map((e) => ({
-                  status: e.attendStatus,
-                  name: `${e.nickname} ${e.lastName}`,
-                }))}
-              />
-            </Grid>
-          );
-          // No one is currently attending the non-show
-        } else {
-          return (
-            <Typography variant="h6">
-              Looks like you're the first one here, nice!
-            </Typography>
-          );
-        }
-    }
-  }
 
   return (
     <>
@@ -118,8 +120,7 @@ export default function Event(): JSX.Element {
             variant="body2"
             component={RouterLink}
             to={() => {
-              let startDate = new Date(event.startDate);
-              console.log(startDate);
+              const startDate = new Date(event.startDate);
               return `/calendar/${startDate.getFullYear()}/${
                 startDate.getMonth() + 1
               }`;
@@ -129,19 +130,19 @@ export default function Event(): JSX.Element {
           </Link>
 
           <Grid container alignContent="space-between">
-            <Typography
+            <Heading
               variant="caption"
               style={{ flex: 1, alignSelf: "flex-end" }}
             >
               {toTitleCase(event.eventType)}
-            </Typography>
+            </Heading>
 
-            {userContextPermissions(userContext) && (
+            {withPermissions() && (
               <Box component="span">
                 <Button
                   variant="contained"
                   color="primary"
-                  startIcon={<Edit />}
+                  startIcon={<FiTool />}
                   component={RouterLink}
                   to={`/event/edit/${event.eventID}`}
                 >
@@ -150,21 +151,20 @@ export default function Event(): JSX.Element {
               </Box>
             )}
           </Grid>
-          <Typography variant="subtitle2">
+          <Heading variant="subtitle2">
             {new Date(event.startDate).toLocaleDateString()}
             {new Date(event.startDate).toLocaleDateString() ===
             new Date(event.endDate).toLocaleDateString()
               ? null
               : ` - ${new Date(event.endDate).toLocaleDateString()}`}
-          </Typography>
-          <Typography variant="h4">
-            {event.isCancelled
-              ? `${event.name} (Cancelled)`
-              : event.isTentative
-              ? `${event.name} (Tentative)`
-              : event.name}
-          </Typography>
-          <Typography variant="h6">
+          </Heading>
+          <Heading variant="h4">
+            {event.isCancelled ? "(Cancelled)" : ""}
+          </Heading>
+          <Heading variant="h4">
+            {event.isTentative ? "(Tentative)" : ""}
+          </Heading>
+          <Heading variant="h6">
             {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
               hour: "2-digit",
               minute: "2-digit",
@@ -172,19 +172,22 @@ export default function Event(): JSX.Element {
               hour: "2-digit",
               minute: "2-digit",
             })}`}
-          </Typography>
+          </Heading>
           <br />
-          {event.description.split("\n").map((e) => (
-            <Typography variant="body1">
-              {e}
-              <br />
-            </Typography>
-          ))}
+          <Stack>
+            {event.description.split("\n").map((e) => (
+              <Text>
+                {e}
+                <br />
+              </Text>
+            ))}
+          </Stack>
+
           <br />
           {getEventTypeContents(event)}
         </>
       ) : (
-        <Typography variant="h6">No Event Found!</Typography>
+        <Heading variant="h6">No Event Found!</Heading>
       )}
     </>
   );

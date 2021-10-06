@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 // Custom Components
-import apiAuthReq from "../components/functions/apiAuthReq";
 import {
   Button,
   Heading,
@@ -15,6 +14,8 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import apiAuthReq from "../components/functions/apiAuthReq";
+import { QuoteInterface } from "../components/types/quotes";
 
 // Type imports
 
@@ -22,11 +23,11 @@ import {
 
 // Begin Code
 
-export default function AddQuote() {
+export default function AddQuote(): JSX.Element {
   const { register, handleSubmit } = useForm();
-  let history = useHistory();
+  const history = useHistory();
 
-  function onSubmit(data: any) {
+  function onSubmit(data: QuoteInterface) {
     apiAuthReq("/v1/internal/people/user").then(() =>
       axios
         .post(
@@ -47,7 +48,7 @@ export default function AddQuote() {
       <Heading>Edit Event</Heading>
       <br />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack align={"left"}>
+        <VStack align="left">
           <Textarea
             placeholder="Quote"
             {...register("quote")}

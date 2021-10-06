@@ -15,6 +15,7 @@ import {
   FormControl,
   FormLabel,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import SearchSelect from "react-select";
 
@@ -22,7 +23,7 @@ import SearchSelect from "react-select";
 import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { eventInterface, positionInterface } from "../components/types/clapper";
+import { EventInterface, PositionInterface } from "../components/types/clapper";
 
 // Other imports
 
@@ -38,23 +39,31 @@ import { eventInterface, positionInterface } from "../components/types/clapper";
 // };
 
 const EventAdd: React.FC = (): JSX.Element => {
-  const { register, handleSubmit } = useForm<eventInterface>();
-  const [positions, setPositions] = useState<positionInterface[]>([]);
+  const { register, handleSubmit } = useForm<EventInterface>();
+  const [positions, setPositions] = useState<PositionInterface[]>([]);
   const { nextStep, activeStep } = useSteps({
     initialStep: 0,
   });
+
+  const toast = useToast();
 
   useEffect(() => {
     apiAuthReq("/v1/internal/clapper/positions").then((e) => setPositions(e));
   }, []);
 
-  function onSubmitStepOne(data: eventInterface) {
-    console.log("creating new event", data);
+  function onSubmitStepOne(data: EventInterface) {
+    toast({
+      title: "Stepped one",
+      description: JSON.stringify(data),
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
     nextStep();
   }
 
   return (
-    <Steps orientation={"vertical"} activeStep={activeStep}>
+    <Steps orientation="vertical" activeStep={activeStep}>
       <Step key="Create Event" label="Create Event">
         <form onSubmit={handleSubmit(onSubmitStepOne)}>
           <Heading>Create Event</Heading>
@@ -81,7 +90,7 @@ const EventAdd: React.FC = (): JSX.Element => {
           />
 
           <FormLabel>Type</FormLabel>
-          <Select {...register("eventType")} variant={"outline"}>
+          <Select {...register("eventType")} variant="outline">
             <option value="show">Show</option>
             <option value="meeting">Meeting</option>
             <option value="social">Social</option>
@@ -95,7 +104,7 @@ const EventAdd: React.FC = (): JSX.Element => {
 
           <br />
           <HStack>
-            <Button variant="outline" component={RouterLink} to={`/calendar`}>
+            <Button variant="outline" component={RouterLink} to="/calendar">
               Back
             </Button>{" "}
             <Button variant="solid" type="submit">

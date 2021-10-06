@@ -26,36 +26,45 @@ import {
 } from "@chakra-ui/react";
 
 // Custom Components
-import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Type imports
-import { quoteInterface, quotesInterface } from "../components/types/quotes";
 import Axios from "axios";
 
 // Other imports
 import { useForm } from "react-hook-form";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  DeleteIcon,
-  EditIcon,
-  RepeatIcon,
-} from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, RepeatIcon } from "@chakra-ui/icons";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { QuoteInterface, QuotesInterface } from "../components/types/quotes";
+import apiAuthReq from "../components/functions/apiAuthReq";
 
 // Begin Code
 
-export default function Quotes() {
+export default function Quotes(): JSX.Element {
   const [page, setPage] = useState(0);
-  const [quotes, setQuotes] = useState<quotesInterface>();
-  let location = useLocation();
+  const [quotes, setQuotes] = useState<QuotesInterface>();
+  const location = useLocation();
   const [showEditing, setShowEditing] = useState(false);
   const { register, handleSubmit } = useForm();
   const cancelRefDelete = useRef(null);
   const cancelRefEdit = useRef(null);
 
+  function getQuotes() {
+    apiAuthReq<QuotesInterface>(
+      `/v1/internal/misc/quotes/${page === 0 ? 0 : page * 12}/12`
+    ).then((e) => setQuotes(e));
+  }
+
+  function updateQuotes(neg = false) {
+    if (neg) {
+      setPage(page - 1);
+    } else {
+      setPage(page + 1);
+    }
+  }
+
   useEffect(() => {
-    let newPage = parseInt(location.pathname.split("/")[2]);
-    if (isNaN(newPage)) {
+    let newPage = parseInt(location.pathname.split("/")[2], 10);
+    if (Number.isNaN(newPage)) {
       newPage = 0;
     }
     setPage(newPage);
@@ -67,31 +76,6 @@ export default function Quotes() {
     window.history.replaceState(null, "YSTV | My-TV", `/quotes/${page}`);
     // eslint-disable-next-line
   }, [page]);
-
-  function getQuotes() {
-    apiAuthReq<quotesInterface>(
-      `/v1/internal/misc/quotes/${page === 0 ? 0 : page * 12}/12`
-    ).then((e) => setQuotes(e));
-  }
-
-  function updateQuotes(neg: boolean = false) {
-    neg ? setPage(page - 1) : setPage(page + 1);
-  }
-
-  function onSubmit(data: quoteInterface) {
-    apiAuthReq("/v1/internal/people/user").then(() =>
-      Axios.put<quoteInterface>(
-        `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
-        { data },
-        {
-          withCredentials: true,
-        }
-      ).then(() => {
-        getQuotes();
-        handleEditMenuClose();
-      })
-    );
-  }
 
   const [openDeleteMenu, setOpenDeleteMenu] = useState(false);
   const [selQuote, setSelQuote] = useState(-1);
@@ -115,6 +99,21 @@ export default function Quotes() {
     setOpenDeleteMenu(false);
   };
 
+  function onSubmit(data: QuoteInterface) {
+    apiAuthReq("/v1/internal/people/user").then(() =>
+      Axios.put<QuoteInterface>(
+        `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
+        { data },
+        {
+          withCredentials: true,
+        }
+      ).then(() => {
+        getQuotes();
+        handleEditMenuClose();
+      })
+    );
+  }
+
   const handleDeleteConfirm = () => {
     apiAuthReq("/v1/internal/people/user").then(() =>
       Axios.delete(
@@ -131,10 +130,10 @@ export default function Quotes() {
 
   return (
     <>
-      <Heading>Quotes</Heading>
+      <Heading>Quotes Board</Heading>
       <Text>(Authenticity not verified)</Text>
 
-      <Wrap spacing={2} justify={"flex-end"}>
+      <Wrap spacing={2} justify="flex-end">
         <Spacer />
         <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
           Edit Mode
@@ -142,21 +141,21 @@ export default function Quotes() {
         <IconButton
           disabled={page === 0}
           onClick={() => updateQuotes(true)}
-          variant={"outline"}
-          icon={<ArrowLeftIcon />}
+          variant="outline"
+          icon={<FiChevronLeft />}
           aria-label="Previous quotes page"
         />
         <IconButton
           onClick={() => updateQuotes()}
-          icon={<ArrowRightIcon />}
+          icon={<FiChevronRight />}
           aria-label="Next quotes page"
-          variant={"outline"}
+          variant="outline"
         />
         <IconButton
           onClick={() => getQuotes()}
           icon={<RepeatIcon />}
           aria-label="Refresh quotes"
-          variant={"outline"}
+          variant="outline"
         />
         <Button variant="solid" as={RouterLink} to="/quotes/add">
           Add Quote
@@ -174,7 +173,7 @@ export default function Quotes() {
         ]}
         gap={3}
       >
-        {quotes?.Quotes.map((x, n) => (
+        {quotes?.Quotes.map((x) => (
           <GridItem>
             <Box
               borderWidth="1px"
@@ -193,22 +192,24 @@ export default function Quotes() {
               ) : null}
 
               {showEditing && (
-                <Flex align={"flex-end"}>
-                  <Heading fontSize="xs">{x.id}</Heading>
+                <Flex align="flex-end">
+                  <Text fontSize="xs" fontStyle="italic">
+                    #{x.id}
+                  </Text>
                   <Spacer />
                   <HStack spacing={2}>
                     <IconButton
                       onClick={() => handleEditMenuClickOpen(x.id)}
                       icon={<EditIcon />}
                       aria-label="Edit quote"
-                      variant={"outline"}
+                      variant="outline"
                     />
 
                     <IconButton
                       onClick={() => handleDeleteMenuClickOpen(x.id)}
                       icon={<DeleteIcon />}
                       aria-label="Delete quote"
-                      variant={"outline"}
+                      variant="outline"
                     />
                   </HStack>
                 </Flex>
@@ -235,14 +236,14 @@ export default function Quotes() {
               <Button
                 onClick={handleDeleteMenuClose}
                 ref={cancelRefDelete}
-                variant={"outline"}
+                variant="outline"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleDeleteConfirm}
-                colorScheme={"red"}
-                variant={"solid"}
+                colorScheme="red"
+                variant="solid"
                 ml={3}
               >
                 Delete
