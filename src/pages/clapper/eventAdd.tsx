@@ -20,10 +20,13 @@ import {
 import SearchSelect from "react-select";
 
 // Custom Components
-import apiAuthReq from "../components/functions/apiAuthReq";
+import apiAuthReq from "../../components/functions/apiAuthReq";
 
 // Type imports
-import { EventInterface, PositionInterface } from "../components/types/clapper";
+import {
+  EventInterface,
+  PositionInterface,
+} from "../../components/types/clapper";
 
 // Other imports
 

@@ -2,13 +2,13 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Webcams from "../../pages/webcams";
-import AddQuote from "../../pages/addQuote";
-import Quotes from "../../pages/quotes";
+import AddQuote from "../../pages/quotes/addQuote";
+import Quotes from "../../pages/quotes/quotes";
 import RouteWithPerms from "../RouteWithPerms";
-import EventEdit from "../../pages/eventEdit";
-import Event from "../../pages/event";
+import EventEdit from "../../pages/clapper/eventEdit";
+import Event from "../../pages/clapper/event";
 import Home from "../../pages/home";
-import EventAdd from "../../pages/eventAdd";
+import EventAdd from "../../pages/clapper/eventAdd";
 
 function FourOFour() {
   return <h2>Sorry Bud, this does not exist!</h2>;

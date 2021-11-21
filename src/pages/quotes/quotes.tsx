@@ -34,8 +34,8 @@ import Axios from "axios";
 import { useForm } from "react-hook-form";
 import { DeleteIcon, EditIcon, RepeatIcon } from "@chakra-ui/icons";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { QuoteInterface, QuotesInterface } from "../components/types/quotes";
-import apiAuthReq from "../components/functions/apiAuthReq";
+import { QuoteInterface, QuotesInterface } from "../../components/types/quotes";
+import apiAuthReq from "../../components/functions/apiAuthReq";
 
 // Begin Code
 

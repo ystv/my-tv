@@ -15,10 +15,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiSave, FiXCircle } from "react-icons/fi";
-import apiAuthReq from "../components/functions/apiAuthReq";
+import apiAuthReq from "../../components/functions/apiAuthReq";
 
 // Type imports
-import { EventInterface } from "../components/types/clapper";
+import { EventInterface } from "../../components/types/clapper";
 
 // Other imports
 

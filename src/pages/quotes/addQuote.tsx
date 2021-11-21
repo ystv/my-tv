@@ -14,8 +14,8 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import apiAuthReq from "../components/functions/apiAuthReq";
-import { QuoteInterface } from "../components/types/quotes";
+import apiAuthReq from "../../components/functions/apiAuthReq";
+import { QuoteInterface } from "../../components/types/quotes";
 
 // Type imports
 

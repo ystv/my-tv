@@ -15,13 +15,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FiTool } from "react-icons/fi";
-import apiAuthReq from "../components/functions/apiAuthReq";
-import toTitleCase from "../components/functions/toTitleCase";
-import TextTable from "../components/textTable";
+import apiAuthReq from "../../components/functions/apiAuthReq";
+import toTitleCase from "../../components/functions/toTitleCase";
+import TextTable from "../../components/textTable";
 
 // Type imports
-import { EventInterface } from "../components/types/clapper";
-import { withPermissions } from "../components/contexts/userContext";
+import { EventInterface } from "../../components/types/clapper";
+import { withPermissions } from "../../components/contexts/userContext";
 
 // Other imports
 
