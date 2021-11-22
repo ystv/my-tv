@@ -1,9 +1,7 @@
 // React Imports
 import React from "react";
 import { useHistory } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
-import axios from "axios";
 
 // Custom Components
 import {
@@ -14,12 +12,12 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import apiAuthReq from "../../components/functions/apiAuthReq";
-import { QuoteInterface } from "../../components/types/quotes";
 
 // Type imports
+import { QuoteInterface } from "../../components/types/quotes";
 
 // Other imports
+import { misc } from "../../services/services";
 
 // Begin Code
 
@@ -27,25 +25,15 @@ export default function AddQuote(): JSX.Element {
   const { register, handleSubmit } = useForm();
   const history = useHistory();
 
-  function onSubmit(data: QuoteInterface) {
-    apiAuthReq("/v1/internal/people/user").then(() =>
-      axios
-        .post(
-          `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
-          data,
-          {
-            withCredentials: true,
-          }
-        )
-        .then(() => {
-          history.push("/quotes");
-        })
-    );
+  function onSubmit(newQuote: QuoteInterface) {
+    misc.newQuote(newQuote).then(() => {
+      history.push("/quotes");
+    });
   }
 
   return (
     <>
-      <Heading>Edit Event</Heading>
+      <Heading>Create Quote</Heading>
       <br />
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack align="left">
@@ -55,17 +43,19 @@ export default function AddQuote(): JSX.Element {
             multiline
             rows={6}
             fullWidth
+            bg="white"
           />
           <Input
             placeholder="Attributed Author"
             {...register("description")}
             fullWidth
+            bg="white"
           />
           <HStack>
             <Button variant="outline" onClick={history.goBack}>
               Cancel
             </Button>
-            <Button type="submit">Save Quote</Button>
+            <Button type="submit">Submit</Button>
           </HStack>
         </VStack>
       </form>

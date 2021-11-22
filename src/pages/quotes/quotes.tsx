@@ -1,8 +1,9 @@
 // React Imports
 import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
-// MUI components
+// ChakraUI components
 import {
   Button,
   Heading,
@@ -24,18 +25,17 @@ import {
   GridItem,
   Wrap,
 } from "@chakra-ui/react";
+import { DeleteIcon, EditIcon, RepeatIcon } from "@chakra-ui/icons";
 
 // Custom Components
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 // Type imports
-import Axios from "axios";
+import { QuoteInterface, QuotesInterface } from "../../components/types/quotes";
 
 // Other imports
-import { useForm } from "react-hook-form";
-import { DeleteIcon, EditIcon, RepeatIcon } from "@chakra-ui/icons";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { QuoteInterface, QuotesInterface } from "../../components/types/quotes";
-import apiAuthReq from "../../components/functions/apiAuthReq";
+
+import { misc } from "../../services/services";
 
 // Begin Code
 
@@ -49,9 +49,9 @@ export default function Quotes(): JSX.Element {
   const cancelRefEdit = useRef(null);
 
   function getQuotes() {
-    apiAuthReq<QuotesInterface>(
-      `/v1/internal/misc/quotes/${page === 0 ? 0 : page * 12}/12`
-    ).then((e) => setQuotes(e));
+    misc
+      .getQuotes(page === 0 ? 0 : page * 12, 12)
+      .then((recievedQuotes) => setQuotes(recievedQuotes));
   }
 
   function updateQuotes(neg = false) {
@@ -99,43 +99,30 @@ export default function Quotes(): JSX.Element {
     setOpenDeleteMenu(false);
   };
 
-  function onSubmit(data: QuoteInterface) {
-    apiAuthReq("/v1/internal/people/user").then(() =>
-      Axios.put<QuoteInterface>(
-        `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes`,
-        { data },
-        {
-          withCredentials: true,
-        }
-      ).then(() => {
-        getQuotes();
-        handleEditMenuClose();
-      })
-    );
+  function onSubmit(selectedQuote: QuoteInterface) {
+    misc.updateQuote(selectedQuote).then(() => {
+      getQuotes();
+      handleEditMenuClose();
+    });
   }
 
   const handleDeleteConfirm = () => {
-    apiAuthReq("/v1/internal/people/user").then(() =>
-      Axios.delete(
-        `${process.env.REACT_APP_API_BASEURL}/v1/internal/misc/quotes/${selQuote}`,
-        {
-          withCredentials: true,
-        }
-      ).then(() => {
-        getQuotes();
-        handleDeleteMenuClose();
-      })
-    );
+    misc.deleteQuote(selQuote).then(() => {
+      getQuotes();
+      handleDeleteMenuClose();
+    });
   };
 
   return (
     <>
       <Heading>Quotes Board</Heading>
-      <Text>(Authenticity not verified)</Text>
 
       <Wrap spacing={2} justify="flex-end">
         <Spacer />
-        <Button variant="ghost" onClick={() => setShowEditing(!showEditing)}>
+        <Button
+          variant={showEditing ? "solid" : "ghost"}
+          onClick={() => setShowEditing(!showEditing)}
+        >
           Edit Mode
         </Button>
         <IconButton
@@ -173,50 +160,55 @@ export default function Quotes(): JSX.Element {
         ]}
         gap={3}
       >
-        {quotes?.Quotes.map((x) => (
-          <GridItem>
-            <Box
-              borderWidth="1px"
-              borderRadius="lg"
-              style={{ padding: "1rem" }}
-            >
-              <Text
-                fontSize="xl"
-                dangerouslySetInnerHTML={{ __html: x.quote }}
-              />
-              {x.description !== "" ? (
-                <>
-                  <br />
-                  <Heading fontSize="sm">{x.description}</Heading>
-                </>
-              ) : null}
+        {quotes ? (
+          quotes.Quotes.map((quote) => (
+            <GridItem>
+              <Box
+                borderWidth="1px"
+                borderRadius="lg"
+                style={{ padding: "1rem" }}
+                bg="white"
+              >
+                <Text
+                  fontSize="xl"
+                  dangerouslySetInnerHTML={{ __html: quote.quote }}
+                />
+                {quote.description !== "" ? (
+                  <>
+                    <br />
+                    <Heading fontSize="sm">{quote.description}</Heading>
+                  </>
+                ) : null}
 
-              {showEditing && (
-                <Flex align="flex-end">
-                  <Text fontSize="xs" fontStyle="italic">
-                    #{x.id}
-                  </Text>
-                  <Spacer />
-                  <HStack spacing={2}>
-                    <IconButton
-                      onClick={() => handleEditMenuClickOpen(x.id)}
-                      icon={<EditIcon />}
-                      aria-label="Edit quote"
-                      variant="outline"
-                    />
+                {showEditing && (
+                  <Flex align="flex-end">
+                    <Text fontSize="xs" fontStyle="italic">
+                      #{quote.id}
+                    </Text>
+                    <Spacer />
+                    <HStack spacing={2}>
+                      <IconButton
+                        onClick={() => handleEditMenuClickOpen(quote.id)}
+                        icon={<EditIcon />}
+                        aria-label="Edit quote"
+                        variant="outline"
+                      />
 
-                    <IconButton
-                      onClick={() => handleDeleteMenuClickOpen(x.id)}
-                      icon={<DeleteIcon />}
-                      aria-label="Delete quote"
-                      variant="outline"
-                    />
-                  </HStack>
-                </Flex>
-              )}
-            </Box>
-          </GridItem>
-        ))}
+                      <IconButton
+                        onClick={() => handleDeleteMenuClickOpen(quote.id)}
+                        icon={<DeleteIcon />}
+                        aria-label="Delete quote"
+                        variant="outline"
+                      />
+                    </HStack>
+                  </Flex>
+                )}
+              </Box>
+            </GridItem>
+          ))
+        ) : (
+          <h1>loading</h1>
+        )}
       </Grid>
 
       <AlertDialog

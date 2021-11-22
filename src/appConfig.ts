@@ -1,0 +1,6 @@
+export default {
+  wapiBase: process.env.REACT_APP_API_BASEURL ?? "",
+  wauthBase: process.env.REACT_APP_SECURITY_BASEURL ?? "",
+  clapperBase: "/v1/internal/clapper",
+  miscBase: "/v1/internal/misc",
+};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
-import getToken from "../api/auth";
+import { auth } from "../services/services";
 import APIToken from "./types/apiToken";
 
 interface AuthProps extends RouteProps {
@@ -12,7 +12,8 @@ const AuthRoute: React.FC<AuthProps> = (props): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     async function getData() {
-      getToken()
+      auth
+        .getToken()
         .then((gotToken) => {
           setToken(gotToken);
         })
