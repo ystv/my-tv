@@ -1,30 +1,3 @@
-import axios, { AxiosResponse } from "axios";
-
-export const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_BASEURL,
-  withCredentials: true,
-});
-
-const resBody = (res: AxiosResponse) => res.data;
-
-const reqs = {
-  get: (path: string) => instance.get(path).then(resBody),
-  post: (path: string, body: unknown) =>
-    instance.post(path, body).then(resBody),
-  put: (path: string, body: unknown) => instance.put(path, body).then(resBody),
-  delete: (path: string) => instance.delete(path).then(resBody),
-};
-
-export const Clapper2 = {
-  getPositions: (): Promise<RichPosition[]> =>
-    reqs.get("/v1/internal/clapper/position/rich"),
-  getGroups: (): Promise<Group[]> => reqs.get("/v1/internal/clapper/group"),
-  watchPosition: (positionID: number) =>
-    reqs.post(`/v1/internal/clapper/position/subscribe/${positionID}`, {}),
-  unwatchPosition: (positionID: number) =>
-    reqs.delete(`/v1/internal/clapper/position/subscribe/${positionID}`),
-};
-
 export const Clapper = {
   getPositions: (): Promise<RichPosition[]> => {
     const positions: RichPosition[] = [
@@ -147,11 +120,11 @@ export const Clapper = {
 
     return Promise.resolve(groups);
   },
-  watchPosition: (positionID: number): Promise<unknown> => {
+  watchPosition: (positionID: number): Promise<void> => {
     console.log(`watching position: ${positionID}`);
     return Promise.resolve();
   },
-  unwatchPosition: (positionID: number): Promise<any> => {
+  unwatchPosition: (positionID: number): Promise<void> => {
     console.log(`unwatching position: ${positionID}`);
     return Promise.resolve();
   },

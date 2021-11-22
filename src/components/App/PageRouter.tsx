@@ -9,6 +9,7 @@ import EventEdit from "../../pages/clapper/eventEdit";
 import Event from "../../pages/clapper/event";
 import Home from "../../pages/home";
 import EventAdd from "../../pages/clapper/eventAdd";
+import Positions from "../../pages/clapper/positions";
 
 function FourOFour() {
   return <h2>Sorry Bud, this does not exist!</h2>;
@@ -46,6 +47,8 @@ export default function PageRouter(): JSX.Element {
       <Route path="/event">
         <Event />
       </Route>
+
+      <Route path="/clapper/roles" component={Positions} />
 
       <Route path="/301">
         <ThreeOOne />

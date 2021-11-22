@@ -40,6 +40,7 @@ import {
   FiMessageCircle,
   FiTrello,
   FiMenu,
+  FiUsers,
 } from "react-icons/fi";
 
 // import userContextPermissions from "../functions/userContextPermissions";
@@ -91,6 +92,12 @@ const LinkItems: Array<LinkItemProps> = [
     icon: FiMail,
     to: "https://webmail.ystv.co.uk",
     external: true,
+  },
+  {
+    name: "Crew Roles",
+    icon: FiUsers,
+    to: "/clapper/roles",
+    external: false,
   },
   {
     name: "Equipment Booking",
