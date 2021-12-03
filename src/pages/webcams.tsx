@@ -21,7 +21,7 @@ import { misc } from "../services/services";
 
 // Begin Code
 
-export default function Webcams(): JSX.Element {
+const Webcams: React.FC = (): JSX.Element => {
   const interval = 2000;
   const [cams, setCams] = useState<Webcam[]>();
 
@@ -65,4 +65,6 @@ export default function Webcams(): JSX.Element {
       </p>
     </div>
   );
-}
+};
+
+export default Webcams;

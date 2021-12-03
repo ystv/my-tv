@@ -63,4 +63,9 @@ const TextTable: React.FC<TableProps> = (props): JSX.Element => (
   </Box>
 );
 
+TextTable.defaultProps = {
+  description: "",
+  subheading: "",
+};
+
 export default TextTable;

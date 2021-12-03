@@ -32,7 +32,7 @@ export const chakraTheme = extendTheme(
   }
 );
 
-export default function App(): JSX.Element {
+const App = (): JSX.Element => {
   const [user, setUser] = useState<UserInterface>();
 
   useEffect(() => {
@@ -58,4 +58,6 @@ export default function App(): JSX.Element {
       )}
     </ChakraProvider>
   );
-}
+};
+
+export default App;

@@ -12,26 +12,26 @@ import { Box, Heading, Link, Text } from "@chakra-ui/react";
 
 // Begin Code
 
-export default function Home(): JSX.Element {
-  return (
-    <Box w={["100%", "xl"]}>
-      <Heading>Welcome Home!</Heading>
-      <br />
-      <Text fontSize="xl">
-        This site is still being actively developed over the summer so some
-        features may be still be missing temporarily! Please check out{" "}
-        <Link
-          href="https://forum.ystv.co.uk"
-          style={{ textDecoration: "underline" }}
-        >
-          the forum
-        </Link>{" "}
-        if you have any questions or suggestions.
-      </Text>
-      <br />
-      <Text fontSize="xl">
-        If you find something wrong, please let the computing team know :)
-      </Text>
-    </Box>
-  );
-}
+const Home = (): JSX.Element => (
+  <Box w={["100%", "xl"]}>
+    <Heading>Welcome Home!</Heading>
+    <br />
+    <Text fontSize="xl">
+      This site is still being actively developed over the summer so some
+      features may be still be missing temporarily! Please check out{" "}
+      <Link
+        href="https://forum.ystv.co.uk"
+        style={{ textDecoration: "underline" }}
+      >
+        the forum
+      </Link>{" "}
+      if you have any questions or suggestions.
+    </Text>
+    <br />
+    <Text fontSize="xl">
+      If you find something wrong, please let the computing team know :)
+    </Text>
+  </Box>
+);
+
+export default Home;

@@ -11,10 +11,10 @@
   text-align: left;
 }
 
-.chakra-ui-dark .fc-theme-standard .fc-list-day-cushion{
-  background-color: #212944 !important
+.chakra-ui-dark .fc-theme-standard .fc-list-day-cushion {
+  background-color: #212944 !important;
 }
 
-.chakra-ui-dark .fc .fc-list-event:hover td{
-  background-color: #444444 !important
+.chakra-ui-dark .fc .fc-list-event:hover td {
+  background-color: #444444 !important;
 }

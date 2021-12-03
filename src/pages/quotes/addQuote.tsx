@@ -1,6 +1,6 @@
 // React Imports
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 // Custom Components
@@ -23,11 +23,11 @@ import { misc } from "../../services/services";
 
 export default function AddQuote(): JSX.Element {
   const { register, handleSubmit } = useForm();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function onSubmit(newQuote: QuoteInterface) {
     misc.newQuote(newQuote).then(() => {
-      history.push("/quotes");
+      navigate("/quotes");
     });
   }
 
@@ -52,7 +52,7 @@ export default function AddQuote(): JSX.Element {
             bg="white"
           />
           <HStack>
-            <Button variant="outline" onClick={history.goBack}>
+            <Button variant="outline" onClick={() => navigate(-1)}>
               Cancel
             </Button>
             <Button type="submit">Submit</Button>
