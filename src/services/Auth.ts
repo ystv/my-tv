@@ -16,7 +16,8 @@ export default class AuthService {
         try {
           this.authApiClient.getToken();
         } catch (err) {
-          return reject(err);
+          reject(err);
+          return;
         }
         jwt = Cookies.get("token");
       }
@@ -27,14 +28,17 @@ export default class AuthService {
           const token: APIToken = JSON.parse(window.atob(base64));
 
           if (Date.now() >= token.exp * 1000) {
-            return reject(new Error("expired token"));
+            reject(new Error("expired token"));
+            return;
           }
-          return resolve(token);
+          resolve(token);
+          return;
         }
       } catch (error) {
-        return reject(new Error(`failed to get token: ${error}`));
+        reject(new Error(`failed to get token: ${error}`));
+        return;
       }
-      return reject(new Error("failed to get token"));
+      reject(new Error("failed to get token"));
     });
   }
 

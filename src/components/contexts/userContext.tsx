@@ -1,32 +1,18 @@
 import { createContext, useContext } from "react";
 import { UserInterface } from "../types/people";
-import UserRoles from "../types/permissions";
+import UserPermission from "../types/permissions";
 
-const UserContext = createContext<UserInterface | undefined>(undefined);
+const UserContext = createContext<UserInterface>(null!);
 
-export const UserInfo = (): UserInterface | undefined =>
-  useContext(UserContext);
+export const UserInfo = (): UserInterface => useContext(UserContext);
 
-export const withPermissions = (allowedPermIDs?: UserRoles[]): boolean => {
-  let allowed = false;
-  UserInfo()?.permissions?.forEach((x) => {
-    if (x.name === UserRoles.SuperUser) {
-      allowed = true;
-    } else {
-      try {
-        allowedPermIDs?.forEach((y) => {
-          if (x.name === y) {
-            allowed = true;
-          }
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    }
-  });
-  return allowed;
-};
-
-export const UserContextConsumer = UserContext.Consumer;
+export const isAuthorized = (
+  authorizedPermissions: UserPermission[]
+): boolean =>
+  UserInfo().permissions.some(
+    (permission) =>
+      permission.name === UserPermission.SuperUser ||
+      Object.values<string>(authorizedPermissions).includes(permission.name)
+  );
 
 export default UserContext;

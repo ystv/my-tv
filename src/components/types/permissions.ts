@@ -1,4 +1,4 @@
-enum UserRoles {
+enum UserPermission {
   VideoStats = "VideoStats",
   KeyListManage = "KeyList.Manage",
   Director = "Director",
@@ -46,4 +46,4 @@ enum UserRoles {
   CMSEndboardAdmin = "CMS.EndboardAdmin",
 }
 
-export default UserRoles;
+export default UserPermission;

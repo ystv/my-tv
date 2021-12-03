@@ -21,7 +21,7 @@ import TextTable from "../../components/textTable";
 
 // Type imports
 import { EventInterface } from "../../components/types/clapper";
-import { withPermissions } from "../../components/contexts/userContext";
+import { isAuthorized } from "../../components/contexts/userContext";
 
 // Other imports
 
@@ -112,83 +112,72 @@ export default function Event(): JSX.Element {
     });
   }, [location.pathname]);
 
-  return (
+  return event ? (
     <>
-      {event ? (
-        <>
-          <Link
-            variant="body2"
-            component={RouterLink}
-            to={() => {
-              const startDate = new Date(event.startDate);
-              return `/calendar/${startDate.getFullYear()}/${
-                startDate.getMonth() + 1
-              }`;
-            }}
-          >
-            &#8592; Back
-          </Link>
+      <Link
+        variant="body2"
+        component={RouterLink}
+        to={() => {
+          const startDate = new Date(event.startDate);
+          return `/calendar/${startDate.getFullYear()}/${
+            startDate.getMonth() + 1
+          }`;
+        }}
+      >
+        &#8592; Back
+      </Link>
 
-          <Grid container alignContent="space-between">
-            <Heading
-              variant="caption"
-              style={{ flex: 1, alignSelf: "flex-end" }}
+      <Grid container alignContent="space-between">
+        <Heading variant="caption" style={{ flex: 1, alignSelf: "flex-end" }}>
+          {toTitleCase(event.eventType)}
+        </Heading>
+
+        {isAuthorized([]) && (
+          <Box component="span">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<FiTool />}
+              component={RouterLink}
+              to={`/event/edit/${event.eventID}`}
             >
-              {toTitleCase(event.eventType)}
-            </Heading>
+              Edit Event
+            </Button>
+          </Box>
+        )}
+      </Grid>
+      <Heading variant="subtitle2">
+        {new Date(event.startDate).toLocaleDateString()}
+        {new Date(event.startDate).toLocaleDateString() ===
+        new Date(event.endDate).toLocaleDateString()
+          ? null
+          : ` - ${new Date(event.endDate).toLocaleDateString()}`}
+      </Heading>
+      <Heading variant="h4">{event.isCancelled ? "(Cancelled)" : ""}</Heading>
+      <Heading variant="h4">{event.isTentative ? "(Tentative)" : ""}</Heading>
+      <Heading variant="h6">
+        {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })} - ${new Date(event.endDate).toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`}
+      </Heading>
+      <br />
+      <Stack>
+        {event.description.split("\n").map((e) => (
+          <Text>
+            {e}
+            <br />
+          </Text>
+        ))}
+      </Stack>
 
-            {withPermissions() && (
-              <Box component="span">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<FiTool />}
-                  component={RouterLink}
-                  to={`/event/edit/${event.eventID}`}
-                >
-                  Edit Event
-                </Button>
-              </Box>
-            )}
-          </Grid>
-          <Heading variant="subtitle2">
-            {new Date(event.startDate).toLocaleDateString()}
-            {new Date(event.startDate).toLocaleDateString() ===
-            new Date(event.endDate).toLocaleDateString()
-              ? null
-              : ` - ${new Date(event.endDate).toLocaleDateString()}`}
-          </Heading>
-          <Heading variant="h4">
-            {event.isCancelled ? "(Cancelled)" : ""}
-          </Heading>
-          <Heading variant="h4">
-            {event.isTentative ? "(Tentative)" : ""}
-          </Heading>
-          <Heading variant="h6">
-            {`${new Date(event.startDate).toLocaleTimeString("en-GB", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })} - ${new Date(event.endDate).toLocaleTimeString("en-GB", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}`}
-          </Heading>
-          <br />
-          <Stack>
-            {event.description.split("\n").map((e) => (
-              <Text>
-                {e}
-                <br />
-              </Text>
-            ))}
-          </Stack>
-
-          <br />
-          {getEventTypeContents(event)}
-        </>
-      ) : (
-        <Heading variant="h6">No Event Found!</Heading>
-      )}
+      <br />
+      {getEventTypeContents(event)}
     </>
+  ) : (
+    <Heading variant="h6">No Event Found!</Heading>
   );
 }
