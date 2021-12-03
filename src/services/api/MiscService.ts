@@ -1,5 +1,6 @@
 import appConfig from "../../appConfig";
 import { QuoteInterface, QuotesInterface } from "../../components/types/quotes";
+import { Webcam } from "../../components/types/webcams";
 import { IAPIClient } from "./ApiClient";
 
 export interface IMiscAPIClient {
@@ -7,6 +8,8 @@ export interface IMiscAPIClient {
   newQuote(quote: QuoteInterface): Promise<boolean>;
   updateQuote(quote: QuoteInterface): Promise<boolean>;
   deleteQuote(quoteID: number): Promise<boolean>;
+  getWebcams(): Promise<Webcam[]>;
+  getWebcam(webcamID: number): Promise<ImageData>;
 }
 
 export class MiscAPIClient implements IMiscAPIClient {
@@ -38,5 +41,13 @@ export class MiscAPIClient implements IMiscAPIClient {
   async deleteQuote(quoteID: number): Promise<boolean> {
     await this.apiClient.delete(`${this.miscBase}/quotes/${quoteID}`);
     return true;
+  }
+
+  async getWebcams(): Promise<Webcam[]> {
+    return this.apiClient.get(`${this.miscBase}/webcams`);
+  }
+
+  async getWebcam(cameraID: number): Promise<ImageData> {
+    return this.apiClient.get(`${this.miscBase}/webcams/${cameraID}`);
   }
 }

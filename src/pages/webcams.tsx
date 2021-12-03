@@ -10,8 +10,8 @@ import {
   Spinner,
   Image,
 } from "@chakra-ui/react";
-import apiAuthReq from "../components/functions/apiAuthReq";
 import { Webcam } from "../components/types/webcams";
+import { misc } from "../services/services";
 
 // Custom Components
 
@@ -25,15 +25,11 @@ export default function Webcams(): JSX.Element {
   const interval = 2000;
   const [cams, setCams] = useState<Webcam[]>();
 
-  function getImage() {
-    apiAuthReq<Webcam[]>("/v1/internal/misc/webcams").then((webcams) => {
-      setCams(webcams);
-    });
-  }
-
   useEffect(() => {
     const timer = setInterval(() => {
-      getImage();
+      misc.getWebcams().then((webcams) => {
+        setCams(webcams);
+      });
     }, interval);
     return () => clearInterval(timer);
   }, []);

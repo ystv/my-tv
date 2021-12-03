@@ -10,7 +10,7 @@ import MiscService from "./Misc";
 const clapperApiClient = new ClapperAPIClient(
   new APIClient(appConfig.wapiBase)
 );
-export const clapperService = new ClapperService(clapperApiClient);
+export const clapper = new ClapperService(clapperApiClient);
 
 const authAPIClient = new AuthAPIClient(new APIClient(appConfig.wauthBase));
 export const auth = new AuthService(authAPIClient);
