@@ -1,5 +1,7 @@
 # build environment
-FROM node:alpine as build
+# Webpack is not fully compatible with the latest version of Node
+# Feel free to change back to `alpine` when the issue is resolved
+FROM node:16 as build
 LABEL site="my-tv"
 LABEL stage="builder"
 WORKDIR /app
