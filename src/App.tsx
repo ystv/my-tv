@@ -13,9 +13,9 @@ import {
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 
 // Custom Components
-import apiAuthReq from "./components/functions/apiAuthReq";
 import SidebarWithHeader from "./components/App/SidebarWithHeader";
 import PageRouter from "./components/App/PageRouter";
+import { people } from "./services/services";
 
 // Type imports
 import { UserInterface } from "./components/types/people";
@@ -36,8 +36,8 @@ const App = (): JSX.Element => {
   const [user, setUser] = useState<UserInterface>();
 
   useEffect(() => {
-    apiAuthReq<UserInterface>("/v1/internal/people/user/").then((e) => {
-      setUser(e);
+    people.getUserByToken().then((u) => {
+      setUser(u);
     });
   }, []);
 
