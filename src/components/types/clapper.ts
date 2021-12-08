@@ -1,4 +1,4 @@
-export interface CalendarInterface {
+export interface Calendar {
   eventID: number;
   eventType: string;
   name: string;
@@ -11,7 +11,7 @@ export interface CalendarInterface {
   isTentative: boolean;
 }
 
-export interface EventInterface {
+export interface Event {
   eventID: number;
   eventType: string;
   name: string;
@@ -22,23 +22,23 @@ export interface EventInterface {
   isPrivate: boolean;
   isCancelled: boolean;
   isTentative: boolean;
-  signups?: SignupSheetInterface[];
-  attendees?: AttendeeInterface[];
+  signups?: SignupSheet[];
+  attendees?: Attendee[];
 }
 
-export interface CrewInterface extends PositionInterface {
+export interface Crew extends Position {
   crewID: number;
   locked: boolean;
   credited: boolean;
   ordering: number;
-  user: ClapperUserInterface;
+  user: SmallUser;
 }
 
-export interface AttendeeInterface extends ClapperUserInterface {
+export interface Attendee extends SmallUser {
   attendStatus: string;
 }
 
-export interface SignupSheetInterface {
+export interface SignupSheet {
   signupID: number;
   title: string;
   description: string;
@@ -46,20 +46,35 @@ export interface SignupSheetInterface {
   startTime: Date;
   endTime: Date;
   arrivalTime: Date;
-  crew: CrewInterface[];
+  crew: Crew[];
 }
 
-export interface ClapperUserInterface {
+export interface SmallUser {
   userID: number;
   nickname: string;
   firstName: string;
   lastName: string;
 }
 
-export interface PositionInterface {
+export interface Position {
   positionID: number;
   name: string;
   description: string;
   admin: boolean;
   permissionID: number;
+  // Extra
+  group: string;
+  image: string;
+  pageDescription: string;
+  responsibilites: string[];
+  trainingURL: string;
+  watching: boolean;
+}
+
+export interface Group {
+  groupID: number;
+  name: string;
+  description: string;
+  teamLead: SmallUser;
+  primaryColour: string;
 }

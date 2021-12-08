@@ -10,20 +10,21 @@ import {
 } from "@chakra-ui/react";
 import { FiArrowUpRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { Clapper, RichPosition } from "../../services/api/clapper";
+import { Position } from "../../components/types/clapper";
+import { clapper } from "../../services/services";
 
 interface Props {
-  position: RichPosition;
+  position: Position;
 }
 
 const PositionCard: React.FC<Props> = ({ position }): JSX.Element => {
   const [watching, setWatching] = useState<boolean>(position.watching);
   const subscribe = () => {
     if (watching) {
-      Clapper.unwatchPosition(position.positionID);
+      clapper.unwatchPosition(position.positionID);
       setWatching(false);
     } else {
-      Clapper.watchPosition(position.positionID);
+      clapper.watchPosition(position.positionID);
       setWatching(true);
     }
   };

@@ -1,4 +1,4 @@
-import { Group, Position, RichPosition } from "./api/clapper";
+import { Event, Group, Position } from "../components/types/clapper";
 import { IClapperAPIClient } from "./api/ClapperService";
 
 export default class ClapperService {
@@ -8,12 +8,12 @@ export default class ClapperService {
     this.clapperApiClient = clapperAPIClient;
   }
 
-  async getPositions(): Promise<Position[]> {
-    return this.clapperApiClient.getPositions();
+  async getEvent(eventID: number): Promise<Event> {
+    return this.clapperApiClient.getEvent(eventID);
   }
 
-  async getRichPositions(): Promise<RichPosition[]> {
-    return this.clapperApiClient.getRichPositions();
+  async getPositions(): Promise<Position[]> {
+    return this.clapperApiClient.getPositions();
   }
 
   async getGroups(): Promise<Group[]> {

@@ -15,37 +15,35 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiSave, FiXCircle } from "react-icons/fi";
-import apiAuthReq from "../../components/functions/apiAuthReq";
 
 // Type imports
-import { EventInterface } from "../../components/types/clapper";
+import { Event } from "../../components/types/clapper";
+import { clapper } from "../../services/services";
 
 // Other imports
 
 // Begin Code
 
 const EventEdit: React.FC = (): JSX.Element => {
-  const [event, setEvent] = useState<EventInterface>();
+  const [event, setEvent] = useState<Event>();
   const [newEvent, setNewEvent] = useState<boolean>();
-  const { register, handleSubmit } = useForm<EventInterface>();
+  const { register, handleSubmit } = useForm<Event>();
   const location = useLocation();
 
   const toast = useToast();
 
   useEffect(() => {
-    const eventNumber = location.pathname.split("/")[3];
+    const eventNumber = parseInt(location.pathname.split("/")[3], 10);
 
-    if (eventNumber !== undefined) {
-      apiAuthReq<EventInterface>(
-        `/v1/internal/clapper/event/${eventNumber}`
-      ).then((e) => {
+    if (eventNumber) {
+      clapper.getEvent(eventNumber).then((e) => {
         setEvent(e);
         setNewEvent(!e);
       });
     }
   }, [location.pathname]);
 
-  function onSubmit(data: EventInterface) {
+  function onSubmit(data: Event) {
     if (newEvent) {
       toast({
         title: "Event created",

@@ -1,10 +1,10 @@
 import appConfig from "../../appConfig";
+import { Event, Group, Position } from "../../components/types/clapper";
 import { IAPIClient } from "./ApiClient";
-import { Group, Position, RichPosition } from "./clapper";
 
 export interface IClapperAPIClient {
+  getEvent(eventID: number): Promise<Event>;
   getPositions(): Promise<Position[]>;
-  getRichPositions(): Promise<RichPosition[]>;
   getGroups(): Promise<Group[]>;
   watchPosition(positionID: number): Promise<boolean>;
   unwatchPosition(positionID: number): Promise<boolean>;
@@ -20,14 +20,12 @@ export class ClapperAPIClient implements IClapperAPIClient {
     this.apiClient = apiClient;
   }
 
-  async getPositions(): Promise<Position[]> {
-    return this.apiClient.get<Position[]>(`${this.clapperBase}/position`);
+  async getEvent(): Promise<Event> {
+    return this.apiClient.get<Event>(`${this.clapperBase}/event`);
   }
 
-  async getRichPositions(): Promise<RichPosition[]> {
-    return this.apiClient.get<RichPosition[]>(
-      `${this.clapperBase}/position/rich`
-    );
+  async getPositions(): Promise<Position[]> {
+    return this.apiClient.get<Position[]>(`${this.clapperBase}/position`);
   }
 
   async getGroups(): Promise<Group[]> {

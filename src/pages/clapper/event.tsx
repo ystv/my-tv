@@ -15,19 +15,19 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FiTool } from "react-icons/fi";
-import apiAuthReq from "../../components/functions/apiAuthReq";
 import toTitleCase from "../../components/functions/toTitleCase";
 import TextTable from "../../components/textTable";
 
 // Type imports
-import { EventInterface } from "../../components/types/clapper";
+import { Event } from "../../components/types/clapper";
 import { isAuthorized } from "../../components/contexts/userContext";
+import { clapper } from "../../services/services";
 
 // Other imports
 
 // Begin Code
 
-function getEventTypeContents(event: EventInterface): JSX.Element {
+function getEventTypeContents(event: Event): JSX.Element {
   switch (event.eventType) {
     case "show":
       if (event.signups) {
@@ -100,16 +100,16 @@ function getEventTypeContents(event: EventInterface): JSX.Element {
   }
 }
 
-export default function Event(): JSX.Element {
-  const [event, setEvent] = useState<EventInterface>();
+export default function EventPage(): JSX.Element {
+  const [event, setEvent] = useState<Event>();
   const location = useLocation();
 
   useEffect(() => {
-    apiAuthReq<EventInterface>(
-      `/v1/internal/clapper/event/${location.pathname.split("/")[2]}`
-    ).then((e) => {
-      setEvent(e);
-    });
+    clapper
+      .getEvent(parseInt(location.pathname.split("/")[2], 10))
+      .then((e) => {
+        setEvent(e);
+      });
   }, [location.pathname]);
 
   return event ? (
@@ -166,9 +166,9 @@ export default function Event(): JSX.Element {
       </Heading>
       <br />
       <Stack>
-        {event.description.split("\n").map((e) => (
+        {event.description.split("\n").map((textLine) => (
           <Text>
-            {e}
+            {textLine}
             <br />
           </Text>
         ))}

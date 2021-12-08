@@ -20,13 +20,10 @@ import {
 import SearchSelect from "react-select";
 
 // Custom Components
-import apiAuthReq from "../../components/functions/apiAuthReq";
 
 // Type imports
-import {
-  EventInterface,
-  PositionInterface,
-} from "../../components/types/clapper";
+import { Event, Position } from "../../components/types/clapper";
+import { clapper } from "../../services/services";
 
 // Other imports
 
@@ -42,8 +39,8 @@ import {
 // };
 
 const EventAdd: React.FC = (): JSX.Element => {
-  const { register, handleSubmit } = useForm<EventInterface>();
-  const [positions, setPositions] = useState<PositionInterface[]>([]);
+  const { register, handleSubmit } = useForm<Event>();
+  const [positions, setPositions] = useState<Position[]>([]);
   const { nextStep, activeStep } = useSteps({
     initialStep: 0,
   });
@@ -51,10 +48,10 @@ const EventAdd: React.FC = (): JSX.Element => {
   const toast = useToast();
 
   useEffect(() => {
-    apiAuthReq("/v1/internal/clapper/positions").then((e) => setPositions(e));
+    clapper.getPositions().then((e) => setPositions(e));
   }, []);
 
-  function onSubmitStepOne(data: EventInterface) {
+  function onSubmitStepOne(data: Event) {
     toast({
       title: "Stepped one",
       description: JSON.stringify(data),

@@ -9,25 +9,26 @@ import {
   Text,
 } from "@chakra-ui/react";
 import PositionCard from "./positionCard";
-import { Clapper, Group, RichPosition } from "../../services/api/clapper";
+import { Group, Position } from "../../components/types/clapper";
+import { clapper } from "../../services/services";
 
 interface GroupButtons extends Group {
   filtered: boolean;
 }
 
 const Positions = (): JSX.Element => {
-  const [positions, setPositions] = useState<RichPosition[]>();
+  const [positions, setPositions] = useState<Position[]>();
   const [visiblePositions, setVisiblePositions] = useState<
-    RichPosition[] | undefined
+    Position[] | undefined
   >(positions);
   const [groups, setGroups] = useState<GroupButtons[]>();
 
   useEffect(() => {
-    Clapper.getPositions().then((pos) => {
+    clapper.getPositions().then((pos) => {
       setPositions(pos);
       setVisiblePositions(pos);
     });
-    Clapper.getGroups().then((grps) => {
+    clapper.getGroups().then((grps) => {
       setGroups(
         grps.map((grp) => ({ ...grp, filtered: false } as GroupButtons))
       );
