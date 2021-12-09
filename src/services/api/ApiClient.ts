@@ -15,10 +15,12 @@ export default class APIClient implements IAPIClient {
   refreshToken = async (): Promise<void> => {
     try {
       await this.client.get(`${appConfig.wauthBase}/api/set_token`);
+      Promise.resolve();
     } catch (error: unknown) {
+      // The user is likely to have no JWT, so send them to login
+      window.location.href = `${process.env.REACT_APP_SECURITY_BASEURL}/login?callback=${window.location.href}`;
       Promise.reject(error);
     }
-    return Promise.resolve();
   };
 
   constructor(baseURL: string) {
