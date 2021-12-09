@@ -1,11 +1,6 @@
-// React Imports
 import React, { useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
-// MUI components
-
-// Custom Components
 import {
   Box,
   Button,
@@ -15,14 +10,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiSave, FiXCircle } from "react-icons/fi";
-
-// Type imports
-import { Event } from "../../components/types/clapper";
-import { clapper } from "../../services/services";
-
-// Other imports
-
-// Begin Code
+import { clapper } from "../../../services/services";
+import { Event } from "../../../components/types/clapper";
 
 const EventEdit: React.FC = (): JSX.Element => {
   const [event, setEvent] = useState<Event>();
@@ -33,10 +22,10 @@ const EventEdit: React.FC = (): JSX.Element => {
   const toast = useToast();
 
   useEffect(() => {
-    const eventNumber = parseInt(location.pathname.split("/")[3], 10);
+    const eventID = parseInt(location.pathname.split("/")[3], 10);
 
-    if (eventNumber) {
-      clapper.getEvent(eventNumber).then((e) => {
+    if (eventID) {
+      clapper.getEvent(eventID).then((e) => {
         setEvent(e);
         setNewEvent(!e);
       });

@@ -1,10 +1,5 @@
-// React Imports
 import React, { useEffect, useState } from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
-
-// MUI components
-
-// Custom Components
 import {
   Box,
   Button,
@@ -15,17 +10,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FiTool } from "react-icons/fi";
-import toTitleCase from "../../components/functions/toTitleCase";
-import TextTable from "../../components/textTable";
-
-// Type imports
-import { Event } from "../../components/types/clapper";
-import { isAuthorized } from "../../components/contexts/userContext";
-import { clapper } from "../../services/services";
-
-// Other imports
-
-// Begin Code
+import { isAuthorized } from "../../../components/contexts/userContext";
+import toTitleCase from "../../../components/functions/toTitleCase";
+import TextTable from "../../../components/textTable";
+import { clapper } from "../../../services/services";
+import { Event } from "../../../components/types/clapper";
 
 function getEventTypeContents(event: Event): JSX.Element {
   switch (event.eventType) {

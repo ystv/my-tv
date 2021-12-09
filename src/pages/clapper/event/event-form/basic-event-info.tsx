@@ -12,8 +12,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { StepProps } from "../../../components/reducers/event-reducer";
-import { Event } from "../../../components/types/clapper";
+import { StepProps } from "../../../../components/reducers/event-reducer";
+import { Event } from "../../../../components/types/clapper";
 
 const BasicEventInfo: React.FC<StepProps> = ({
   step,

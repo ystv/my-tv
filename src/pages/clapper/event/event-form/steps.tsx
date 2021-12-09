@@ -1,5 +1,5 @@
 import React from "react";
-import { StepProps } from "../../../components/reducers/event-reducer";
+import { StepProps } from "../../../../components/reducers/event-reducer";
 import BasicEventInfo from "./basic-event-info";
 import SignupSheets from "./signup-sheets";
 

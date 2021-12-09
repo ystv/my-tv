@@ -9,8 +9,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import PositionCard from "./positionCard";
-import { Group, Position } from "../../components/types/clapper";
-import { clapper } from "../../services/services";
+import { Group, Position } from "../../../components/types/clapper";
+import { clapper } from "../../../services/services";
 
 interface GroupButtons extends Group {
   filtered: boolean;

@@ -4,13 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import Webcams from "../../pages/webcams";
 import AddQuote from "../../pages/quotes/addQuote";
 import Quotes from "../../pages/quotes/quotes";
-import EventEdit from "../../pages/clapper/eventEdit";
-import Event from "../../pages/clapper/event";
 import Home from "../../pages/home";
-import EventAdd from "../../pages/clapper/eventAdd";
-import Positions from "../../pages/clapper/positions";
+import Positions from "../../pages/clapper/position/positions";
 import Authorized from "../Authorized";
 import UserPermission from "../types/permissions";
+import EventEdit from "../../pages/clapper/event/eventEdit";
+import EventPage from "../../pages/clapper/event/event";
+import NewEvent from "../../pages/clapper/event/eventAdd";
 
 const PageRouter = (): JSX.Element => (
   <Routes>
@@ -23,18 +23,20 @@ const PageRouter = (): JSX.Element => (
     <Route path="/quotes/add" element={<AddQuote />} />
     <Route path="/quotes" element={<Quotes />} />
     {/* Clapper */}
-    <Route
-      path="/event/edit/:eventID?"
-      element={
-        <Authorized requiredPermissions={[UserPermission.Director]}>
-          <EventEdit />
-        </Authorized>
-      }
-    />
-
-    <Route path="/event/add" element={<EventAdd />} />
-    <Route path="/event" element={<Event />} />
-    <Route path="/clapper/roles" element={<Positions />} />
+    <Route path="/clapper">
+      <Route path="event" element={<EventPage />}>
+        <Route path="add" element={<NewEvent />} />
+        <Route
+          path=":eventID/edit"
+          element={
+            <Authorized requiredPermissions={[UserPermission.Director]}>
+              <EventEdit />
+            </Authorized>
+          }
+        />
+      </Route>
+      <Route path="roles" element={<Positions />} />
+    </Route>
   </Routes>
 );
 

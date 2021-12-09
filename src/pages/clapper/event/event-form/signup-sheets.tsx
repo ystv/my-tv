@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import SearchSelect from "react-select";
 import { Stack, FormControl, FormLabel, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Position, SignupSheet } from "../../../components/types/clapper";
-import { clapper } from "../../../services/services";
-import { StepProps } from "../../../components/reducers/event-reducer";
+import { Position, SignupSheet } from "../../../../components/types/clapper";
+import { clapper } from "../../../../services/services";
+import { StepProps } from "../../../../components/reducers/event-reducer";
 
 const SignupSheets: React.FC<StepProps> = ({
   step,

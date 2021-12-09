@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { FiArrowUpRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { Position } from "../../components/types/clapper";
-import { clapper } from "../../services/services";
+import { Position } from "../../../components/types/clapper";
+import { clapper } from "../../../services/services";
 
 interface Props {
   position: Position;

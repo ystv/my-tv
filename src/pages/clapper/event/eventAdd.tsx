@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from "react";
 import { Heading, Flex } from "@chakra-ui/react";
 import {
-  DefaultEvent,
   EventReducer,
-} from "../../components/reducers/event-reducer";
+  DefaultEvent,
+} from "../../../components/reducers/event-reducer";
 import FormSteps from "./event-form/steps";
 
 const NewEvent: React.FC = (): JSX.Element => {
