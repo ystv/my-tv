@@ -24,16 +24,18 @@ const PageRouter = (): JSX.Element => (
     <Route path="/quotes" element={<Quotes />} />
     {/* Clapper */}
     <Route path="/clapper">
-      <Route path="event" element={<EventPage />}>
+      <Route path="event">
         <Route path="add" element={<NewEvent />} />
-        <Route
-          path=":eventID/edit"
-          element={
-            <Authorized requiredPermissions={[UserPermission.Director]}>
-              <EventEdit />
-            </Authorized>
-          }
-        />
+        <Route path=":eventID" element={<EventPage />}>
+          <Route
+            path="edit"
+            element={
+              <Authorized requiredPermissions={[UserPermission.Director]}>
+                <EventEdit />
+              </Authorized>
+            }
+          />
+        </Route>
       </Route>
       <Route path="roles" element={<Positions />} />
     </Route>

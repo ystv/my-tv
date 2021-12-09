@@ -20,8 +20,8 @@ export class ClapperAPIClient implements IClapperAPIClient {
     this.apiClient = apiClient;
   }
 
-  async getEvent(): Promise<Event> {
-    return this.apiClient.get<Event>(`${this.clapperBase}/event`);
+  async getEvent(eventID: number): Promise<Event> {
+    return this.apiClient.get<Event>(`${this.clapperBase}/event/${eventID}`);
   }
 
   async getPositions(): Promise<Position[]> {

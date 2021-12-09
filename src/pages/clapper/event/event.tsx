@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link as RouterLink } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Button,
@@ -91,15 +91,15 @@ function getEventTypeContents(event: Event): JSX.Element {
 
 export default function EventPage(): JSX.Element {
   const [event, setEvent] = useState<Event>();
-  const location = useLocation();
+  const { eventID } = useParams();
 
   useEffect(() => {
-    clapper
-      .getEvent(parseInt(location.pathname.split("/")[2], 10))
-      .then((e) => {
+    if (eventID) {
+      clapper.getEvent(parseInt(eventID, 10)).then((e) => {
         setEvent(e);
       });
-  }, [location.pathname]);
+    }
+  }, []);
 
   return event ? (
     <>
