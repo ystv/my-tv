@@ -1,131 +1,24 @@
-// React Imports
-import React, { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { useForm } from "react-hook-form";
-
-// MUI components
-import { Step, Steps, useSteps } from "chakra-ui-steps";
+import React, { useReducer, useState } from "react";
+import { Heading, Flex } from "@chakra-ui/react";
 import {
-  Heading,
-  Checkbox,
-  Textarea,
-  Input,
-  HStack,
-  Button,
-  FormControl,
-  FormLabel,
-  Select,
-  useToast,
-} from "@chakra-ui/react";
-import SearchSelect from "react-select";
+  DefaultEvent,
+  EventReducer,
+} from "../../components/reducers/event-reducer";
+import FormSteps from "./event-form/steps";
 
-// Custom Components
+const NewEvent: React.FC = (): JSX.Element => {
+  const [step, setStep] = useState(0);
+  const [state, dispatch] = useReducer(EventReducer, DefaultEvent);
 
-// Type imports
-import { Event, Position } from "../../components/types/clapper";
-import { clapper } from "../../services/services";
-
-// Other imports
-
-// Begin Code
-
-// const apiReq = async (url: string, method: string, body: any) => {
-//   let endpoint = `${process.env.REACT_APP_API_BASEURL}${url}`;
-//   await apiAuthReq("/user");
-//   let res = await axios.post<eventInterface>(endpoint, body, {
-//     withCredentials: true,
-//   });
-//   return res;
-// };
-
-const EventAdd: React.FC = (): JSX.Element => {
-  const { register, handleSubmit } = useForm<Event>();
-  const [positions, setPositions] = useState<Position[]>([]);
-  const { nextStep, activeStep } = useSteps({
-    initialStep: 0,
-  });
-
-  const toast = useToast();
-
-  useEffect(() => {
-    clapper.getPositions().then((e) => setPositions(e));
-  }, []);
-
-  function onSubmitStepOne(data: Event) {
-    toast({
-      title: "Stepped one",
-      description: JSON.stringify(data),
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
-    nextStep();
-  }
+  const steps = FormSteps({ step, setStep, state, dispatch });
 
   return (
-    <Steps orientation="vertical" activeStep={activeStep}>
-      <Step key="Create Event" label="Create Event">
-        <form onSubmit={handleSubmit(onSubmitStepOne)}>
-          <Heading>Create Event</Heading>
-          <br />
+    <>
+      <Heading>Create Event: {steps[step].title}</Heading>
 
-          <FormControl isRequired>
-            <FormLabel>Name</FormLabel>
-            <Input variant="outline" placeholder="Name" {...register("name")} />
-          </FormControl>
-
-          <FormLabel>Location</FormLabel>
-          <Input
-            variant="outline"
-            placeholder="Location"
-            {...register("name")}
-          />
-
-          <FormLabel>Description</FormLabel>
-          <Textarea
-            resize="vertical"
-            placeholder="Description"
-            {...register("description")}
-            variant="outline"
-          />
-
-          <FormLabel>Type</FormLabel>
-          <Select {...register("eventType")} variant="outline">
-            <option value="show">Show</option>
-            <option value="meeting">Meeting</option>
-            <option value="social">Social</option>
-            <option value="other">Other</option>
-          </Select>
-
-          <HStack>
-            <Checkbox {...register("isTentative")}>Tentative</Checkbox>
-            <Checkbox {...register("isCancelled")}>Cancelled</Checkbox>
-          </HStack>
-
-          <br />
-          <HStack>
-            <Button variant="outline" component={RouterLink} to="/calendar">
-              Back
-            </Button>{" "}
-            <Button variant="solid" type="submit">
-              Next
-            </Button>
-          </HStack>
-        </form>
-      </Step>
-      <Step key="Add Signups" label="Add Signups">
-        <Heading>Add Signups</Heading>
-        <FormLabel>Positions</FormLabel>
-        <SearchSelect
-          placeholder="Search or select role"
-          options={positions.map((e) => ({
-            value: e.positionID,
-            label: e.name,
-          }))}
-        />
-      </Step>
-    </Steps>
+      <Flex orientation="vertical">{steps[step].content}</Flex>
+    </>
   );
 };
 
-export default EventAdd;
+export default NewEvent;

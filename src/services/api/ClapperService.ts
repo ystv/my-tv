@@ -25,7 +25,7 @@ export class ClapperAPIClient implements IClapperAPIClient {
   }
 
   async getPositions(): Promise<Position[]> {
-    return this.apiClient.get<Position[]>(`${this.clapperBase}/position`);
+    return this.apiClient.get<Position[]>(`${this.clapperBase}/positions`);
   }
 
   async getGroups(): Promise<Group[]> {

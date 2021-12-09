@@ -10,7 +10,6 @@ import {
   Spinner,
   withDefaultColorScheme,
 } from "@chakra-ui/react";
-import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 
 // Custom Components
 import SidebarWithHeader from "./components/App/SidebarWithHeader";
@@ -26,7 +25,6 @@ import UserProvider from "./components/contexts/userProvider";
 export const chakraTheme = extendTheme(
   withDefaultColorScheme({ colorScheme: "blue" }),
   {
-    components: { Steps },
     initialColorMode: "light",
     useSystemColorMode: false,
   }

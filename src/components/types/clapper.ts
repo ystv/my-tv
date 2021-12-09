@@ -13,7 +13,7 @@ export interface Calendar {
 
 export interface Event {
   eventID: number;
-  eventType: string;
+  eventType: EventType;
   name: string;
   startDate: Date;
   endDate: Date;
@@ -24,6 +24,13 @@ export interface Event {
   isTentative: boolean;
   signups?: SignupSheet[];
   attendees?: Attendee[];
+}
+
+export enum EventType {
+  show = "show",
+  meeting = "meeting",
+  social = "social",
+  other = "other",
 }
 
 export interface Crew extends Position {
