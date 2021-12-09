@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 // Custom Components
-import SidebarWithHeader from "./components/App/SidebarWithHeader";
+import SidebarWithHeader from "./components/sidebar/sidebar-with-header";
 import PageRouter from "./components/App/PageRouter";
 import { people } from "./services/services";
 
