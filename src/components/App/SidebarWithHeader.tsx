@@ -364,8 +364,6 @@ export default function SidebarWithHeader({
       {/* Mobile nav */}
       <MobileNav onOpen={onOpen} />
       <main style={{ padding: "0 2rem" }}>
-        <Box height="4rem" />
-        <br />
         <Box ml={{ base: 0, md: 60 }} p="4">
           {children}
         </Box>
