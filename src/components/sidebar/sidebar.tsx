@@ -25,27 +25,42 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
     w={{ base: "full", md: 60 }}
     pos="fixed"
     h="full"
-    style={{ overflowY: "scroll" }}
+    // style={{ overflowY: "scroll" }}
     {...rest}
   >
-    <Flex h="20" alignItems="center" mx="8">
+    <Flex
+      h="20"
+      alignItems="center"
+      // mx="8"
+      px="8"
+      style={{
+        position: "sticky",
+        top: 0,
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+      }}
+      bg={useColorModeValue("white", "gray.900")}
+      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+    >
       <Icon fontSize="5xl" _groupHover={{ color: "white" }} as={FiTv} />
       <Text ms="1" fontSize="3xl" fontWeight="semibold">
         My-TV
       </Text>
       <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
     </Flex>
-    {Items.map((link) => (
-      <NavItem
-        key={link.name}
-        icon={link.icon}
-        to={link.to}
-        onClick={onClose}
-        external={link.external}
-      >
-        {link.name}
-      </NavItem>
-    ))}
+    <div style={{ overflowY: "scroll", height: "100%" }}>
+      {Items.map((link) => (
+        <NavItem
+          key={link.name}
+          icon={link.icon}
+          to={link.to}
+          onClick={onClose}
+          external={link.external}
+        >
+          {link.name}
+        </NavItem>
+      ))}
+    </div>
   </Box>
 );
 

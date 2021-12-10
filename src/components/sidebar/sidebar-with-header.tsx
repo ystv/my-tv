@@ -28,7 +28,7 @@ const SidebarWithHeader: React.FC = ({ children }): JSX.Element => {
           <Sidebar onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <Header onOpen={onOpen} />
+      <Header onOpen={onOpen} style={{ position: "sticky", top: 0 }} />
       <main style={{ padding: "0 2rem" }}>
         <Box ml={{ base: 0, md: 60 }} p="4">
           {children}
