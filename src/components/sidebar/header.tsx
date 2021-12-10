@@ -50,7 +50,7 @@ const Header: React.FC<MobileProps> = ({ onOpen, ...rest }): JSX.Element => {
         fontSize="2xl"
         fontWeight="bold"
       >
-        MyTV
+        My-TV
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
