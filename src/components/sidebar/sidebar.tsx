@@ -25,12 +25,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
     w={{ base: "full", md: 60 }}
     pos="fixed"
     h="full"
+    style={{ overflowY: "scroll" }}
     {...rest}
   >
     <Flex h="20" alignItems="center" mx="8">
       <Icon fontSize="5xl" _groupHover={{ color: "white" }} as={FiTv} />
       <Text ms="1" fontSize="4xl" fontWeight="semibold">
-        mytv
+        myTV
       </Text>
       <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
     </Flex>

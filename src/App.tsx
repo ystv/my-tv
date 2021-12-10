@@ -51,6 +51,8 @@ const App = (): JSX.Element => {
         </UserProvider>
       ) : (
         <Center height="100vh">
+          <h1>Loading...</h1>
+          <br />
           <Spinner />
         </Center>
       )}
