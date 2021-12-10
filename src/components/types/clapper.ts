@@ -85,3 +85,10 @@ export interface Group {
   teamLead: SmallUser;
   primaryColour: string;
 }
+
+export interface NewGroup {
+  name: string;
+  description: string;
+  teamLeadUserID: number; // team lead's userID
+  primaryColour: string;
+}

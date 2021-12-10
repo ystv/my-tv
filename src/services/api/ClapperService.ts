@@ -1,11 +1,17 @@
 import appConfig from "../../appConfig";
-import { Event, Group, Position } from "../../components/types/clapper";
+import {
+  Event,
+  Group,
+  NewGroup,
+  Position,
+} from "../../components/types/clapper";
 import { IAPIClient } from "./ApiClient";
 
 export interface IClapperAPIClient {
   getEvent(eventID: number): Promise<Event>;
   getPositions(): Promise<Position[]>;
   getGroups(): Promise<Group[]>;
+  newGroup(group: NewGroup): Promise<number>;
   watchPosition(positionID: number): Promise<boolean>;
   unwatchPosition(positionID: number): Promise<boolean>;
 }
@@ -30,6 +36,13 @@ export class ClapperAPIClient implements IClapperAPIClient {
 
   async getGroups(): Promise<Group[]> {
     return this.apiClient.get<Group[]>(`${this.clapperBase}/position/group`);
+  }
+
+  async newGroup(group: NewGroup): Promise<number> {
+    return this.apiClient.post<NewGroup, number>(
+      `${this.clapperBase}/position/group`,
+      group
+    );
   }
 
   async watchPosition(positionID: number): Promise<boolean> {
