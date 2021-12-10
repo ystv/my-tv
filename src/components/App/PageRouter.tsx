@@ -23,7 +23,7 @@ const PageRouter = (): JSX.Element => (
     <Route path="/quotes/add" element={<AddQuote />} />
     <Route path="/quotes" element={<Quotes />} />
     {/* Clapper */}
-    <Route path="/clapper">
+    <Route path="/calendar">
       <Route path="event">
         <Route path="add" element={<NewEvent />} />
         <Route path=":eventID" element={<EventPage />}>
