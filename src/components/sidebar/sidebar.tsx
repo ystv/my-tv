@@ -6,7 +6,9 @@ import {
   Text,
   CloseButton,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
+import { FiTv } from "react-icons/fi";
 import Items from "./items";
 import NavItem from "./nav-item";
 
@@ -25,9 +27,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
     h="full"
     {...rest}
   >
-    <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-      <Text fontSize="2x1" fontWeight="bold">
-        MyTV
+    <Flex h="20" alignItems="center" mx="8">
+      <Icon fontSize="5xl" _groupHover={{ color: "white" }} as={FiTv} />
+      <Text ms="1" fontSize="4xl" fontWeight="semibold">
+        mytv
       </Text>
       <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
     </Flex>
