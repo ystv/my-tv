@@ -20,8 +20,9 @@ const PageRouter = (): JSX.Element => (
     <Route path="/*" element={<NotFound />} />
     {/* Misc services */}
     <Route path="/webcams" element={<Webcams />} />
-    <Route path="/quotes/add" element={<AddQuote />} />
-    <Route path="/quotes" element={<Quotes />} />
+    <Route path="/quotes/*" element={<Quotes />}>
+      <Route path="add" element={<AddQuote />} />
+    </Route>
     {/* Clapper */}
     <Route path="/calendar">
       <Route path="event">
