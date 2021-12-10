@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
   >
     <Flex h="20" alignItems="center" mx="8">
       <Icon fontSize="5xl" _groupHover={{ color: "white" }} as={FiTv} />
-      <Text ms="1" fontSize="4xl" fontWeight="semibold">
+      <Text ms="1" fontSize="3xl" fontWeight="semibold">
         My-TV
       </Text>
       <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
