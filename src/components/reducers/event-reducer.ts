@@ -17,7 +17,7 @@ type Action =
   | { type: "update-basic"; event: Event }
   | { type: "update-signups"; signups: SignupSheet[] };
 
-export const EventReducer = (event: Event, action: Action) => {
+export const EventReducer = (event: Event, action: Action): Event => {
   switch (action.type) {
     case "update-basic":
       return {

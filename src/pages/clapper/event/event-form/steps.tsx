@@ -3,7 +3,17 @@ import { StepProps } from "../../../../components/reducers/event-reducer";
 import BasicEventInfo from "./basic-event-info";
 import SignupSheets from "./signup-sheets";
 
-const FormSteps = ({ step, setStep, state, dispatch }: StepProps) => [
+interface FormStepItem {
+  title: string;
+  content: JSX.Element;
+}
+
+const FormSteps = ({
+  step,
+  setStep,
+  state,
+  dispatch,
+}: StepProps): FormStepItem[] => [
   {
     title: "Basic event information",
     content: (
