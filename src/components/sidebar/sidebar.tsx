@@ -7,6 +7,7 @@ import {
   CloseButton,
   useColorModeValue,
   Icon,
+  Spacer,
 } from "@chakra-ui/react";
 import { FiTv } from "react-icons/fi";
 import Items from "./items";
@@ -43,9 +44,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
     >
       <Icon fontSize="5xl" _groupHover={{ color: "white" }} as={FiTv} />
-      <Text ms="1" fontSize="3xl" fontWeight="semibold">
+      <Text ms="1" fontSize="2xl" fontWeight="bold">
         My-TV
       </Text>
+      <Spacer />
       <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
     </Flex>
     <div style={{ overflowY: "scroll", height: "100%" }}>
