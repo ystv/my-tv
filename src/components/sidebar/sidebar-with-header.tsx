@@ -5,19 +5,21 @@ import {
   Drawer,
   useColorModeValue,
   DrawerContent,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Sidebar from "./sidebar";
 import Header from "./header";
 
 const SidebarWithHeader: React.FC = ({ children }): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <Sidebar onClose={onClose} display={{ base: "none", md: "block" }} />
       <Drawer
         autoFocus={false}
-        isOpen={isOpen}
+        isOpen={isOpen && (isMobile ?? false)}
         placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
