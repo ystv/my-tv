@@ -8,6 +8,7 @@ import {
   useColorModeValue,
   Icon,
   Spacer,
+  Divider,
 } from "@chakra-ui/react";
 import { FiTv } from "react-icons/fi";
 import Items from "./items";
@@ -56,17 +57,21 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
         height: "calc(100% - var(--chakra-sizes-20))",
       }}
     >
-      {Items.map((link) => (
-        <NavItem
-          key={link.name}
-          icon={link.icon}
-          to={link.to}
-          onClick={onClose}
-          external={link.external}
-        >
-          {link.name}
-        </NavItem>
-      ))}
+      {Items.map((link) =>
+        "div" in link ? (
+          <Divider />
+        ) : (
+          <NavItem
+            key={link.name}
+            icon={link.icon}
+            to={link.to}
+            onClick={onClose}
+            external={link.external}
+          >
+            {link.name}
+          </NavItem>
+        )
+      )}
     </div>
   </Box>
 );
