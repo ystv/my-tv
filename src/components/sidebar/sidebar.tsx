@@ -50,7 +50,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => (
       <Spacer />
       <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
     </Flex>
-    <div style={{ overflowY: "scroll", height: "100%" }}>
+    <div
+      style={{
+        overflowY: "auto",
+        height: "calc(100% - var(--chakra-sizes-20))",
+      }}
+    >
       {Items.map((link) => (
         <NavItem
           key={link.name}
