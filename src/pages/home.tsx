@@ -13,7 +13,7 @@ import { Box, Heading, Link, Text } from "@chakra-ui/react";
 // Begin Code
 
 const Home = (): JSX.Element => (
-  <Box w={["100%", "xl"]}>
+  <Box w={{ base: "100%", md: "md", lg: "xl" }}>
     <Heading>Welcome Home!</Heading>
     <br />
     <Text fontSize="xl">
