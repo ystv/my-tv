@@ -9,6 +9,7 @@ import { IAPIClient } from "./ApiClient";
 
 export interface IClapperAPIClient {
   getEvent(eventID: number): Promise<Event>;
+  getEventsByMonth(month: number, year: number): Promise<Array<Event>>;
   getPositions(): Promise<Position[]>;
   getGroups(): Promise<Group[]>;
   newGroup(group: NewGroup): Promise<number>;
@@ -24,6 +25,12 @@ export class ClapperAPIClient implements IClapperAPIClient {
   constructor(apiClient: IAPIClient) {
     this.clapperBase = appConfig.clapperBase;
     this.apiClient = apiClient;
+  }
+
+  async getEventsByMonth(month: number, year: number): Promise<Array<Event>> {
+    return this.apiClient.get<Array<Event>>(
+      `${this.clapperBase}/calendar/monthly/${year}/${month}`
+    );
   }
 
   async getEvent(eventID: number): Promise<Event> {

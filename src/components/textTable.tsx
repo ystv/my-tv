@@ -28,7 +28,7 @@ interface TableProps {
   subheading?: string;
   columnTitles: string[];
   dataKeys: string[];
-  data: { [key: string]: any }[];
+  data: { [key: string]: string | number }[];
 }
 
 const TextTable: React.FC<TableProps> = (props): JSX.Element => (

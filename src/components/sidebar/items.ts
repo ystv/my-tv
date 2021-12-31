@@ -73,7 +73,7 @@ const Items: Array<ItemProps | DivProps> = [
   {
     name: "Crew Roles",
     icon: FiUsers,
-    to: "/clapper/roles",
+    to: "/calendar/roles",
     external: false,
   },
   { div: true },

@@ -12,6 +12,10 @@ export default class ClapperService {
     return this.clapperApiClient.getEvent(eventID);
   }
 
+  async getEventsByMonth(month: number, year: number): Promise<Array<Event>> {
+    return this.clapperApiClient.getEventsByMonth(month, year);
+  }
+
   async getPositions(): Promise<Position[]> {
     return this.clapperApiClient.getPositions();
   }
