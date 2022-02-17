@@ -17,7 +17,7 @@ import PageRouter from "./components/App/PageRouter";
 import { people } from "./services/services";
 
 // Type imports
-import { UserInterface } from "./components/types/people";
+import { User } from "./components/types/people";
 import UserProvider from "./components/contexts/userProvider";
 
 // Begin Code
@@ -31,7 +31,7 @@ export const chakraTheme = extendTheme(
 );
 
 const App = (): JSX.Element => {
-  const [user, setUser] = useState<UserInterface>();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     people.getUserByToken().then((u) => {

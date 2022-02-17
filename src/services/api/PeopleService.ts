@@ -1,10 +1,10 @@
 import appConfig from "../../appConfig";
-import { UserInterface } from "../../components/types/people";
+import { User } from "../../components/types/people";
 import { IAPIClient } from "./ApiClient";
 
 export interface IPeopleAPIClient {
-  getUserByToken(): Promise<UserInterface>;
-  getUserByUserID(userID: number): Promise<UserInterface>;
+  getUserByToken(): Promise<User>;
+  getUserByUserID(userID: number): Promise<User>;
 }
 
 export class PeopleAPIClient implements IPeopleAPIClient {
@@ -17,13 +17,11 @@ export class PeopleAPIClient implements IPeopleAPIClient {
     this.apiClient = apiClient;
   }
 
-  async getUserByToken(): Promise<UserInterface> {
-    return this.apiClient.get<UserInterface>(`${this.peopleBase}/user`);
+  async getUserByToken(): Promise<User> {
+    return this.apiClient.get<User>(`${this.peopleBase}/user`);
   }
 
-  async getUserByUserID(userID: number): Promise<UserInterface> {
-    return this.apiClient.get<UserInterface>(
-      `${this.peopleBase}/user/${userID}`
-    );
+  async getUserByUserID(userID: number): Promise<User> {
+    return this.apiClient.get<User>(`${this.peopleBase}/user/${userID}`);
   }
 }

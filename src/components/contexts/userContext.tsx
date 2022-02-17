@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import { UserInterface } from "../types/people";
+import { User } from "../types/people";
 import UserPermission from "../types/permissions";
 
-const UserContext = createContext<UserInterface>(null!);
+const UserContext = createContext<User>(null!);
 
-export const UserInfo = (): UserInterface => useContext(UserContext);
+export const UserInfo = (): User => useContext(UserContext);
 
 export const isAuthorized = (
   authorizedPermissions: UserPermission[]

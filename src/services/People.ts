@@ -1,4 +1,4 @@
-import { UserInterface } from "../components/types/people";
+import { User } from "../components/types/people";
 import { IPeopleAPIClient } from "./api/PeopleService";
 
 export default class PeopleService {
@@ -8,11 +8,11 @@ export default class PeopleService {
     this.peopleApiClient = peopleAPIClient;
   }
 
-  async getUserByToken(): Promise<UserInterface> {
+  async getUserByToken(): Promise<User> {
     return this.peopleApiClient.getUserByToken();
   }
 
-  async getUserByUserID(userID: number): Promise<UserInterface> {
+  async getUserByUserID(userID: number): Promise<User> {
     return this.peopleApiClient.getUserByUserID(userID);
   }
 }
