@@ -12,6 +12,7 @@ import EventEdit from "../../pages/clapper/event/eventEdit";
 import EventPage from "../../pages/clapper/event/event";
 import NewEvent from "../../pages/clapper/event/eventAdd";
 import Calendar from "../../pages/clapper/Calendar";
+import Profile from "../../pages/profile/profile";
 
 const PageRouter = (): JSX.Element => (
   <Routes>
@@ -24,6 +25,7 @@ const PageRouter = (): JSX.Element => (
     <Route path="/quotes/*" element={<Quotes />}>
       <Route path="add" element={<AddQuote />} />
     </Route>
+    <Route path="/profile/*" element={<Profile />} />
     {/* Clapper */}
     <Route path="/calendar*" element={<Calendar />} />
     <Route path="/calendar/roles" element={<Positions />} />
