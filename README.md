@@ -37,12 +37,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Basic breakdown of how to edit this:
 
-index.tsx to change theme
+`src/index.tsx` to change theme
 
-App.tsx to add pages or change page routing in react Router
+`src/components/App/PageRouter.tsx` to add pages or change page routing in react Router
 
-NavbarWithDrawer.tsx to change/add menu links/icons
-
+`src/components/sidebar/items.ts` to change/add menu links/icons
 
 ## Learn More
 
