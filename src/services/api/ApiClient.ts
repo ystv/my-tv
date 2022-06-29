@@ -49,6 +49,11 @@ export default class APIClient implements IAPIClient {
       timeout: 10 * 1000,
     });
 
+    const apiKey = process.env.REACT_APP_API_KEY;
+    if (apiKey) {
+      sessionStorage.setItem("token", apiKey);
+    }
+
     this.client.interceptors.request.use(
       (config) => {
         const token = sessionStorage.getItem("token");
