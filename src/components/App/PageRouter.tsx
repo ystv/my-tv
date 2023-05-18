@@ -11,6 +11,7 @@ import UserPermission from "../types/permissions";
 import EventEdit from "../../pages/clapper/event/eventEdit";
 import EventPage from "../../pages/clapper/event/event";
 import NewEvent from "../../pages/clapper/event/eventAdd";
+import Calendar from "../../pages/clapper/Calendar";
 
 const PageRouter = (): JSX.Element => (
   <Routes>
@@ -24,21 +25,20 @@ const PageRouter = (): JSX.Element => (
       <Route path="add" element={<AddQuote />} />
     </Route>
     {/* Clapper */}
-    <Route path="/calendar">
-      <Route path="event">
-        <Route path="add" element={<NewEvent />} />
-        <Route path=":eventID" element={<EventPage />}>
-          <Route
-            path="edit"
-            element={
-              <Authorized requiredPermissions={[UserPermission.Director]}>
-                <EventEdit />
-              </Authorized>
-            }
-          />
-        </Route>
+    <Route path="/calendar*" element={<Calendar />} />
+    <Route path="/calendar/roles" element={<Positions />} />
+    <Route path="/event">
+      <Route path="add" element={<NewEvent />} />
+      <Route path=":eventID" element={<EventPage />}>
+        <Route
+          path="edit"
+          element={
+            <Authorized requiredPermissions={[UserPermission.Director]}>
+              <EventEdit />
+            </Authorized>
+          }
+        />
       </Route>
-      <Route path="roles" element={<Positions />} />
     </Route>
   </Routes>
 );

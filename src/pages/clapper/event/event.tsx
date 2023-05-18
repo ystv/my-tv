@@ -92,6 +92,7 @@ function getEventTypeContents(event: Event): JSX.Element {
 export default function EventPage(): JSX.Element {
   const [event, setEvent] = useState<Event>();
   const { eventID } = useParams();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (eventID) {
@@ -105,13 +106,10 @@ export default function EventPage(): JSX.Element {
     <>
       <Link
         variant="body2"
-        component={RouterLink}
-        to={() => {
-          const startDate = new Date(event.startDate);
-          return `/calendar/${startDate.getFullYear()}/${
-            startDate.getMonth() + 1
-          }`;
-        }}
+        as={RouterLink}
+        to={`/calendar/${new Date(event.startDate).getFullYear()}/${
+          new Date(event.startDate).getMonth() + 1
+        }`}
       >
         &#8592; Back
       </Link>
@@ -126,9 +124,9 @@ export default function EventPage(): JSX.Element {
             <Button
               variant="contained"
               color="primary"
-              startIcon={<FiTool />}
-              component={RouterLink}
-              to={`/event/edit/${event.eventID}`}
+              leftIcon={<FiTool />}
+              as={RouterLink}
+              to="edit"
             >
               Edit Event
             </Button>

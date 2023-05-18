@@ -1,6 +1,10 @@
-import Axios, { AxiosInstance } from "axios";
+import Axios, { AxiosError, AxiosInstance } from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import appConfig from "../../appConfig";
+
+interface SetToken {
+  token: string;
+}
 
 export interface IAPIClient {
   get<TResponse>(path: string): Promise<TResponse>;
@@ -12,10 +16,22 @@ export interface IAPIClient {
 export default class APIClient implements IAPIClient {
   private client: AxiosInstance;
 
-  refreshToken = async (): Promise<void> => {
+  refreshToken = async (failedRequest: AxiosError): Promise<void> => {
     try {
-      await this.client.get(`${appConfig.wauthBase}/api/set_token`);
-      Promise.resolve();
+      const res = await Axios.get<SetToken>(
+        `${appConfig.wauthBase}/api/set_token`,
+        { withCredentials: true }
+      );
+      if (failedRequest.response) {
+        if (!failedRequest.response.config.headers) {
+          // eslint-disable-next-line no-param-reassign
+          failedRequest.response.config.headers = {};
+        }
+        // eslint-disable-next-line no-param-reassign
+        failedRequest.response.config.headers.Authorization = `Bearer ${res.data.token}`;
+        sessionStorage.setItem("token", res.data.token);
+        Promise.resolve();
+      }
     } catch (error: unknown) {
       // The user is likely to have no JWT, so send them to login
       window.location.href = `${process.env.REACT_APP_SECURITY_BASEURL}/login?callback=${window.location.href}`;
@@ -31,8 +47,28 @@ export default class APIClient implements IAPIClient {
         "Content-Type": "application/json",
       },
       timeout: 10 * 1000,
-      withCredentials: true,
     });
+
+    const apiKey = process.env.REACT_APP_API_KEY;
+    if (apiKey) {
+      sessionStorage.setItem("token", apiKey);
+    }
+
+    this.client.interceptors.request.use(
+      (config) => {
+        const token = sessionStorage.getItem("token");
+        if (token && config) {
+          if (!config.headers) {
+            // eslint-disable-next-line no-param-reassign
+            config.headers = {};
+          }
+          // eslint-disable-next-line no-param-reassign
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
     createAuthRefreshInterceptor(this.client, this.refreshToken, {
       statusCodes: [400, 401, 403],
