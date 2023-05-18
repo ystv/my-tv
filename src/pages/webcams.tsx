@@ -8,7 +8,7 @@ import {
   Link,
   SimpleGrid,
   Spinner,
-  Image,
+  // Image,
 } from "@chakra-ui/react";
 import { Webcam } from "../components/types/webcams";
 import { misc } from "../services/services";
@@ -45,13 +45,20 @@ const Webcams: React.FC = (): JSX.Element => {
       ) : (
         <SimpleGrid colums={2} spacing="2rem">
           {cams.map((cam) => (
-            <Image
-              src={`${
-                process.env.REACT_APP_API_BASEURL
-              }/v1/internal/misc/webcams/${cam.id}/${cam.file}?${Date.now()}}`}
-              key={cam.id}
-              alt={`Webcam: ${cam.name}`}
-              height="16rem"
+            // <Image
+            //   src={`${
+            //     process.env.REACT_APP_API_BASEURL
+            //   }/v1/internal/misc/webcams/${cam.id}/${cam.file}?${Date.now()}}`}
+            //   key={cam.id}
+            //   alt={`Webcam: ${cam.name}`}
+            //   height="16rem"
+            // />
+            <video
+              width="32rem"
+              src={`${cam.url}/${cam.file}`}
+              autoPlay
+              playsInline
+              muted
             />
           ))}
         </SimpleGrid>
