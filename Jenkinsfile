@@ -128,8 +128,8 @@ pipeline {
   }
 
   environment {
+    HOME = '.'
     DOCKER_BUILDKIT = '1'
-    REGISTRY_ENDPOINT = credentials('docker-registry-endpoint')
   }
 
   stages {
