@@ -93,8 +93,8 @@ const EventEdit: React.FC = (): JSX.Element => {
         alignItems="stretch"
         // spacing={2}
       >
-        <Grid>
         {/* <Grid item> */}
+        <Grid>
           <Textarea
             // type="text"
             placeholder="Event Name"
@@ -104,8 +104,8 @@ const EventEdit: React.FC = (): JSX.Element => {
             // fullWidth
           />
         </Grid>
-        <Grid>
         {/* <Grid item> */}
+        <Grid>
           <Textarea
             // type="text"
             placeholder="Event Description"
