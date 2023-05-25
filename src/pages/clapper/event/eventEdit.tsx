@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link as RouterLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -9,7 +9,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { FiSave, FiXCircle } from "react-icons/fi";
+// import { FiSave, FiXCircle } from "react-icons/fi";
 import { clapper } from "../../../services/services";
 import { Event } from "../../../components/types/clapper";
 
@@ -54,24 +54,25 @@ const EventEdit: React.FC = (): JSX.Element => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container alignContent="space-between">
+      <Grid alignContent="space-between">
         <Heading variant="h4" style={{ flex: 1 }}>
           Edit Event
         </Heading>
-        <Box component="span">
+        {/* <Box component="span"> */}
+        <Box>
           <Button
             variant="contained"
             color="secondary"
-            startIcon={<FiXCircle />}
-            component={RouterLink}
-            to={newEvent ? `/calendar` : `/event/${event?.eventID}`}
+            // startIcon={<FiXCircle />}
+            // component={RouterLink}
+            // to={newEvent ? `/calendar` : `/event/${event?.eventID}`}
           >
             Cancel
           </Button>{" "}
           <Button
             variant="contained"
             color="primary"
-            startIcon={<FiSave />}
+            // startIcon={<FiSave />}
             type="submit"
           >
             Save Event
@@ -86,32 +87,34 @@ const EventEdit: React.FC = (): JSX.Element => {
       <br />
 
       <Grid
-        container
-        direction="column"
-        justify="flex-start"
+        // container
+        // direction="column"
+        // justify="flex-start"
         alignItems="stretch"
-        spacing={2}
+        // spacing={2}
       >
-        <Grid item>
+        <Grid>
+        {/* <Grid item> */}
           <Textarea
-            type="text"
+            // type="text"
             placeholder="Event Name"
             defaultValue={event?.name}
             {...register("name")}
             variant="outlined"
-            fullWidth
+            // fullWidth
           />
         </Grid>
-        <Grid item>
+        <Grid>
+        {/* <Grid item> */}
           <Textarea
-            type="text"
+            // type="text"
             placeholder="Event Description"
             defaultValue={event?.description}
             name="description"
             // inputRef={register({})}
             variant="outlined"
-            fullWidth
-            multiline
+            // fullWidth
+            // multiline
           />
         </Grid>
       </Grid>

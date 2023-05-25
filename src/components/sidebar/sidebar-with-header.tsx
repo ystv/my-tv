@@ -10,7 +10,13 @@ import {
 import Sidebar from "./sidebar";
 import Header from "./header";
 
-const SidebarWithHeader: React.FC = ({ children }): JSX.Element => {
+export interface ProviderPropsHere {
+  children: React.ReactNode;
+}
+
+const SidebarWithHeader: React.FC<ProviderPropsHere> = ({
+  children,
+}): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMobile = useBreakpointValue({ base: true, md: false });
 

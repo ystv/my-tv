@@ -31,7 +31,8 @@ import { DeleteIcon, EditIcon, RepeatIcon } from "@chakra-ui/icons";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 // Type imports
-import { QuoteInterface, QuotesInterface } from "../../components/types/quotes";
+import { QuotesInterface } from "../../components/types/quotes";
+// import { QuoteInterface, QuotesInterface } from "../../components/types/quotes";
 
 // Other imports
 
@@ -44,14 +45,15 @@ export default function Quotes(): JSX.Element {
   const [quotes, setQuotes] = useState<QuotesInterface>();
   const location = useLocation();
   const [showEditing, setShowEditing] = useState(false);
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
+  const { register } = useForm();
   const cancelRefDelete = useRef(null);
   const cancelRefEdit = useRef(null);
 
   function getQuotes() {
     misc
       .getQuotes(page === 0 ? 0 : page * 12, 12)
-      .then((recievedQuotes) => setQuotes(recievedQuotes));
+      .then((receivedQuotes) => setQuotes(receivedQuotes));
   }
 
   function updateQuotes(neg = false) {
@@ -99,12 +101,12 @@ export default function Quotes(): JSX.Element {
     setOpenDeleteMenu(false);
   };
 
-  function onSubmit(selectedQuote: QuoteInterface) {
-    misc.updateQuote(selectedQuote).then(() => {
-      getQuotes();
-      handleEditMenuClose();
-    });
-  }
+  // function onSubmit(selectedQuote: QuoteInterface) {
+  //   misc.updateQuote(selectedQuote).then(() => {
+  //     getQuotes();
+  //     handleEditMenuClose();
+  //   });
+  // }
 
   const handleDeleteConfirm = () => {
     misc.deleteQuote(selQuote).then(() => {
@@ -255,42 +257,43 @@ export default function Quotes(): JSX.Element {
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               {`Editing quote ${selQuote}:`}
             </AlertDialogHeader>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <AlertDialogBody>
-                <Textarea
-                  placeholder="Quote"
-                  {...register("quote")}
-                  defaultValue={
-                    quotes?.Quotes.find((e) => e.id === selQuote)?.quote
-                  }
-                  multiline
-                  rows={6}
-                  variant="outline"
-                />
+            {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+            <AlertDialogBody>
+              <Textarea
+                placeholder="Quote"
+                {...register("quote")}
+                defaultValue={
+                  quotes?.Quotes.find((e) => e.id === selQuote)?.quote
+                }
+                aria-multiline
+                // multiline
+                rows={6}
+                variant="outline"
+              />
 
-                <Input
-                  placeholder="Attributed Author"
-                  {...register("description")}
-                  defaultValue={
-                    quotes?.Quotes.find((e) => e.id === selQuote)?.description
-                  }
-                  variant="outline"
-                />
-              </AlertDialogBody>
+              <Input
+                placeholder="Attributed Author"
+                {...register("description")}
+                defaultValue={
+                  quotes?.Quotes.find((e) => e.id === selQuote)?.description
+                }
+                variant="outline"
+              />
+            </AlertDialogBody>
 
-              <AlertDialogFooter>
-                <Button
-                  onClick={handleEditMenuClose}
-                  variant="outline"
-                  ref={cancelRefEdit}
-                >
-                  Cancel
-                </Button>
-                <Button variant="solid" type="submit" ml={3}>
-                  Save Quote
-                </Button>
-              </AlertDialogFooter>
-            </form>
+            <AlertDialogFooter>
+              <Button
+                onClick={handleEditMenuClose}
+                variant="outline"
+                ref={cancelRefEdit}
+              >
+                Cancel
+              </Button>
+              <Button variant="solid" type="submit" ml={3}>
+                Save Quote
+              </Button>
+            </AlertDialogFooter>
+            {/* </form> */}
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>

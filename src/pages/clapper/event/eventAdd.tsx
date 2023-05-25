@@ -16,7 +16,7 @@ const NewEvent: React.FC = (): JSX.Element => {
     <>
       <Heading>Create Event: {steps[step].title}</Heading>
 
-      <Flex orientation="vertical">{steps[step].content}</Flex>
+      <Flex>{steps[step].content}</Flex>
     </>
   );
 };

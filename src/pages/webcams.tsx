@@ -43,7 +43,7 @@ const Webcams: React.FC = (): JSX.Element => {
           <Spinner />
         </Center>
       ) : (
-        <SimpleGrid colums={2} spacing="2rem">
+        <SimpleGrid columns={2} spacing="2rem">
           {cams.map((cam) => (
             // <Image
             //   src={`${
