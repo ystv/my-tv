@@ -133,6 +133,12 @@ pipeline {
   }
 
   stages {
+    stage('Update Components') {
+        steps {
+            sh "docker pull nginx:stable-alpine"
+            sh "docker pull node:18"
+        }
+    }
     stage('Build image') {
       steps {
         script {
