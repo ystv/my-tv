@@ -117,7 +117,7 @@
 
 
 
-
+String registryEndpoint = 'registry.comp.ystv.co.uk'
 
 def image
 String imageName = "ystv/my-tv:${env.BRANCH_NAME}-${env.BUILD_ID}"
@@ -136,7 +136,7 @@ pipeline {
     stage('Build image') {
       steps {
         script {
-          docker.withRegistry($REGISTRY_ENDPOINT, 'docker-registry') {
+          docker.withRegistry('https://' + registryEndpoint, 'docker-registry') {
             image = docker.build(imageName, "--build-arg REACT_APP_BUILD_ID_ARG=${env.BUILD_ID}")
           }
         }
@@ -146,7 +146,7 @@ pipeline {
     stage('Push image to registry') {
       steps {
         script {
-          docker.withRegistry($REGISTRY_ENDPOINT, 'docker-registry') {
+          docker.withRegistry('https://' + registryEndpoint, 'docker-registry') {
             image.push()
             if (env.BRANCH_IS_PRIMARY) {
               image.push('latest')
