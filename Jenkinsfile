@@ -170,7 +170,7 @@ pipeline {
           }
           steps {
             build(job: 'Deploy Nomad Job', parameters: [
-              string(name: 'JOB_FILE', value: 'my-dev.nomad'),
+              string(name: 'JOB_FILE', value: 'my-tv-dev.nomad'),
               text(name: 'TAG_REPLACEMENTS', value: "${registryEndpoint}/${imageName}")
             ])
           }
@@ -183,7 +183,7 @@ pipeline {
           }
           steps {
             build(job: 'Deploy Nomad Job', parameters: [
-              string(name: 'JOB_FILE', value: 'my-prod.nomad'),
+              string(name: 'JOB_FILE', value: 'my-tv-prod.nomad'),
               text(name: 'TAG_REPLACEMENTS', value: "${registryEndpoint}/${imageName}")
             ])
           }
