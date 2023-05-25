@@ -11,7 +11,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY yarn.lock ./
 #RUN yarn install 2> >(grep -v warning 1>&2) # Trying to stop jenkins worrying about warnings
-RUN yarn install --no-progress --force
+RUN yarn install
 COPY . ./
 ARG REACT_APP_BUILD_ID_ARG
 ENV REACT_APP_BUILD_ID=$REACT_APP_BUILD_ID_ARG
