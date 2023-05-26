@@ -103,7 +103,7 @@ const Header: React.FC<MobileProps> = ({ onOpen, ...rest }): JSX.Element => {
               </MenuItem>
               <MenuDivider />
               <MenuItem fontStyle="italic" isDisabled>
-                build #
+                build:&nbsp;
                 {process.env.REACT_APP_BUILD_ID !== undefined
                   ? process.env.REACT_APP_BUILD_ID
                   : "local"}

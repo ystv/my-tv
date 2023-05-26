@@ -46,6 +46,7 @@ export default function Calendar(): JSX.Element {
   useEffect(() => {
     clapper.getEventsByMonth(date.month, date.year).then((e) => {
       const eventArray = e.map((event: CalendarType) => {
+        // eslint-disable-next-line
         const eventObject: { [key: string]: any } = {
           id: event.eventID,
           start: event.startDate,

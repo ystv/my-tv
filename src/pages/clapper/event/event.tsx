@@ -21,9 +21,9 @@ function getEventTypeContents(event: Event): JSX.Element {
     case "show":
       if (event.signups) {
         return (
-          <Grid container justify="center" spacing={3}>
+          <Grid>
             {event.signups.map((signup) => (
-              <Grid key={signup.signupID} item xs={12} sm={6} md={4} xl={3}>
+              <Grid key={signup.signupID}>
                 <TextTable
                   title={signup.title}
                   description={signup.description}
@@ -63,7 +63,7 @@ function getEventTypeContents(event: Event): JSX.Element {
     default:
       if (event.attendees) {
         return (
-          <Grid item xs={12} sm={6} md={4} xl={3}>
+          <Grid>
             <TextTable
               title={event.name}
               columnTitles={["Name", "Status"]}
@@ -114,13 +114,13 @@ export default function EventPage(): JSX.Element {
         &#8592; Back
       </Link>
 
-      <Grid container alignContent="space-between">
+      <Grid alignContent="space-between">
         <Heading variant="caption" style={{ flex: 1, alignSelf: "flex-end" }}>
           {toTitleCase(event.eventType)}
         </Heading>
 
         {isAuthorized([]) && (
-          <Box component="span">
+          <Box>
             <Button
               variant="contained"
               color="primary"

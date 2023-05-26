@@ -14,8 +14,9 @@ export interface IAPIClient {
 }
 
 export default class APIClient implements IAPIClient {
-  private client: AxiosInstance;
+  private readonly client: AxiosInstance;
 
+  // eslint-disable-next-line class-methods-use-this
   refreshToken = async (failedRequest: AxiosError): Promise<void> => {
     try {
       const res = await Axios.get<SetToken>(
@@ -35,7 +36,7 @@ export default class APIClient implements IAPIClient {
     } catch (error: unknown) {
       // The user is likely to have no JWT, so send them to login
       window.location.href = `${process.env.REACT_APP_SECURITY_BASEURL}/login?callback=${window.location.href}`;
-      Promise.reject(error);
+      await Promise.reject(error);
     }
   };
 

@@ -1,7 +1,11 @@
 import React from "react";
 import { Box, useRadio, UseRadioProps } from "@chakra-ui/react";
 
-const RadioCard: React.FC<UseRadioProps> = (props): JSX.Element => {
+export interface UseRadioPropsHere extends UseRadioProps {
+  children: React.ReactNode;
+}
+
+const RadioCard: React.FC<UseRadioPropsHere> = (props): JSX.Element => {
   const { getInputProps, getCheckboxProps } = useRadio(props);
 
   const input = getInputProps();
@@ -17,7 +21,7 @@ const RadioCard: React.FC<UseRadioProps> = (props): JSX.Element => {
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"
-        variant="solid"
+        // variant="solid"
         _focus={{
           boxShadow: "outline",
         }}

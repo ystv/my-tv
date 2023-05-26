@@ -2,8 +2,9 @@ import React from "react";
 import UserContext from "./userContext";
 import { UserInterface } from "../types/people";
 
-interface ProviderProps {
+export interface ProviderProps {
   user: UserInterface;
+  children: React.ReactNode;
 }
 
 const UserProvider: React.FC<ProviderProps> = ({ user, children }) => {

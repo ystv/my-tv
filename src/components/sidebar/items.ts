@@ -5,7 +5,7 @@ import {
   FiTrello,
   FiAlignCenter,
   FiVideo,
-  FiMail,
+  // FiMail,
   FiUsers,
   FiClipboard,
   FiKey,
@@ -52,12 +52,12 @@ const Items: Array<ItemProps | DivProps> = [
     external: false,
   },
   { div: true },
-  {
-    name: "Webmail",
-    icon: FiMail,
-    to: "https://webmail.ystv.co.uk",
-    external: true,
-  },
+  // {
+  //   name: "Webmail",
+  //   icon: FiMail,
+  //   to: "https://webmail.ystv.co.uk",
+  //   external: true,
+  // },
   {
     name: "Vault",
     icon: FiKey,
