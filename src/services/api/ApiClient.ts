@@ -34,7 +34,7 @@ export default class APIClient implements IAPIClient {
       }
     } catch (error: unknown) {
       // The user is likely to have no JWT, so send them to login
-      window.location.href = `${process.env.REACT_APP_SECURITY_BASEURL}/login?callback=${window.location.href}`;
+      window.location.href = `${import.meta.env.PUBLIC_SECURITY_BASEURL}/login?callback=${window.location.href}`;
       Promise.reject(error);
     }
   };
@@ -49,7 +49,7 @@ export default class APIClient implements IAPIClient {
       timeout: 10 * 1000,
     });
 
-    const apiKey = process.env.REACT_APP_API_KEY;
+    const apiKey = import.meta.env.PUBLIC_API_KEY;
     if (apiKey) {
       sessionStorage.setItem("token", apiKey);
     }

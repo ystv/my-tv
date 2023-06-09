@@ -97,15 +97,15 @@ const Header: React.FC<MobileProps> = ({ onOpen, ...rest }): JSX.Element => {
               </MenuItem>
               <MenuDivider />
               <MenuItem>
-                <a href={`${process.env.REACT_APP_SECURITY_BASEURL}/logout`}>
+                <a href={`${import.meta.env.PUBLIC_SECURITY_BASEURL}/logout`}>
                   Sign out
                 </a>
               </MenuItem>
               <MenuDivider />
               <MenuItem fontStyle="italic" isDisabled>
                 build #
-                {process.env.REACT_APP_BUILD_ID !== undefined
-                  ? process.env.REACT_APP_BUILD_ID
+                {import.meta.env.PUBLIC_BUILD_ID !== undefined
+                  ? import.meta.env.PUBLIC_BUILD_ID
                   : "local"}
               </MenuItem>
             </MenuList>

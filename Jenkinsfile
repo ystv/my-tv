@@ -23,7 +23,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('https://' + registryEndpoint, 'docker-registry') {
-            image = docker.build(imageName, "--build-arg REACT_APP_BUILD_ID_ARG=${env.BRANCH_NAME}-${env.BUILD_ID} .")
+            image = docker.build(imageName, "--build-arg PUBLIC_BUILD_ID_ARG=${env.BRANCH_NAME}-${env.BUILD_ID} .")
           }
         }
       }

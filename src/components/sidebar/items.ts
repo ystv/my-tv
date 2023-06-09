@@ -80,7 +80,7 @@ const Items: Array<ItemProps | DivProps> = [
   {
     name: "Creator Studio",
     icon: FiTv,
-    to: `${process.env.REACT_ENV_CREATOR_BASEURL}`,
+    to: `${import.meta.env.REACT_ENV_CREATOR_BASEURL}`,
     external: true,
   },
   { div: true },
