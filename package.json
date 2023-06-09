@@ -7,6 +7,7 @@
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fullcalendar/core": "^6.1.8",
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/list": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",
@@ -34,10 +35,9 @@
   },
   "scripts": {
     "start": "serve -p 3000 -s build",
-    "dev": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest",
     "lint": "eslint --ignore-path .eslintignore -c .eslintrc src/",
     "format": "prettier --write ."
   },
@@ -60,6 +60,8 @@
     "@types/js-cookie": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb": "^19.0.2",
     "eslint-config-airbnb-typescript": "^16.1.0",
@@ -69,6 +71,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "vite": "^4.3.9",
+    "vitest": "^0.32.0"
   }
 }

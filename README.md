@@ -9,6 +9,12 @@ For the `API_KEY`, generate a
 [web-auth](https://github.com/ystv/web-auth)-style
 access token and put it here.
 
+Add the below line to your `/etc/hosts` file (`C:\Windows\System32\drivers\etc\hosts` on Windows):
+
+```
+127.0.0.1 ystv-development.localhost
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

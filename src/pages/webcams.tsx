@@ -47,7 +47,7 @@ const Webcams: React.FC = (): JSX.Element => {
           {cams.map((cam) => (
             <Image
               src={`${
-                process.env.REACT_APP_API_BASEURL
+                import.meta.env.PUBLIC_API_BASEURL
               }/v1/internal/misc/webcams/${cam.id}/${cam.file}?${Date.now()}}`}
               key={cam.id}
               alt={`Webcam: ${cam.name}`}
