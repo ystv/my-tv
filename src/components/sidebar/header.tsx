@@ -77,7 +77,7 @@ const Header: React.FC<MobileProps> = ({ onOpen, ...rest }): JSX.Element => {
                 >
                   <Text fontSize="sm">{user?.nickname}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    {user?.nickname}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
